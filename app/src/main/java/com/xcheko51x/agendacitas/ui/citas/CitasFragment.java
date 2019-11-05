@@ -1,0 +1,287 @@
+package com.xcheko51x.agendacitas.ui.citas;
+
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;;
+
+import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
+import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
+import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.MostrarTodos;
+import com.xcheko51x.agendacitas.R;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class CitasFragment extends Fragment {
+
+    ImageButton ibtnAgregar, ibtnMostrarTodas;
+    RecyclerView rvCitas;
+    EditText etNombre, etTelefono, etMotivo;
+    TextView tvHora;
+    ImageButton ibtnHora;
+    Spinner spiDias, spiDiasMain, spiColores;
+
+    AdaptadorCitas adaptador;
+    List<Cita> listaCitas = new ArrayList<>();
+
+    String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+    String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_citas, container, false);
+
+
+        ibtnAgregar = root.findViewById(R.id.ibtnAgregar);
+        ibtnMostrarTodas = root.findViewById(R.id.ibtnMostrarTodas);
+        spiDiasMain = root.findViewById(R.id.spiDiasMain);
+        rvCitas = root.findViewById(R.id.rvCitas);
+        rvCitas.setLayoutManager(new GridLayoutManager(getContext(), 1));
+
+        obtenerDiaActual();
+
+        spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
+
+        spiDiasMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(MainActivity.this, ""+parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
+                if(parent.getSelectedItem().equals("Lunes")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Martes")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Miercoles")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Jueves")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Viernes")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Sabado")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                } else if(parent.getSelectedItem().equals("Domingo")) {
+                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ibtnAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getLayoutInflater();
+
+                View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
+                builder.setView(vista);
+
+                etNombre = vista.findViewById(R.id.etNombre);
+                etTelefono = vista.findViewById(R.id.etTelefono);
+                etMotivo = vista.findViewById(R.id.etMotivo);
+                tvHora = vista.findViewById(R.id.tvHora);
+                ibtnHora = vista.findViewById(R.id.ibtnHora);
+                spiDias = vista.findViewById(R.id.spiDias);
+                spiColores = vista.findViewById(R.id.spiColores);
+
+                spiDias.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
+
+                spiColores.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, colores));
+
+                ibtnHora.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        obtenerHora(tvHora);
+                    }
+                });
+
+                builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if( etNombre.getText().equals("") || etTelefono.getText().equals("") || etMotivo.getText().equals("") || tvHora.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
+                            Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "dbSistema", null, 1);
+                            SQLiteDatabase db = admin.getWritableDatabase();
+
+                            Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), tvHora.getText().toString()});
+
+                            if(fila != null && fila.getCount() != 0) {
+                                Toast.makeText(getContext(), "No se puede agendar en esa hora.", Toast.LENGTH_LONG).show();
+                            } else {
+                                ContentValues registro = new ContentValues();
+
+                                registro.put("nomCliente", etNombre.getText().toString());
+                                registro.put("telCliente", etTelefono.getText().toString());
+                                registro.put("motivo", etMotivo.getText().toString());
+                                registro.put("hora", tvHora.getText().toString());
+                                registro.put("dia", spiDias.getSelectedItem().toString());
+                                registro.put("color", spiColores.getSelectedItem().toString());
+
+                                // los inserto en la base de datos
+                                db.insert("citas", null, registro);
+                            }
+
+                            db.close();
+
+                            Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
+
+                            obtenerCitas(spiDias.getSelectedItem().toString(), listaCitas);
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                //adaptador.notifyDataSetChanged();
+                builder.setCancelable(false);
+                builder.show();
+                builder.create();
+
+            }
+        });
+
+        // ACCION BOTON DE MOSTRAR TODOS
+        ibtnMostrarTodas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MostrarTodos.class);
+                startActivity(intent);
+            }
+        });
+
+        return root;
+    }
+
+    public void obtenerHora(final TextView etHora) {
+        TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf("0" + minute):String.valueOf(minute);
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                /*String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = " AM";
+                } else {
+                    AM_PM = " PM";
+                }*/
+                //Muestro la hora con el formato deseado
+                //etHora.setText(horaFormateada + ":" + minutoFormateado + " " + AM_PM);
+                etHora.setText(horaFormateada + ":" + minutoFormateado);
+            }
+        }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), false);
+
+        recogerHora.show();
+    }
+
+    // Metodo para obtener los pacientes
+    public void obtenerCitas(String dia, List<Cita> citas) {
+        citas.clear();
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "dbSistema", null, 1);
+
+        SQLiteDatabase db = admin.getWritableDatabase();
+
+        Cursor fila = db.rawQuery("select * from citas WHERE dia = ? ORDER BY hora ASC", new String[] {dia});
+
+        if(fila != null && fila.getCount() != 0) {
+            fila.moveToFirst();
+            do {
+                citas.add(
+                        new Cita(
+                                fila.getInt(0),
+                                fila.getString(1),
+                                fila.getString(2),
+                                fila.getString(3),
+                                fila.getString(4),
+                                fila.getString(5),
+                                fila.getString(6)
+                        )
+                );
+            } while(fila.moveToNext());
+        } else {
+            //Toast.makeText(this, "No hay citas en este dia.", Toast.LENGTH_LONG).show();
+        }
+
+        db.close();
+
+        //Toast.makeText(MainActivity.this, ""+citas.size(), Toast.LENGTH_SHORT).show();
+        adaptador = new AdaptadorCitas(getContext(), citas);
+        rvCitas.setAdapter(adaptador);
+    }
+
+    public void obtenerDiaActual() {
+        int dia = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        //Toast.makeText(getContext(), ""+dia, Toast.LENGTH_SHORT).show();
+
+        switch (dia) {
+            case 1:
+                obtenerCitas("Domingo", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Domingo", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                obtenerCitas("Lunes", listaCitas);
+                //Toast.makeText(getContext(), dia + ": Lunes", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                obtenerCitas("Martes", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Martes", Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                obtenerCitas("Miercoles", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Miercoles", Toast.LENGTH_SHORT).show();
+                break;
+            case 5:
+                obtenerCitas("Jueves", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Jueves", Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
+                obtenerCitas("Viernes", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Viernes", Toast.LENGTH_SHORT).show();
+                break;
+            case 7:
+                obtenerCitas("Sabado", listaCitas);
+                //Toast.makeText(MainActivity.this, dia + ": Sabado", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+        }
+
+    }
+}
