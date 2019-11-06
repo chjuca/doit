@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
 import com.xcheko51x.agendacitas.Modelos.Cita;
 import com.xcheko51x.agendacitas.R;
@@ -38,6 +41,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
     public AdaptadorCitas(Context context, List<Cita> listaCitas) {
+
         this.context = context;
         this.citas = listaCitas;
 
@@ -45,6 +49,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
             Toast.makeText(context, "NO HAY CITAS ESTE DIA", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     @NonNull
     @Override

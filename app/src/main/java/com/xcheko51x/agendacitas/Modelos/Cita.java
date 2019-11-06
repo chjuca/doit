@@ -2,13 +2,16 @@ package com.xcheko51x.agendacitas.Modelos;
 
 public class Cita {
 
-    int idCita;
-    String nomCliente;
-    String telCliente;
-    String motivo;
-    String horaCita;
-    String diaCita;
-    String color;
+    private int idCita;
+    private String nomCliente;
+    private String telCliente;
+    private String motivo;
+    private String horaCita;
+    private String diaCita;
+    private String color;
+
+    public Cita() {
+    }
 
     public Cita(int idCita, String nomCliente, String telCliente, String motivo, String horaCita, String diaCita, String color) {
         this.idCita = idCita;

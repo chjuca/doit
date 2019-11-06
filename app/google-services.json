@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "261594753371",
+    "firebase_url": "https://done-it-99.firebaseio.com",
+    "project_id": "done-it-99",
+    "storage_bucket": "done-it-99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261594753371:android:fcc87007aa8f93c167127e",
+        "android_client_info": {
+          "package_name": "com.xcheko51x.agendacitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261594753371-d3ahfqacodm3pl7a9tjpncfc0nvojja3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr24YitKy5daYXxl5Z2OMq60jdqZKDf5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261594753371-d3ahfqacodm3pl7a9tjpncfc0nvojja3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

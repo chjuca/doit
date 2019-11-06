@@ -23,6 +23,7 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
     public AdaptadorTodasCitas(Context context, List<Cita> citas) {
         this.context = context;
         this.citas = citas;
+
     }
 
     @NonNull
