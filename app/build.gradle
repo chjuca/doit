@@ -37,6 +37,6 @@ dependencies {
 
     // Para imagenes y Gif's
     implementation 'com.github.bumptech.glide:glide:4.10.0'
-    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
     implementation 'com.google.firebase:firebase-database:19.2.0'
 }

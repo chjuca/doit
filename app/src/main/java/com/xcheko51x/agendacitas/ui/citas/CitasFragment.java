@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
 import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
 
@@ -42,10 +43,10 @@ import java.util.UUID;
 
 public class CitasFragment extends Fragment {
 
-    ImageButton ibtnAgregar, ibtnMostrarTodas;
+    ImageButton ibtnAdd, ibtnShowAll;
     RecyclerView rvCitas;
-    EditText etNombre, etTelefono, etMotivo;
-    TextView tvHora;
+    EditText evName, evDescription, evDate;
+    TextView evHour;
     ImageButton ibtnHora;
     Spinner spiDias, spiDiasMain, spiColores;
 
@@ -64,8 +65,8 @@ public class CitasFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_citas, container, false);
 
 
-        ibtnAgregar = root.findViewById(R.id.ibtnAgregar);
-        ibtnMostrarTodas = root.findViewById(R.id.ibtnMostrarTodas);
+        ibtnAdd = root.findViewById(R.id.ibtnAgregar);
+        ibtnShowAll = root.findViewById(R.id.ibtnMostrarTodas);
         spiDiasMain = root.findViewById(R.id.spiDiasMain);
         rvCitas = root.findViewById(R.id.rvCitas);
         rvCitas.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -102,7 +103,7 @@ public class CitasFragment extends Fragment {
             }
         });
 
-        ibtnAgregar.setOnClickListener(new View.OnClickListener() {
+        ibtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -112,12 +113,12 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                etNombre = vista.findViewById(R.id.evName);
-                etTelefono = vista.findViewById(R.id.etTelefono);
-                etMotivo = vista.findViewById(R.id.evDescription);
-                tvHora = vista.findViewById(R.id.evHour);
+                evName = vista.findViewById(R.id.evName);
+                evDescription = vista.findViewById(R.id.evDescription);
+                evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 spiDias = vista.findViewById(R.id.spiDias);
+                evDate = vista.findViewById(R.id.evDate);
                 spiColores = vista.findViewById(R.id.spiColors);
 
                 spiDias.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
@@ -127,24 +128,33 @@ public class CitasFragment extends Fragment {
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        obtenerHora(tvHora);
+                        obtenerHora(evHour);
                     }
                 });
 
                 builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if( etNombre.getText().equals("") || etTelefono.getText().equals("") || etMotivo.getText().equals("") || tvHora.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
+                        if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
                             Cita cita = new Cita();
                             cita.setIdCita(UUID.randomUUID().toString());
-                            cita.setNomCliente(etNombre.getText().toString());
-                            System.out.println(etNombre.getText().toString());
-                            cita.setTelCliente(etTelefono.getText().toString());              //AGREGA LOS CAMPOS A LA BASE DE DATOS
-                            cita.setMotivo(etMotivo.toString());
+                            cita.setNomCliente(evName.getText().toString());
+                            System.out.println(evName.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            cita.setMotivo(evDescription.toString());
 
-                            databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
+                            // databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
+
+                            Evento evento = new Evento();
+                            evento.setIdEvent(UUID.randomUUID().toString());
+                            evento.setEvName(evName.getText().toString());
+                            evento.setEvDescription(evDescription.getText().toString());
+                            evento.setEvHour(evHour.getText().toString());
+                            evento.setEvDate(evDate.getText().toString());
+                            evento.setEvColor(spiColores.getSelectedItem().toString());
+
+                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
 
                             }
                             Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
@@ -169,7 +179,7 @@ public class CitasFragment extends Fragment {
         });
 
         // ACCION BOTON DE MOSTRAR TODOS
-        ibtnMostrarTodas.setOnClickListener(new View.OnClickListener() {
+        ibtnShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MostrarTodos.class);
