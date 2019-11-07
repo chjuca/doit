@@ -12,14 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MostrarTodos" android:screenOrientation="landscape" />
-        <activity android:name=".TareasCliente" android:screenOrientation="portrait" />
+        <activity android:name=".calendar"></activity>
+        <activity
+            android:name=".MostrarTodos"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".TareasCliente"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Navegacion"
             android:label="@string/title_activity_navegacion"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashScreen" android:screenOrientation="portrait">
+        <activity
+            android:name=".SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
