@@ -33,7 +33,6 @@ import java.util.List;
 public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasViewHolder> {
 
     Context context;
-    List<Cita> citas;
 
     List<Evento> events;
 
@@ -43,7 +42,6 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     public AdaptadorCitas(Context context, List<Cita> listaCitas, List<Evento> listaEvents) {
 
         this.context = context;
-        this.citas = listaCitas;
         this.events = listaEvents;
 
         if(events.size() == 0) {
@@ -61,23 +59,22 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     @Override
     public void onBindViewHolder(@NonNull CitasViewHolder holder, final int position) {
 
-        holder.tvIdCita.setText(""+citas.get(position).getIdCita());
-        holder.tvNombre.setText(citas.get(position).getNomCliente());
-        holder.tvTelefono.setText(citas.get(position).getTelCliente());
+        holder.tvIdCita.setText(""+events.get(position).getIdEvent());
+        holder.tvNombre.setText(events.get(position).getEvName());
 
-        holder.tvMotivo.setText(citas.get(position).getMotivo());
-        holder.tvHora.setText(citas.get(position).getHoraCita());
-        holder.tvDia.setText(citas.get(position).getDiaCita());
+        holder.tvMotivo.setText(events.get(position).getEvDescription());
+        holder.tvHora.setText(events.get(position).getEvHour());
+        holder.tvDia.setText(events.get(position).getEvDate());
 
-        if(citas.get(position).getColor().equals("GRIS")) {
+        if(events.get(position).getEvColor().equals("GRIS")) {
             holder.clCita.setBackgroundResource(R.color.gris);
-        } else if(citas.get(position).getColor().equals("VERDE")) {
+        } else if(events.get(position).getEvColor().equals("VERDE")) {
             holder.clCita.setBackgroundResource(R.color.verde);
-        } else if(citas.get(position).getColor().equals("NARANJA")) {
+        } else if(events.get(position).getEvColor().equals("NARANJA")) {
             holder.clCita.setBackgroundResource(R.color.naranja);
-        } else if(citas.get(position).getColor().equals("NEGRO")) {
+        } else if(events.get(position).getEvColor().equals("NEGRO")) {
             holder.clCita.setBackgroundResource(R.color.negro);
-        } else if(citas.get(position).getColor().equals("PURPURA")) {
+        } else if(events.get(position).getEvColor().equals("PURPURA")) {
             holder.clCita.setBackgroundResource(R.color.purpura);
         }
 
@@ -107,10 +104,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 spiDias.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, dias));
                 spiColores.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, colores));
 
-                etNombre.setText(citas.get(position).getNomCliente());
-                etTelefono.setText(citas.get(position).getTelCliente());
-                etMotivo.setText(citas.get(position).getMotivo());
-                tvHora.setText(citas.get(position).getHoraCita());
+                etNombre.setText(events.get(position).getEvName());
+                etMotivo.setText(events.get(position).getEvDescription());
+                tvHora.setText(events.get(position).getEvHour());
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -144,14 +140,14 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                                 registro.put("color", spiColores.getSelectedItem().toString());
 
                                 // los inserto en la base de datos
-                                db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
+                                //db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
 
-                                citas.get(position).setNomCliente(etNombre.getText().toString());
+/*                                citas.get(position).setNomCliente(etNombre.getText().toString());
                                 citas.get(position).setTelCliente(etTelefono.getText().toString());
                                 citas.get(position).setMotivo(etMotivo.getText().toString());
                                 citas.get(position).setHoraCita(tvHora.getText().toString());
                                 citas.get(position).setDiaCita(spiDias.getSelectedItem().toString());
-                                citas.get(position).setColor(spiColores.getSelectedItem().toString());
+                                citas.get(position).setColor(spiColores.getSelectedItem().toString());*/
 
                                 notifyDataSetChanged();
                             }
@@ -198,12 +194,12 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
                         SQLiteDatabase db = admin.getWritableDatabase();
 
-                        int cant = db.delete("citas", "idCita=?", new String[] {""+citas.get(position).getIdCita()});
+                        int cant = db.delete("citas", "idCita=?", new String[] {""+events.get(position).getIdEvent()});
                         db.close();
 
                         if(cant == 1) {
                             Toast.makeText(context, "Cita eliminada", Toast.LENGTH_LONG).show();
-                            citas.remove(position);
+                            events.remove(position);
                             notifyDataSetChanged();
                         } else {
                             Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
