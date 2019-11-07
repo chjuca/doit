@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
 import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.Calendar;
@@ -34,19 +35,21 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     Context context;
     List<Cita> citas;
 
+    List<Evento> events;
+
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
-    public AdaptadorCitas(Context context, List<Cita> listaCitas) {
+    public AdaptadorCitas(Context context, List<Cita> listaCitas, List<Evento> listaEvents) {
 
         this.context = context;
         this.citas = listaCitas;
+        this.events = listaEvents;
 
-        if(citas.size() == 0) {
-            Toast.makeText(context, "NO HAY CITAS ESTE DIA", Toast.LENGTH_SHORT).show();
+        if(events.size() == 0) {
+            Toast.makeText(context, "NO HAY EVENTOS ESTE DIA", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 

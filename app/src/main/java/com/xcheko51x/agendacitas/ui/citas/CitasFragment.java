@@ -25,8 +25,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
 import com.xcheko51x.agendacitas.Modelos.Cita;
@@ -55,6 +58,7 @@ public class CitasFragment extends Fragment {
 
     AdaptadorCitas adaptador;
     List<Cita> listaCitas = new ArrayList<>();
+    List<Evento> listaEventos = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
@@ -73,6 +77,7 @@ public class CitasFragment extends Fragment {
 
         obtenerDiaActual();
         inicializarFirebase();
+        obtenerEventos();
 
         spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
 
@@ -221,6 +226,30 @@ public class CitasFragment extends Fragment {
     }
 
     // Metodo para obtener los eventos
+
+    public void obtenerEventos(){
+        databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaEventos.clear();
+                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
+                    Evento evento = objSnapshot.getValue(Evento.class);                              // GET DE EVENTOS
+                    listaEventos.add(evento);
+
+                    adaptador = new AdaptadorCitas(getContext(), null, listaEventos);
+                    rvCitas.setAdapter(adaptador);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
     public void obtenerCitas(String dia, List<Cita> citas) {
         citas.clear();
 
@@ -252,8 +281,8 @@ public class CitasFragment extends Fragment {
         db.close();
 
         //Toast.makeText(MainActivity.this, ""+citas.size(), Toast.LENGTH_SHORT).show();
-        adaptador = new AdaptadorCitas(getContext(), citas);
-        rvCitas.setAdapter(adaptador);
+  /*      adaptador = new AdaptadorCitas(getContext(), citas,);
+        rvCitas.setAdapter(adaptador);*/
     }
 
     public void obtenerDiaActual() {
