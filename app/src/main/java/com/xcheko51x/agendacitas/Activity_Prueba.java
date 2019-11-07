@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.xcheko51x.agendacitas.Modelos.Cita;
-
-import java.util.UUID;
 
 public class Activity_Prueba extends AppCompatActivity {
 
@@ -34,7 +30,7 @@ public class Activity_Prueba extends AppCompatActivity {
         final Button btnAceptar = findViewById(R.id.btnAceptar);
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Cita cita = new Cita();
+                Cita cita = new Cita(fila.getString(0), fila.getString(1), fila.getString(2), fila.getString(3), fila.getString(4), fila.getString(5), fila.getString(6));
                 cita.setNomCliente(nombre.toString());
 
                 databaseReference.child("Cita").child("1").setValue(cita);
