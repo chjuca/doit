@@ -38,6 +38,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
     public AdaptadorCitas(Context context, List<Cita> listaCitas) {
+
         this.context = context;
         this.citas = listaCitas;
 
@@ -45,6 +46,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
             Toast.makeText(context, "NO HAY CITAS ESTE DIA", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     @NonNull
     @Override
@@ -91,13 +95,13 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 ImageButton ibtnHora;
                 final Spinner spiDias, spiColores;
 
-                etNombre = vista.findViewById(R.id.etNombre);
+                etNombre = vista.findViewById(R.id.evName);
                 etTelefono = vista.findViewById(R.id.etTelefono);
-                etMotivo = vista.findViewById(R.id.etMotivo);
-                tvHora = vista.findViewById(R.id.tvHora);
+                etMotivo = vista.findViewById(R.id.evDescription);
+                tvHora = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 spiDias = vista.findViewById(R.id.spiDias);
-                spiColores = vista.findViewById(R.id.spiColores);
+                spiColores = vista.findViewById(R.id.spiColors);
 
                 spiDias.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, dias));
                 spiColores.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, colores));
@@ -262,7 +266,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
             tvNombre = itemView.findViewById(R.id.tvNombre);
             tvTelefono = itemView.findViewById(R.id.tvTelefono);
             tvMotivo = itemView.findViewById(R.id.tvMotivo);
-            tvHora = itemView.findViewById(R.id.tvHora);
+            tvHora = itemView.findViewById(R.id.evHour);
             tvDia = itemView.findViewById(R.id.tvDia);
             ibtnModificar = itemView.findViewById(R.id.ibtnModificar);
             ibtnBorrar = itemView.findViewById(R.id.ibtnBorrar);

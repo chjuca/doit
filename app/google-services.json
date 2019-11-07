@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "621605106410",
+    "firebase_url": "https://doneit-bc516.firebaseio.com",
+    "project_id": "doneit-bc516",
+    "storage_bucket": "doneit-bc516.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621605106410:android:c43d244381a80fa9565d93",
+        "android_client_info": {
+          "package_name": "com.xcheko51x.agendacitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621605106410-cjjlmq90evpc6augu81t172ajmpnjuuj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xcheko51x.agendacitas",
+            "certificate_hash": "5f92d2707e0553ce9a7fb19c814645a92d68c7a9"
+          }
+        },
+        {
+          "client_id": "621605106410-0i83umj5r8gkrge5rpc61n82g7124p3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIw-ynLQu1I3pnx9irHQ7-l9IOi6xuMZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621605106410-0i83umj5r8gkrge5rpc61n82g7124p3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
