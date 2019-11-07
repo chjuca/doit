@@ -1,21 +1,16 @@
 package com.xcheko51x.agendacitas.Modelos;
 
-import java.util.UUID;
-
 public class Cita {
 
-    private String idCita;
-    private String nomCliente;
-    private String telCliente;
-    private String motivo;
-    private String horaCita;
-    private String diaCita;
-    private String color;
+    int idCita;
+    String nomCliente;
+    String telCliente;
+    String motivo;
+    String horaCita;
+    String diaCita;
+    String color;
 
-    public Cita() {
-    }
-
-    public Cita(String idCita, String nomCliente, String telCliente, String motivo, String horaCita, String diaCita, String color) {
+    public Cita(int idCita, String nomCliente, String telCliente, String motivo, String horaCita, String diaCita, String color) {
         this.idCita = idCita;
         this.nomCliente = nomCliente;
         this.telCliente = telCliente;
@@ -25,11 +20,11 @@ public class Cita {
         this.color = color;
     }
 
-    public String getIdCita() {
+    public int getIdCita() {
         return idCita;
     }
 
-    public void setIdCita(String idCita) {
+    public void setIdCita(int idCita) {
         this.idCita = idCita;
     }
 
