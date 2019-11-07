@@ -76,7 +76,7 @@ public class MostrarTodos extends AppCompatActivity {
             do {
                 citas.add(
                         new Cita(
-                                fila.getInt(0),
+                                fila.getString(0),
                                 fila.getString(1),
                                 fila.getString(2),
                                 fila.getString(3),

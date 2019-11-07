@@ -138,12 +138,12 @@ public class CitasFragment extends Fragment {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
                             Cita cita = new Cita();
-                            cita.setIdCita(Integer.parseInt(String.valueOf(UUID.randomUUID())));
+                            cita.setIdCita(UUID.randomUUID().toString());
                             cita.setNomCliente(etNombre.toString());
                             cita.setTelCliente(etTelefono.toString());              //AGREGA LOS CAMPOS A LA BASE DE DATOS
                             cita.setMotivo(etMotivo.toString());
 
-                            databaseReference.child("Cita").child(cita.getIdCita()+"").setValue(cita);
+                            databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
 
                             }
                             Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
@@ -224,7 +224,7 @@ public class CitasFragment extends Fragment {
             do {
                 citas.add(
                         new Cita(
-                                fila.getInt(0),
+                                fila.getString(0),
                                 fila.getString(1),
                                 fila.getString(2),
                                 fila.getString(3),
