@@ -69,12 +69,12 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
         public TodasCitasViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clCita = itemView.findViewById(R.id.clCita);
-            tvIdCita = itemView.findViewById(R.id.tvIdCita);
+            clCita = itemView.findViewById(R.id.clEvento);
+            tvIdCita = itemView.findViewById(R.id.evDate);
             tvHora = itemView.findViewById(R.id.evHour);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
+            tvNombre = itemView.findViewById(R.id.evNombre);
             tvTelefono = itemView.findViewById(R.id.tvTelefono);
-            tvMotivo = itemView.findViewById(R.id.tvMotivo);
+            tvMotivo = itemView.findViewById(R.id.evDescripcion);
 
         }
     }

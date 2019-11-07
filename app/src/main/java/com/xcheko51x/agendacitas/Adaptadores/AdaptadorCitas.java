@@ -59,23 +59,23 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     @Override
     public void onBindViewHolder(@NonNull CitasViewHolder holder, final int position) {
 
-        holder.tvIdCita.setText(""+events.get(position).getIdEvent());
-        holder.tvNombre.setText(events.get(position).getEvName());
+        holder.evDate.setText(""+events.get(position).getEvDate());
+        holder.evName.setText(events.get(position).getEvName());
 
-        holder.tvMotivo.setText(events.get(position).getEvDescription());
-        holder.tvHora.setText(events.get(position).getEvHour());
-        holder.tvDia.setText(events.get(position).getEvDate());
+        holder.evDescripcion.setText(events.get(position).getEvDescription());
+        holder.evHour.setText(events.get(position).getEvHour());
+        //holder.tvDia.setText(events.get(position).getEvDate());
 
         if(events.get(position).getEvColor().equals("GRIS")) {
-            holder.clCita.setBackgroundResource(R.color.gris);
+            holder.clEvento.setBackgroundResource(R.color.gris);
         } else if(events.get(position).getEvColor().equals("VERDE")) {
-            holder.clCita.setBackgroundResource(R.color.verde);
+            holder.clEvento.setBackgroundResource(R.color.verde);
         } else if(events.get(position).getEvColor().equals("NARANJA")) {
-            holder.clCita.setBackgroundResource(R.color.naranja);
+            holder.clEvento.setBackgroundResource(R.color.naranja);
         } else if(events.get(position).getEvColor().equals("NEGRO")) {
-            holder.clCita.setBackgroundResource(R.color.negro);
+            holder.clEvento.setBackgroundResource(R.color.negro);
         } else if(events.get(position).getEvColor().equals("PURPURA")) {
-            holder.clCita.setBackgroundResource(R.color.purpura);
+            holder.clEvento.setBackgroundResource(R.color.purpura);
         }
 
         holder.ibtnModificar.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 /*                                citas.get(position).setNomCliente(etNombre.getText().toString());
                                 citas.get(position).setTelCliente(etTelefono.getText().toString());
                                 citas.get(position).setMotivo(etMotivo.getText().toString());
-                                citas.get(position).setHoraCita(tvHora.getText().toString());
+                                citas.get(position).setHoraCita(evHour.getText().toString());
                                 citas.get(position).setDiaCita(spiDias.getSelectedItem().toString());
                                 citas.get(position).setColor(spiColores.getSelectedItem().toString());*/
 
@@ -251,20 +251,18 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     public class CitasViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout clCita;
-        TextView tvIdCita, tvNombre, tvTelefono, tvMotivo, tvHora, tvDia;
+        ConstraintLayout clEvento;
+        TextView evDate, evName, evDescripcion, evHour;
         ImageButton ibtnModificar, ibtnBorrar;
 
         public CitasViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clCita = itemView.findViewById(R.id.clCita);
-            tvIdCita = itemView.findViewById(R.id.tvIdCita);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
-            tvTelefono = itemView.findViewById(R.id.tvTelefono);
-            tvMotivo = itemView.findViewById(R.id.tvMotivo);
-            tvHora = itemView.findViewById(R.id.evHour);
-            tvDia = itemView.findViewById(R.id.tvDia);
+            clEvento = itemView.findViewById(R.id.clEvento);
+            evDate = itemView.findViewById(R.id.evDate);
+            evName = itemView.findViewById(R.id.evNombre);
+            evDescripcion = itemView.findViewById(R.id.evDescripcion);
+            evHour = itemView.findViewById(R.id.evHour);
             ibtnModificar = itemView.findViewById(R.id.ibtnModificar);
             ibtnBorrar = itemView.findViewById(R.id.ibtnBorrar);
 
