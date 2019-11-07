@@ -85,7 +85,7 @@ public class CitasFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(MainActivity.this, ""+parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
-                if(parent.getSelectedItem().equals("Lunes")) {
+/*                if(parent.getSelectedItem().equals("Lunes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Martes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
@@ -99,7 +99,7 @@ public class CitasFragment extends Fragment {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Domingo")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                }
+                }*/
             }
 
             @Override
@@ -154,7 +154,7 @@ public class CitasFragment extends Fragment {
                             Evento evento = new Evento();
                             evento.setIdEvent(UUID.randomUUID().toString());
                             evento.setEvName(evName.getText().toString());
-                            evento.setEvDescription(evDescription.getText().toString());
+                            evento.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
                             evento.setEvHour(evHour.getText().toString());
                             evento.setEvDate(evDate.getText().toString());
                             evento.setEvColor(spiColores.getSelectedItem().toString());
@@ -164,7 +164,7 @@ public class CitasFragment extends Fragment {
                             }
                             Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
 
-                            obtenerCitas(spiDias.getSelectedItem().toString(), listaCitas);
+                            obtenerEventos();
                         }
                 });
 
@@ -250,7 +250,7 @@ public class CitasFragment extends Fragment {
 
 
     }
-    public void obtenerCitas(String dia, List<Cita> citas) {
+    /*public void obtenerCitas(String dia, List<Cita> citas) {
         citas.clear();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "dbSistema", null, 1);
@@ -281,15 +281,15 @@ public class CitasFragment extends Fragment {
         db.close();
 
         //Toast.makeText(MainActivity.this, ""+citas.size(), Toast.LENGTH_SHORT).show();
-  /*      adaptador = new AdaptadorCitas(getContext(), citas,);
-        rvCitas.setAdapter(adaptador);*/
-    }
+  *//*      adaptador = new AdaptadorCitas(getContext(), citas,);
+        rvCitas.setAdapter(adaptador);*//*
+    }*/
 
     public void obtenerDiaActual() {
         int dia = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         //Toast.makeText(getContext(), ""+dia, Toast.LENGTH_SHORT).show();
 
-        switch (dia) {
+/*        switch (dia) {
             case 1:
                 obtenerCitas("Domingo", listaCitas);
                 //Toast.makeText(MainActivity.this, dia + ": Domingo", Toast.LENGTH_SHORT).show();
@@ -321,7 +321,7 @@ public class CitasFragment extends Fragment {
 
             default:
                 break;
-        }
+        }*/
 
     }
 }

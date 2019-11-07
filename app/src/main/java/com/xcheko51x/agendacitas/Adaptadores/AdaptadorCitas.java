@@ -51,8 +51,6 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
         }
     }
 
-
-
     @NonNull
     @Override
     public CitasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -252,7 +250,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     @Override
     public int getItemCount() {
-        return citas.size();
+        return events.size();
     }
 
     public class CitasViewHolder extends RecyclerView.ViewHolder {
