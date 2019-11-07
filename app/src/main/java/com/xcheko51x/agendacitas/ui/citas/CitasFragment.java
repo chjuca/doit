@@ -112,13 +112,13 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                etNombre = vista.findViewById(R.id.etNombre);
+                etNombre = vista.findViewById(R.id.evName);
                 etTelefono = vista.findViewById(R.id.etTelefono);
-                etMotivo = vista.findViewById(R.id.etMotivo);
-                tvHora = vista.findViewById(R.id.tvHora);
+                etMotivo = vista.findViewById(R.id.evDescription);
+                tvHora = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 spiDias = vista.findViewById(R.id.spiDias);
-                spiColores = vista.findViewById(R.id.spiColores);
+                spiColores = vista.findViewById(R.id.spiColors);
 
                 spiDias.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
 
