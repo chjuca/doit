@@ -139,8 +139,9 @@ public class CitasFragment extends Fragment {
                         } else {
                             Cita cita = new Cita();
                             cita.setIdCita(UUID.randomUUID().toString());
-                            cita.setNomCliente(etNombre.toString());
-                            cita.setTelCliente(etTelefono.toString());              //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            cita.setNomCliente(etNombre.getText().toString());
+                            System.out.println(etNombre.getText().toString());
+                            cita.setTelCliente(etTelefono.getText().toString());              //AGREGA LOS CAMPOS A LA BASE DE DATOS
                             cita.setMotivo(etMotivo.toString());
 
                             databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
