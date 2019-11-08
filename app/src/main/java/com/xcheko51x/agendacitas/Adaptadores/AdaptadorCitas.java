@@ -219,7 +219,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
+ /*                       AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
                         SQLiteDatabase db = admin.getWritableDatabase();
 
                         int cant = db.delete("citas", "idCita=?", new String[] {""+events.get(position).getIdEvent()});
@@ -231,7 +231,11 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             notifyDataSetChanged();
                         } else {
                             Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
+                        Evento evento = new Evento();
+                        evento.setIdEvent(events.get(position).getIdEvent());
+                        databaseReference.child("Eventos").child(evento.getIdEvent()).removeValue();
+
                     }
                 });
 
