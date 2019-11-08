@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
 import com.xcheko51x.agendacitas.Modelos.Cita;
 import com.xcheko51x.agendacitas.Modelos.Evento;
@@ -32,9 +35,14 @@ import java.util.List;
 
 public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasViewHolder> {
 
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
     Context context;
 
     List<Evento> events;
+
+    Evento eventoSelecionado;
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
@@ -52,8 +60,17 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     @NonNull
     @Override
     public CitasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        inicializarFirebase();
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_citas, null, false);
         return new AdaptadorCitas.CitasViewHolder(vista);
+    }
+
+    private void inicializarFirebase() {
+
+        FirebaseApp.initializeApp(context);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
     }
 
     @Override
@@ -124,7 +141,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             Toast.makeText(context, "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
 
-/*                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
+/*                          AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
                             SQLiteDatabase db = admin.getWritableDatabase();
 
                             Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), evHour.getText().toString()});
@@ -155,8 +172,15 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             }*/
 
                             // db.close();
+                            Evento evento = new Evento();
+                            evento.setIdEvent(events.get(position).getIdEvent());
+                            evento.setEvName(evName.getText().toString().trim());
+                            evento.setEvDescription(evDescripcion.getText().toString());
+                            evento.setEvHour(evHour.getText().toString());
+                            evento.setEvDate(evDate.getText().toString());
+                            evento.setEvColor(spiColors.getSelectedItem().toString());
 
-
+                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
 
 
                             Toast.makeText(context, "Cita Modificada", Toast.LENGTH_SHORT).show();
