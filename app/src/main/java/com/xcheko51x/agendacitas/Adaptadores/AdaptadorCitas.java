@@ -2,11 +2,8 @@ package com.xcheko51x.agendacitas.Adaptadores;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
-import com.xcheko51x.agendacitas.Modelos.Cita;
 import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.R;
 
@@ -44,10 +39,10 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     Evento eventoSelecionado;
 
-    String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+    //String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
-    public AdaptadorCitas(Context context, List<Cita> listaCitas, List<Evento> listaEvents) {
+    public AdaptadorCitas(Context context, List<Evento> listaEvents) {
 
         this.context = context;
         this.events = listaEvents;
@@ -115,11 +110,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 evDate = vista.findViewById(R.id.evDate);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                spiDias = vista.findViewById(R.id.spiDias);
 
                 spiColors = vista.findViewById(R.id.spiColors);
 
-                spiDias.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, dias));
                 spiColors.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, colores));
 
                 evName.setText(events.get(position).getEvName());
@@ -137,7 +130,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if( evName.getText().equals("") || evDescripcion.getText().equals("") || evHour.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
+                        if( evName.getText().equals("") || evDescripcion.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(context, "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
 

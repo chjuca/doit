@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.List;
 public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCitas.TodasCitasViewHolder> {
 
     Context context;
-    List<Cita> citas;
+    // List<Cita> citas;
 
-    public AdaptadorTodasCitas(Context context, List<Cita> citas) {
+    public AdaptadorTodasCitas(Context context, List<Evento> evento) {
         this.context = context;
-        this.citas = citas;
+        //this.citas = citas;
 
     }
 
@@ -36,7 +36,7 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
     @Override
     public void onBindViewHolder(@NonNull TodasCitasViewHolder holder, int position) {
 
-        holder.tvIdCita.setText(""+citas.get(position).getIdCita());
+/*        holder.tvIdCita.setText(""+citas.get(position).getIdCita());
         holder.tvHora.setText(citas.get(position).getHoraCita());
         holder.tvNombre.setText(citas.get(position).getNomCliente());
         holder.tvTelefono.setText(citas.get(position).getTelCliente());
@@ -52,13 +52,14 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
             holder.clCita.setBackgroundResource(R.color.negro);
         } else if(citas.get(position).getColor().equals("PURPURA")) {
             holder.clCita.setBackgroundResource(R.color.purpura);
-        }
+        }*/
 
     }
 
     @Override
     public int getItemCount() {
-        return citas.size();
+        //return citas.size();
+        return 1;
     }
 
     public class TodasCitasViewHolder extends RecyclerView.ViewHolder {

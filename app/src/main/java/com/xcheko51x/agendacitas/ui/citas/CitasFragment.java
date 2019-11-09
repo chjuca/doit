@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
-import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
-import com.xcheko51x.agendacitas.Modelos.Cita;
 import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
@@ -57,7 +53,7 @@ public class CitasFragment extends Fragment {
     DatabaseReference databaseReference;
 
     AdaptadorCitas adaptador;
-    List<Cita> listaCitas = new ArrayList<>();
+    //List<Cita> listaCitas = new ArrayList<>();
     List<Evento> listaEventos = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
@@ -122,11 +118,8 @@ public class CitasFragment extends Fragment {
                 evDescription = vista.findViewById(R.id.evDescription);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                spiDias = vista.findViewById(R.id.spiDias);
                 evDate = vista.findViewById(R.id.evDate);
                 spiColores = vista.findViewById(R.id.spiColors);
-
-                spiDias.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
 
                 spiColores.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, colores));
 
@@ -140,14 +133,14 @@ public class CitasFragment extends Fragment {
                 builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
+                        if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-                            Cita cita = new Cita();
+/*                            Cita cita = new Cita();
                             cita.setIdCita(UUID.randomUUID().toString());
                             cita.setNomCliente(evName.getText().toString());
-                            System.out.println(evName.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
-                            cita.setMotivo(evDescription.toString());
+                            System.out.println(evName.getText().toString());
+                            cita.setMotivo(evDescription.toString());*/
 
                             // databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
 
@@ -160,9 +153,10 @@ public class CitasFragment extends Fragment {
                             evento.setEvColor(spiColores.getSelectedItem().toString());
 
                             databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
+                            Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
 
                             }
-                            Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
+
 
                             obtenerEventos();
                         }
@@ -236,7 +230,7 @@ public class CitasFragment extends Fragment {
                     Evento evento = objSnapshot.getValue(Evento.class);                              // GET DE EVENTOS
                     listaEventos.add(evento);
 
-                    adaptador = new AdaptadorCitas(getContext(), null, listaEventos);
+                    adaptador = new AdaptadorCitas(getContext(), listaEventos);
                     rvCitas.setAdapter(adaptador);
 
                 }
