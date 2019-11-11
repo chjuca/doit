@@ -38,7 +38,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-;
+
 
 public class CitasFragment extends Fragment {
 
@@ -53,7 +53,7 @@ public class CitasFragment extends Fragment {
     DatabaseReference databaseReference;
 
     AdaptadorCitas adaptador;
-    //List<Cita> listaCitas = new ArrayList<>();
+
     List<Evento> listaEventos = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
