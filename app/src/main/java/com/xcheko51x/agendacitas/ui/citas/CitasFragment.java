@@ -1,6 +1,7 @@
 package com.xcheko51x.agendacitas.ui.citas;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -44,10 +46,11 @@ public class CitasFragment extends Fragment {
 
     ImageButton ibtnAdd, ibtnShowAll;
     RecyclerView rvCitas;
-    EditText evName, evDescription, evDate;
-    TextView evHour;
-    ImageButton ibtnHora;
+    EditText evName, evDescription;
+    TextView evHour,evDate;
+    ImageButton ibtnHora, ibtnDate;
     Spinner spiDias, spiDiasMain, spiColores;
+    private int dia, mes, anio;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -60,7 +63,6 @@ public class CitasFragment extends Fragment {
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
         View root = inflater.inflate(R.layout.fragment_citas, container, false);
 
@@ -118,7 +120,26 @@ public class CitasFragment extends Fragment {
                 evDescription = vista.findViewById(R.id.evDescription);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
+                ibtnDate = vista.findViewById(R.id.ibtnDate);
                 evDate = vista.findViewById(R.id.evDate);
+                ibtnDate.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View v) {
+                        final Calendar calendar = Calendar.getInstance();
+                        dia = calendar.get(Calendar.DAY_OF_MONTH);
+                        mes = calendar.get(Calendar.MONTH);
+                        anio = calendar.get(Calendar.YEAR);
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                evDate.setText(dayOfMonth + "/" + (month+1) + "/" + year );
+                            }
+                        },anio, mes, dia);
+                        datePickerDialog.show();
+                    }
+                });
                 spiColores = vista.findViewById(R.id.spiColors);
 
                 spiColores.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, colores));
