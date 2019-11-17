@@ -33,8 +33,7 @@ public class AcercaDeFragment extends Fragment {
         tvAcercaDe = root.findViewById(R.id.tvAcercaDe);
 
         tvAcercaDe.setText(
-                "Esta aplicación fue pensada y diseñada como una herramienta " +
-                "para facilitar la administración de citas."
+                "Aqui Agregaran algo, no se haran los locos"
 
         );
 

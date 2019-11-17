@@ -11,7 +11,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clCita"
+        android:id="@+id/clEvento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -28,12 +28,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvIdCita"
+                android:id="@+id/evDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
                 android:gravity="center"
-                android:hint="#"
+                android:hint="Fecha"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -41,25 +41,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvDia"
+                android:id="@+id/inf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="60"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_weight="60"
                 android:gravity="center"
-                android:hint="Dia"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvHora"
-                app:layout_constraintStart_toEndOf="@+id/tvIdCita"
+                app:layout_constraintEnd_toStartOf="@+id/evHour"
+                app:layout_constraintStart_toEndOf="@+id/evDate"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvHora"
+                android:id="@+id/evHour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
@@ -87,12 +86,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvNombre"
+                    android:id="@+id/evNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:hint="Nombre del Cliente"
+                    android:hint="Nombre del Evento"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -100,32 +99,19 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvTelefono"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:hint="Telefono del Cliente"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
-
-                <TextView
-                    android:id="@+id/tvMotivo"
+                    android:id="@+id/evDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:hint="Motivo"
+                    android:hint="Descripción"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTelefono" />
+                    app:layout_constraintTop_toBottomOf="@+id/evNombre" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

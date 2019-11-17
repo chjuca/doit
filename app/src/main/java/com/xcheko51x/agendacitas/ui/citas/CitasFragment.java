@@ -1,18 +1,17 @@
 package com.xcheko51x.agendacitas.ui.citas;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -23,29 +22,42 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
-import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
-import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.Modelos.Evento;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
+
+
 
 public class CitasFragment extends Fragment {
 
-    ImageButton ibtnAgregar, ibtnMostrarTodas;
+    ImageButton ibtnAdd, ibtnShowAll;
     RecyclerView rvCitas;
-    EditText etNombre, etTelefono, etMotivo;
-    TextView tvHora;
-    ImageButton ibtnHora;
+    EditText evName, evDescription;
+    TextView evHour,evDate;
+    ImageButton ibtnHora, ibtnDate;
     Spinner spiDias, spiDiasMain, spiColores;
+    private int dia, mes, anio;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     AdaptadorCitas adaptador;
-    List<Cita> listaCitas = new ArrayList<>();
+
+    List<Evento> listaEventos = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
@@ -55,13 +67,15 @@ public class CitasFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_citas, container, false);
 
 
-        ibtnAgregar = root.findViewById(R.id.ibtnAgregar);
-        ibtnMostrarTodas = root.findViewById(R.id.ibtnMostrarTodas);
+        ibtnAdd = root.findViewById(R.id.ibtnAgregar);
+        ibtnShowAll = root.findViewById(R.id.ibtnMostrarTodas);
         spiDiasMain = root.findViewById(R.id.spiDiasMain);
         rvCitas = root.findViewById(R.id.rvCitas);
         rvCitas.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         obtenerDiaActual();
+        inicializarFirebase();
+        obtenerEventos();
 
         spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
 
@@ -69,7 +83,7 @@ public class CitasFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(MainActivity.this, ""+parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
-                if(parent.getSelectedItem().equals("Lunes")) {
+/*                if(parent.getSelectedItem().equals("Lunes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Martes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
@@ -83,7 +97,7 @@ public class CitasFragment extends Fragment {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Domingo")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                }
+                }*/
             }
 
             @Override
@@ -92,7 +106,7 @@ public class CitasFragment extends Fragment {
             }
         });
 
-        ibtnAgregar.setOnClickListener(new View.OnClickListener() {
+        ibtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -102,60 +116,71 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                etNombre = vista.findViewById(R.id.etNombre);
-                etTelefono = vista.findViewById(R.id.etTelefono);
-                etMotivo = vista.findViewById(R.id.etMotivo);
-                tvHora = vista.findViewById(R.id.tvHora);
+                evName = vista.findViewById(R.id.evName);
+                evDescription = vista.findViewById(R.id.evDescription);
+                evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                spiDias = vista.findViewById(R.id.spiDias);
-                spiColores = vista.findViewById(R.id.spiColores);
+                ibtnDate = vista.findViewById(R.id.ibtnDate);
+                evDate = vista.findViewById(R.id.evDate);
+                ibtnDate.setOnClickListener(new View.OnClickListener(){
 
-                spiDias.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
+                    @Override
+                    public void onClick(View v) {
+                        final Calendar calendar = Calendar.getInstance();
+                        dia = calendar.get(Calendar.DAY_OF_MONTH);
+                        mes = calendar.get(Calendar.MONTH);
+                        anio = calendar.get(Calendar.YEAR);
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                evDate.setText(dayOfMonth + "/" + (month+1) + "/" + year );
+                            }
+                        },anio, mes, dia);
+                        datePickerDialog.show();
+                    }
+                });
+                spiColores = vista.findViewById(R.id.spiColors);
 
                 spiColores.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, colores));
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        obtenerHora(tvHora);
+                        obtenerHora(evHour);
                     }
                 });
 
                 builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if( etNombre.getText().equals("") || etTelefono.getText().equals("") || etMotivo.getText().equals("") || tvHora.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
+                        if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
+/*                            Cita cita = new Cita();
+                            cita.setIdCita(UUID.randomUUID().toString());
+                            cita.setNomCliente(evName.getText().toString());
+                            System.out.println(evName.getText().toString());
+                            cita.setMotivo(evDescription.toString());*/
 
-                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "dbSistema", null, 1);
-                            SQLiteDatabase db = admin.getWritableDatabase();
+                            // databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
 
-                            Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), tvHora.getText().toString()});
+                            Evento evento = new Evento();
+                            evento.setIdEvent(UUID.randomUUID().toString());
+                            evento.setEvName(evName.getText().toString());
+                            evento.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            evento.setEvHour(evHour.getText().toString());
+                            evento.setEvDate(evDate.getText().toString());
+                            evento.setEvColor(spiColores.getSelectedItem().toString());
 
-                            if(fila != null && fila.getCount() != 0) {
-                                Toast.makeText(getContext(), "No se puede agendar en esa hora.", Toast.LENGTH_LONG).show();
-                            } else {
-                                ContentValues registro = new ContentValues();
-
-                                registro.put("nomCliente", etNombre.getText().toString());
-                                registro.put("telCliente", etTelefono.getText().toString());
-                                registro.put("motivo", etMotivo.getText().toString());
-                                registro.put("hora", tvHora.getText().toString());
-                                registro.put("dia", spiDias.getSelectedItem().toString());
-                                registro.put("color", spiColores.getSelectedItem().toString());
-
-                                // los inserto en la base de datos
-                                db.insert("citas", null, registro);
-                            }
-
-                            db.close();
-
+                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
                             Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
 
-                            obtenerCitas(spiDias.getSelectedItem().toString(), listaCitas);
+                            }
+
+
+                            obtenerEventos();
                         }
-                    }
                 });
 
                 builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
@@ -174,7 +199,7 @@ public class CitasFragment extends Fragment {
         });
 
         // ACCION BOTON DE MOSTRAR TODOS
-        ibtnMostrarTodas.setOnClickListener(new View.OnClickListener() {
+        ibtnShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MostrarTodos.class);
@@ -183,6 +208,12 @@ public class CitasFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(getContext());
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
     }
 
     public void obtenerHora(final TextView etHora) {
@@ -209,8 +240,32 @@ public class CitasFragment extends Fragment {
         recogerHora.show();
     }
 
-    // Metodo para obtener los pacientes
-    public void obtenerCitas(String dia, List<Cita> citas) {
+    // Metodo para obtener los eventos
+
+    public void obtenerEventos(){
+        databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaEventos.clear();
+                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
+                    Evento evento = objSnapshot.getValue(Evento.class);                              // GET DE EVENTOS
+                    listaEventos.add(evento);
+
+                    adaptador = new AdaptadorCitas(getContext(), listaEventos);
+                    rvCitas.setAdapter(adaptador);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+    /*public void obtenerCitas(String dia, List<Cita> citas) {
         citas.clear();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "dbSistema", null, 1);
@@ -224,7 +279,7 @@ public class CitasFragment extends Fragment {
             do {
                 citas.add(
                         new Cita(
-                                fila.getInt(0),
+                                fila.getString(0),
                                 fila.getString(1),
                                 fila.getString(2),
                                 fila.getString(3),
@@ -241,15 +296,15 @@ public class CitasFragment extends Fragment {
         db.close();
 
         //Toast.makeText(MainActivity.this, ""+citas.size(), Toast.LENGTH_SHORT).show();
-        adaptador = new AdaptadorCitas(getContext(), citas);
-        rvCitas.setAdapter(adaptador);
-    }
+  *//*      adaptador = new AdaptadorCitas(getContext(), citas,);
+        rvCitas.setAdapter(adaptador);*//*
+    }*/
 
     public void obtenerDiaActual() {
         int dia = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         //Toast.makeText(getContext(), ""+dia, Toast.LENGTH_SHORT).show();
 
-        switch (dia) {
+/*        switch (dia) {
             case 1:
                 obtenerCitas("Domingo", listaCitas);
                 //Toast.makeText(MainActivity.this, dia + ": Domingo", Toast.LENGTH_SHORT).show();
@@ -281,7 +336,7 @@ public class CitasFragment extends Fragment {
 
             default:
                 break;
-        }
+        }*/
 
     }
 }

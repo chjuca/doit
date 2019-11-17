@@ -41,6 +41,7 @@ public class TareasCliente extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tareas_cliente);
         nomCliente = getIntent().getExtras().getString("nomCliente");
