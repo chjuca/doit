@@ -154,5 +154,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void goToLoggedActivity(){
         Intent intent = new Intent(LoginActivity.this, Navegacion.class);
         startActivity(intent);
+        finish();
     }
 }
