@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,12 +24,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
+import com.xcheko51x.agendacitas.Models.EvDate;
 import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
@@ -41,7 +43,6 @@ import java.util.List;
 import java.util.UUID;
 
 
-
 public class CitasFragment extends Fragment {
 
     ImageButton ibtnAdd, ibtnShowAll;
@@ -49,18 +50,19 @@ public class CitasFragment extends Fragment {
     EditText evName, evDescription;
     TextView evHour,evDate;
     ImageButton ibtnHora, ibtnDate;
-    Spinner spiDias, spiDiasMain, spiColores;
+    Spinner spiDias, spiDiasMain, spiPriority;
     private int dia, mes, anio;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     AdaptadorCitas adaptador;
 
     List<Events> listaEvents = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-    String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
+    String[] priority = {"ALTA", "MEDIA", "BAJA"};
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -77,13 +79,13 @@ public class CitasFragment extends Fragment {
         inicializarFirebase();
         obtenerEventos();
 
-        spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
+        //spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
 
-        spiDiasMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+ /*       spiDiasMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(MainActivity.this, ""+parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
-/*                if(parent.getSelectedItem().equals("Lunes")) {
+*//*                if(parent.getSelectedItem().equals("Lunes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Martes")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
@@ -97,14 +99,14 @@ public class CitasFragment extends Fragment {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
                 } else if(parent.getSelectedItem().equals("Domingo")) {
                     obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                }*/
+                }*//*
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         ibtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,9 +142,9 @@ public class CitasFragment extends Fragment {
                         datePickerDialog.show();
                     }
                 });
-                spiColores = vista.findViewById(R.id.spiColors);
+                spiPriority = vista.findViewById(R.id.spiColors);
 
-                spiColores.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, colores));
+                spiPriority.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, priority));
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -162,29 +164,37 @@ public class CitasFragment extends Fragment {
                             cita.setNomCliente(evName.getText().toString());
                             System.out.println(evName.getText().toString());
                             cita.setMotivo(evDescription.toString());*/
-
-                            // databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
-
                             Events events = new Events();
-                            //events.setIdEvent(UUID.randomUUID().toString()); lo comento porque no sabemos si se genera automaticamente;
-                            events.setEvName(evName.getText().toString());
-                            events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            events.setIdEvent(UUID.randomUUID().toString());
                             String[] dateParts = evDate.getText().toString().split("/");
                             String[] hourParts = evHour.getText().toString().split(":");
-                            events.getEvDate().setDay(Integer.parseInt(dateParts[0]));
-                            events.getEvDate().setMonth(Integer.parseInt(dateParts[1]));
-                            events.getEvDate().setYear(Integer.parseInt(dateParts[2]));
-                            events.getEvDate().setHours(Integer.parseInt(hourParts[0]));
-                            events.getEvDate().setMinutes(Integer.parseInt(hourParts[1]));
+                            EvDate evDate = new EvDate();
+                            evDate.setDay(Integer.parseInt(dateParts[0]));
+                            evDate.setMonth(Integer.parseInt(dateParts[1]));
+                            evDate.setYear(Integer.parseInt(dateParts[2]));
+                            evDate.setHours(Integer.parseInt(hourParts[0]));
+                            evDate.setMinutes(Integer.parseInt(hourParts[1]));
+                            int priority;
+                            if(spiPriority.getSelectedItem().toString() == "ALTA"){
+                                priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
+                                priority = 2 ; }else{
+                                priority = 3; }
+                            String email = " ";
+                            if (user != null) {
+                                email = user.getEmail();
+                            }
 
-                            System.out.println(events.getEvDate());
+                            events.setEvName(evName.getText().toString());
+                            events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            events.setEvDate(evDate);
+                            events.setEvPriority(priority);
+                            events.setEvCreateUser(email);
+                            events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
+                            events.setEvGroups(null);
+                            events.setState(1);
 
-                            //events.setEvHour(evHour.getText().toString());
-                            //events.setEvDate(evDate.getText().toString());
-                            //events.setEvColor(spiColores.getSelectedItem().toString());
-
-                            databaseReference.child("Eventos").child(events.getIdEvent()).setValue(events);
-                            Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
+                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);
+                            Toast.makeText(getContext(), "Evento Agendado", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -253,7 +263,7 @@ public class CitasFragment extends Fragment {
     // Metodo para obtener los eventos
 
     public void obtenerEventos(){
-        databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
