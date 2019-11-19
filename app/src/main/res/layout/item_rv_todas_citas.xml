@@ -9,7 +9,7 @@
     android:elevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clCita"
+        android:id="@+id/clEvento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvIdCita"
+                    android:id="@+id/evDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -50,7 +50,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvNombre"
+                    android:id="@+id/evNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -60,7 +60,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvIdCita" />
+                    app:layout_constraintTop_toBottomOf="@+id/evDate" />
 
                 <TextView
                     android:id="@+id/tvTelefono"
@@ -73,10 +73,10 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
+                    app:layout_constraintTop_toBottomOf="@+id/evNombre" />
 
                 <TextView
-                    android:id="@+id/tvMotivo"
+                    android:id="@+id/evDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

@@ -2,9 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
+    <!-- Items del nav -->
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/nav_citas"
             android:icon="@drawable/icon_calendario"
@@ -29,7 +28,14 @@
             android:id="@+id/nav_importar_db"
             android:icon="@drawable/icon_importar_db"
             android:title="IMPORTAR AGENDA" />
-
+    </group>
+    <group>
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@mipmap/ic_close"
+            android:title="@string/cerrar_sesion"
+            android:textStyle="bold"
+            />
     </group>
 
 </menu>
