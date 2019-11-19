@@ -8,26 +8,10 @@
             android:id="@+id/nav_citas"
             android:icon="@drawable/icon_calendario"
             android:title="@string/menu_citas" />
-
-        <item
-            android:id="@+id/nav_tareas"
-            android:icon="@drawable/icon_tarea"
-            android:title="@string/menu_tareas" />
-
         <item
             android:id="@+id/nav_acerca_de"
             android:icon="@drawable/icon_nosotros"
             android:title="@string/menu_acerca_de" />
-
-        <item
-            android:id="@+id/nav_exportar_db"
-            android:icon="@drawable/icon_exportar_db"
-            android:title="EXPORTAR AGENDA" />
-
-        <item
-            android:id="@+id/nav_importar_db"
-            android:icon="@drawable/icon_importar_db"
-            android:title="IMPORTAR AGENDA" />
     </group>
     <group>
         <item

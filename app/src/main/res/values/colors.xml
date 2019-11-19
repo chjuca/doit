@@ -11,22 +11,22 @@
     <!-- Paleta de colores -->
 
     <!-- Limpio y nítido -->
-        <color name="cleanIce">99D3DF</color>
-        <color name="cleanFreshWater">88BBD6</color>
-        <color name="cleanPlaster">CDCDCD</color>
-        <color name="cleanLinen">EDEAE4</color>
+        <color name="cleanIce">#99D3DF</color>
+        <color name="cleanFreshWater">#88BBD6</color>
+        <color name="cleanPlaster">#CDCDCD</color>
+        <color name="cleanLinen">#EDEAE4</color>
 
     <!-- Moderno y apagado -->
-        <color name="modernGreyBlue">A9B7C0</color>
-        <color name="modernMinty">C7D8C6</color>
-        <color name="modernLight">EFD9C1</color>
-        <color name="modernPower">CCCBC6</color>
+        <color name="modernGreyBlue">#A9B7C0</color>
+        <color name="modernMinty">#C7D8C6</color>
+        <color name="modernLight">#EFD9C1</color>
+        <color name="modernPower">#CCCBC6</color>
 
     <!-- Colorido sin choques  -->
-        <color name="colorfulSalmon">FA7C92</color>
-        <color name="colorfulRain">6EC4DB</color>
-        <color name="colorfulLeaf">66AB8C</color>
-        <color name="colorfulButterMilk">FFF7C0</color>
+        <color name="colorfulSalmon">#FA7C92</color>
+        <color name="colorfulRain">#6EC4DB</color>
+        <color name="colorfulLeaf">#66AB8C</color>
+        <color name="colorfulButterMilk">#FFF7C0</color>
 
 
 
