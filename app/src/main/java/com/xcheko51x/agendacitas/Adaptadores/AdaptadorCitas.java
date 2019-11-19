@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.xcheko51x.agendacitas.Modelos.Evento;
+import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.Calendar;
@@ -38,14 +38,14 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     Context context;
 
-    List<Evento> events;
+    List<Events> events;
 
-    Evento eventoSelecionado;
+    Events eventsSelecionado;
 
     //String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
-    public AdaptadorCitas(Context context, List<Evento> listaEvents) {
+    public AdaptadorCitas(Context context, List<Events> listaEvents) {
 
         this.context = context;
         this.events = listaEvents;
@@ -189,15 +189,15 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             }*/
 
                             // db.close();
-                            Evento evento = new Evento();
-                            evento.setIdEvent(events.get(position).getIdEvent());
-                            evento.setEvName(evName.getText().toString().trim());
-                            evento.setEvDescription(evDescripcion.getText().toString());
-                            evento.setEvHour(evHour.getText().toString());
-                            evento.setEvDate(evDate.getText().toString());
-                            evento.setEvColor(spiColors.getSelectedItem().toString());
+                            Events events = new Events();
+                            events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
+                            events.setEvName(evName.getText().toString().trim());
+                            events.setEvDescription(evDescripcion.getText().toString());
+                            events.setEvHour(evHour.getText().toString());
+                            events.setEvDate(evDate.getText().toString());
+                            events.setEvColor(spiColors.getSelectedItem().toString());
 
-                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
+                            databaseReference.child("Eventos").child(events.getIdEvent()).setValue(events);
 
 
                             Toast.makeText(context, "Cita Modificada", Toast.LENGTH_SHORT).show();
@@ -249,9 +249,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                         } else {
                             Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
                         }*/
-                        Evento evento = new Evento();
-                        evento.setIdEvent(events.get(position).getIdEvent());
-                        databaseReference.child("Eventos").child(evento.getIdEvent()).removeValue();
+                        Events events = new Events();
+                        events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
+                        databaseReference.child("Eventos").child(events.getIdEvent()).removeValue();
 
                     }
                 });

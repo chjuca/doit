@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorTareas;
-import com.xcheko51x.agendacitas.Modelos.Tarea;
+import com.xcheko51x.agendacitas.Models.Tarea;
 
 import java.util.ArrayList;
 import java.util.List;

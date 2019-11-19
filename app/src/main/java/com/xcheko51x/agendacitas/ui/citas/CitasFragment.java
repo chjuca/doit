@@ -31,7 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorCitas;
-import com.xcheko51x.agendacitas.Modelos.Evento;
+import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
 
@@ -57,7 +57,7 @@ public class CitasFragment extends Fragment {
 
     AdaptadorCitas adaptador;
 
-    List<Evento> listaEventos = new ArrayList<>();
+    List<Events> listaEvents = new ArrayList<>();
 
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
@@ -165,15 +165,25 @@ public class CitasFragment extends Fragment {
 
                             // databaseReference.child("Cita").child(cita.getIdCita()).setValue(cita);
 
-                            Evento evento = new Evento();
-                            evento.setIdEvent(UUID.randomUUID().toString());
-                            evento.setEvName(evName.getText().toString());
-                            evento.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
-                            evento.setEvHour(evHour.getText().toString());
-                            evento.setEvDate(evDate.getText().toString());
-                            evento.setEvColor(spiColores.getSelectedItem().toString());
+                            Events events = new Events();
+                            //events.setIdEvent(UUID.randomUUID().toString()); lo comento porque no sabemos si se genera automaticamente;
+                            events.setEvName(evName.getText().toString());
+                            events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                            String[] dateParts = evDate.getText().toString().split("/");
+                            String[] hourParts = evHour.getText().toString().split(":");
+                            events.getEvDate().setDay(Integer.parseInt(dateParts[0]));
+                            events.getEvDate().setMonth(Integer.parseInt(dateParts[1]));
+                            events.getEvDate().setYear(Integer.parseInt(dateParts[2]));
+                            events.getEvDate().setHours(Integer.parseInt(hourParts[0]));
+                            events.getEvDate().setMinutes(Integer.parseInt(hourParts[1]));
 
-                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
+                            System.out.println(events.getEvDate());
+
+                            //events.setEvHour(evHour.getText().toString());
+                            //events.setEvDate(evDate.getText().toString());
+                            //events.setEvColor(spiColores.getSelectedItem().toString());
+
+                            databaseReference.child("Eventos").child(events.getIdEvent()).setValue(events);
                             Toast.makeText(getContext(), "Cita Agendada", Toast.LENGTH_SHORT).show();
 
                             }
@@ -246,12 +256,12 @@ public class CitasFragment extends Fragment {
         databaseReference.child("Eventos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaEventos.clear();
+                listaEvents.clear();
                 for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
-                    Evento evento = objSnapshot.getValue(Evento.class);                              // GET DE EVENTOS
-                    listaEventos.add(evento);
+                    Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
+                    listaEvents.add(events);
 
-                    adaptador = new AdaptadorCitas(getContext(), listaEventos);
+                    adaptador = new AdaptadorCitas(getContext(), listaEvents);
                     rvCitas.setAdapter(adaptador);
 
                 }
