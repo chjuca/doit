@@ -315,7 +315,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     public class CitasViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout clEvento;
-        TextView evDate, evName, evDescripcion, evHour;
+        TextView evDate, evName, evDescripcion, evHour;         //cambio para realizar el commit nuevamente
         ImageButton ibtnModificar, ibtnBorrar;
 
         public CitasViewHolder(@NonNull View itemView) {
