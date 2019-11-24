@@ -44,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
     private PendingIntent silencePedIngIntent;
     private final static String CHANNEL_ID = "Notificacion";
     private final static int NOTIFICACION_ID = 0;
-    List<Events> dayliEvents = new ArrayList<>(); // ArrayList que guarda los eventos diarioss
+    List<Events> dayliEvents = new ArrayList<>(); // ArrayList que guarda los eventos diarios
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -93,7 +93,7 @@ public class NotificationActivity extends AppCompatActivity {
         String [] horaParts = fechaActual[1].split(":");
 
         // Se obtiene toda la coleccion de eventos desde firebase
-        databaseReference.child("Events").orderByChild("evDate/day").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
@@ -106,7 +106,7 @@ public class NotificationActivity extends AppCompatActivity {
                 for(Events objEvents:listaEvents){
 
                     // Se transforma la fecha obtenida en formato 'yyyy/mm/dd'
-                    String dateEvent = String.format("%d/%d/%d",objEvents.getEvDate().getYear(),
+                    String dateEvent = String.format("%s/%s/%s",objEvents.getEvDate().getYear(),
                             objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay());
 
                     // Si la fecha transformada es igual al dia actual se agrega los eventos a 'dayliEvents'
@@ -204,7 +204,7 @@ public class NotificationActivity extends AppCompatActivity {
         time time = new time(); // creamos un objeto de tipo tiempo
         time.execute();
         for(Events objEvents:dayliEvents){
-            String dateEvent = String.format("%d/%d/%d %d:%d",objEvents.getEvDate().getYear(),
+            String dateEvent = String.format("%d/%s/%s %s:%s",objEvents.getEvDate().getYear(),
                     objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
                     objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes());
 

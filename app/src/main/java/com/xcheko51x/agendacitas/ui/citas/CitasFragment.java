@@ -37,6 +37,7 @@ import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,6 +53,7 @@ public class CitasFragment extends Fragment {
     ImageButton ibtnHora, ibtnDate;
     Spinner spiDias, spiDiasMain, spiPriority;
     private int dia, mes, anio;
+    String email = " ";
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -169,17 +171,19 @@ public class CitasFragment extends Fragment {
                             String[] dateParts = evDate.getText().toString().split("/");
                             String[] hourParts = evHour.getText().toString().split(":");
                             EvDate evDate = new EvDate();
-                            evDate.setDay(Integer.parseInt(dateParts[0]));
-                            evDate.setMonth(Integer.parseInt(dateParts[1]));
+
+
+                            DecimalFormat format = new DecimalFormat("00");
+                            evDate.setDay(format.format(Integer.parseInt(dateParts[0])));
+                            evDate.setMonth(format.format(Integer.parseInt(dateParts[1])));
                             evDate.setYear(Integer.parseInt(dateParts[2]));
-                            evDate.setHours(Integer.parseInt(hourParts[0]));
-                            evDate.setMinutes(Integer.parseInt(hourParts[1]));
+                            evDate.setHours(format.format(Integer.parseInt(hourParts[0])));
+                            evDate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
                             int priority;
                             if(spiPriority.getSelectedItem().toString() == "ALTA"){
                                 priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
                                 priority = 2 ; }else{
                                 priority = 3; }
-                            String email = " ";
                             if (user != null) {
                                 email = user.getEmail();
                             }
@@ -263,11 +267,13 @@ public class CitasFragment extends Fragment {
     // Metodo para obtener los eventos
 
     public void obtenerEventos(){
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+
+        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
                 for(DataSnapshot objSnapshot: dataSnapshot.getChildren()) {
+
                     Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
                     listaEvents.add(events);
 
