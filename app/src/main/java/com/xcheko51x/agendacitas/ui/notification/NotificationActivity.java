@@ -207,6 +207,7 @@ public class NotificationActivity extends AppCompatActivity {
             String dateEvent = String.format("%d/%s/%s %s:%s",objEvents.getEvDate().getYear(),
                     objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
                     objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes());
+            System.out.println(dateEv +' '+dateEvent);
 
             // si la fecha del evento es igual a la actual entra
             if(dateEvent.equals(dateEv)){
