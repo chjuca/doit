@@ -267,7 +267,7 @@ public class CitasFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
-                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
+                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()) {
                     Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
                     listaEvents.add(events);
 
