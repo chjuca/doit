@@ -101,7 +101,7 @@ public class NotificationActivity extends AppCompatActivity {
 
                 dayliEvents.clear();
                 for(Events objEvents:listaEvents){
-                    String dateEvent = String.format("%d/%d/%d",objEvents.getEvDate().getYear(),
+                    String dateEvent = String.format("%s/%s/%s",objEvents.getEvDate().getYear(),
                             objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay());
                     if (dateEvent.equals(fechaActual[0])){
                         dayliEvents.add(objEvents);
@@ -199,7 +199,7 @@ public class NotificationActivity extends AppCompatActivity {
         time time = new time();
         time.execute();
         for(Events objEvents:dayliEvents){
-            String dateEvent = String.format("%d/%d/%d %d:%d",objEvents.getEvDate().getYear(),
+            String dateEvent = String.format("%d/%s/%s %s:%s",objEvents.getEvDate().getYear(),
                     objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
                     objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes());
             System.out.println(dateEvent+' '+dateEv);
