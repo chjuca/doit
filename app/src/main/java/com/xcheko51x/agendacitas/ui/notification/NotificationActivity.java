@@ -44,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
     private PendingIntent silencePedIngIntent;
     private final static String CHANNEL_ID = "Notificacion";
     private final static int NOTIFICACION_ID = 0;
-    List<Events> dayliEvents = new ArrayList<>();
+    List<Events> dayliEvents = new ArrayList<>(); // ArrayList que guarda los eventos diarioss
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -66,19 +66,21 @@ public class NotificationActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
     }
 
+    // Metodo que establece la notificacion
     private void setNotificacion(Events objEvents){
         setPenndignIntent();
         setOpenPendingIntent();
         setSilencePendingIntent();
         createNotificationChannel();
-        createNotification(objEvents);
-
+        createNotification(objEvents);  // Metodo que crea la notificacion
     }
 
     public void setListaEventos(){
         this.inicializarFirebase();
         obtenerEventos();
     }
+
+    // Metodo que obtiene los eventos
     public void obtenerEventos() {
         final List<Events> listaEvents = new ArrayList<>();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd");
@@ -89,20 +91,25 @@ public class NotificationActivity extends AppCompatActivity {
         fechaActual[1] = formatHour.format(date);
         String [] fechaParts = fechaActual[0].split("/");
         String [] horaParts = fechaActual[1].split(":");
+
+        // Se obtiene toda la coleccion de eventos desde firebase
         databaseReference.child("Events").orderByChild("evDate/day").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
+                    Events events = objSnapshot.getValue(Events.class); // GET DE EVENTOS
                     listaEvents.add(events);
                 }
-                //System.out.println(listaEvents.get(0).getEvDate().toString());
 
                 dayliEvents.clear();
                 for(Events objEvents:listaEvents){
+
+                    // Se transforma la fecha obtenida en formato 'yyyy/mm/dd'
                     String dateEvent = String.format("%d/%d/%d",objEvents.getEvDate().getYear(),
                             objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay());
+
+                    // Si la fecha transformada es igual al dia actual se agrega los eventos a 'dayliEvents'
                     if (dateEvent.equals(fechaActual[0])){
                         dayliEvents.add(objEvents);
                     }
@@ -117,18 +124,9 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-
-
-
+    // Metodo que establece que accion realizar al dar click en la notificacion
     private void setPenndignIntent(){
-        // Llevar a la clase MostrarEvento
+        // Llevar a la clase que muestra detalles del evento
         //Intent intent = new Intent(this, MostrarEvento.class);
         //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         //stackBuilder.addParentStack(NotificacionActivity.class);
@@ -138,6 +136,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    // Metodo que establece que accion realizar al dar click en el boton 'Abrir' de la notificacion
     private void setOpenPendingIntent(){
         // Llevar a la clase MostrarEvento
         //Intent intent = new Intent(this, MostrarEvento.class);
@@ -149,12 +148,15 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    // // Metodo que establece que accion realizar al dar click en el boton 'Silenciar de la notificacion
     private void setSilencePendingIntent(){
+        // creamos un objeto
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.cancel( NOTIFICACION_ID);
-        time time = new time();
+        //time time = new time();
     }
 
+    // Metodo que crea el canal de la notificacion
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "NOTIFICACION";
@@ -164,52 +166,60 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
+    // Metodo que crea la notificacion
     private void createNotification(Events objEvents){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
-        builder.setContentTitle(objEvents.getEvName().toUpperCase());
-        builder.setContentText("Hora de inicio: "+objEvents.getEvDate().getHours()+":"+objEvents.getEvDate().getMinutes());
-        builder.setColor(Color.MAGENTA);
+        builder.setSmallIcon(R.drawable.ic_event_note_black_24dp); // Se establece el icono de la notificacion traido desde el paquete 'drawle'
+        builder.setContentTitle(objEvents.getEvName().toUpperCase()); // Titulo de la notificacion
+        builder.setContentText("Hora de inicio: "+objEvents.getEvDate().getHours()+":"+objEvents.getEvDate().getMinutes()); // Hora del evento
+        builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         //builder.setLights(Color.MAGENTA,onMn:1000, offMs:1000);
-        builder.setVibrate(new long[]{1000,1000,1000,1000});
-        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setVibrate(new long[]{1000,1000,1000,1000}); // Establece la vibracion de la notificacion
+        builder.setDefaults(Notification.DEFAULT_SOUND); // Establece el sonido por defecto que tiene el usuario
 
-        builder.setContentIntent(pendingIntent);
-        builder.addAction(R.drawable.ic_done_black_24dp,"ABRIR",openPedingIntent);
-        builder.addAction(R.drawable.ic_volume_off_black_24dp,"SILENCIAR",silencePedIngIntent);
+        builder.setContentIntent(pendingIntent); // Establece que accion realizar cuando pulsa en la notificacion
+        builder.addAction(R.drawable.ic_done_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
+        builder.addAction(R.drawable.ic_volume_off_black_24dp,"SILENCIAR",silencePedIngIntent); // boton de 'Silenciar'
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
 
+    // Hilo que permite que se realicen varios procedimientos a la misma ves
     public void hilo(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1000); // tiempo dado en milisegundos
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    // Metodo principal que valida todas las instancias
     public void ejecutar(){
-        obtenerEventos();
+        obtenerEventos(); // obtenemos todos los eventos
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        Date date = new Date();
-        String dateEv = formatDate.format(date);
-        time time = new time();
+        Date date = new Date(); // obtenemos la fecha actual
+        String dateEv = formatDate.format(date);  // transformamos a String la fecha
+        time time = new time(); // creamos un objeto de tipo tiempo
         time.execute();
         for(Events objEvents:dayliEvents){
             String dateEvent = String.format("%d/%d/%d %d:%d",objEvents.getEvDate().getYear(),
                     objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
                     objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes());
-            System.out.println(dateEvent+' '+dateEv);
+
+            // si la fecha del evento es igual a la actual entra
             if(dateEvent.equals(dateEv)){
+
                 if(objEvents.getEvPriority() == 1)
-                    time.tiempo = 5;
+                    // Si la prioridad es 1 --> 'Alta' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 5 veces
+                    time.tiempo = 10;
                 else
-                    if (objEvents.getEvPriority() == 1)
-                        time.tiempo = 15;
+                    if (objEvents.getEvPriority() == 2)
+                        // Si la prioridad es 2 --> 'Media' se recuerda el evento cada 20 segundos, es decir se creara la notificacion 3 veces
+                        time.tiempo = 20;
                     else
+                        // Si la prioridad es 3 --> 'Baja' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 2 veces
                         time.tiempo = 30;
                 setNotificacion(objEvents);
             }
@@ -217,33 +227,9 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-    /*
-    private ArrayList<Evento> obtenerEventos(final ArrayList<Evento> listaEventos){
-
-        databaseReference.child("Eventos").orderByChild("evDate/day").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaEventos.clear();
-                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
-                    Evento evento = objSnapshot.getValue(Evento.class);                              // GET DE EVENTOS
-                    listaEventos.add(evento);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return listaEventos;
-    }
-
-     */
 
     public class time extends AsyncTask<Void,Integer,Boolean> {
-        public int tiempo = 1;
+        public int tiempo = 1; // tiempo que establece cada que tiempo lanzar la notificacion
         @Override
         protected Boolean doInBackground(Void... voids) {
             for (int i = 1;i <= tiempo; i++){
@@ -252,10 +238,10 @@ public class NotificationActivity extends AppCompatActivity {
             return true;
         }
 
+        // Metodo que permite que la aplicacion se ejecute en 2 plano
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             ejecutar();
-            //Toast.makeText(MainActivity.this,"cada 60 segundos",Toast.LENGTH_SHORT).show();
         }
     }
 }
