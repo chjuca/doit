@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.xcheko51x.agendacitas.ui.notification.NotificationActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -152,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, Navegacion.class);
+        Intent intent = new Intent(LoginActivity.this, NotificationActivity.class);
         startActivity(intent);
         finish();
     }
