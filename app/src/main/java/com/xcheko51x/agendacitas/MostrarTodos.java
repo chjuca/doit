@@ -1,17 +1,13 @@
 package com.xcheko51x.agendacitas;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorTodasCitas;
-import com.xcheko51x.agendacitas.Modelos.Evento;
+import com.xcheko51x.agendacitas.Models.Events;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MostrarTodos extends AppCompatActivity {
@@ -63,7 +59,7 @@ public class MostrarTodos extends AppCompatActivity {
         obtenerTodasCitas("Domingo", listaCitasDomingo, rvCitasDomingo);*/
     }
 
-    public void obtenerTodasCitas(String dia, List<Evento> evento, RecyclerView rvCitas) {
+    public void obtenerTodasCitas(String dia, List<Events> events, RecyclerView rvCitas) {
 /*        citas.clear();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(MostrarTodos.this, "dbSistema", null, 1);

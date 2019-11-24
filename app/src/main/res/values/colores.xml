@@ -5,4 +5,11 @@
     <color name="naranja">#FF9800</color>
     <color name="negro">#000000</color>
     <color name="purpura">#9C27B0</color>
+
+
+    <!-- Colores segun prioridad -->
+    <color name="high">#de3535</color>
+    <color name="half">#dddd32</color>
+    <color name="low">#89de4f</color>
+
 </resources>
