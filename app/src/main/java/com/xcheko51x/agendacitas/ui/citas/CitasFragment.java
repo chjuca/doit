@@ -52,6 +52,7 @@ public class CitasFragment extends Fragment {
     ImageButton ibtnHora, ibtnDate;
     Spinner spiDias, spiDiasMain, spiPriority;
     private int dia, mes, anio;
+    String email = " ";
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -179,7 +180,6 @@ public class CitasFragment extends Fragment {
                                 priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
                                 priority = 2 ; }else{
                                 priority = 3; }
-                            String email = " ";
                             if (user != null) {
                                 email = user.getEmail();
                             }
@@ -263,11 +263,12 @@ public class CitasFragment extends Fragment {
     // Metodo para obtener los eventos
 
     public void obtenerEventos(){
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+
+        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
-                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){
+                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()){ //gv
                     Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
                     listaEvents.add(events);
 
