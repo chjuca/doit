@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.xcheko51x.agendacitas.Modelos.Evento;
+import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
     Context context;
     // List<Cita> citas;
 
-    public AdaptadorTodasCitas(Context context, List<Evento> evento) {
+    public AdaptadorTodasCitas(Context context, List<Events> events) {
         this.context = context;
         //this.citas = citas;
 

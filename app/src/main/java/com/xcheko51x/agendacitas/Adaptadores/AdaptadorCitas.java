@@ -24,7 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.xcheko51x.agendacitas.Modelos.Evento;
+import com.xcheko51x.agendacitas.Models.EvDate;
+import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.Calendar;
@@ -38,14 +39,13 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     Context context;
 
-    List<Evento> events;
+    List<Events> events;
 
-    Evento eventoSelecionado;
+    Events eventsSelecionado;
 
-    //String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-    String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
+    String[] priority = {"ALTA", "MEDIA", "BAJA"};
 
-    public AdaptadorCitas(Context context, List<Evento> listaEvents) {
+    public AdaptadorCitas(Context context, List<Events> listaEvents) {
 
         this.context = context;
         this.events = listaEvents;
@@ -74,23 +74,18 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     @Override
     public void onBindViewHolder(@NonNull CitasViewHolder holder, final int position) {
 
-        holder.evDate.setText(""+events.get(position).getEvDate());
+        holder.evDate.setText(events.get(position).getEvDate().getDay()+"/"+events.get(position).getEvDate().getMonth()+"/"+events.get(position).getEvDate().getYear());
         holder.evName.setText(events.get(position).getEvName());
 
         holder.evDescripcion.setText(events.get(position).getEvDescription());
-        holder.evHour.setText(events.get(position).getEvHour());
-        holder.evDate.setText(events.get(position).getEvDate());
+        holder.evHour.setText(events.get(position).getEvDate().getHours()+":"+events.get(position).getEvDate().getMinutes());
 
-        if(events.get(position).getEvColor().equals("GRIS")) {
-            holder.clEvento.setBackgroundResource(R.color.gris);
-        } else if(events.get(position).getEvColor().equals("VERDE")) {
-            holder.clEvento.setBackgroundResource(R.color.verde);
-        } else if(events.get(position).getEvColor().equals("NARANJA")) {
-            holder.clEvento.setBackgroundResource(R.color.naranja);
-        } else if(events.get(position).getEvColor().equals("NEGRO")) {
-            holder.clEvento.setBackgroundResource(R.color.negro);
-        } else if(events.get(position).getEvColor().equals("PURPURA")) {
-            holder.clEvento.setBackgroundResource(R.color.purpura);
+        if(events.get(position).getEvPriority()==1){
+            holder.clEvento.setBackgroundResource(R.color.high);
+        }else if(events.get(position).getEvPriority()==2){
+            holder.clEvento.setBackgroundResource(R.color.half);
+            }else{
+                holder.clEvento.setBackgroundResource(R.color.low);
         }
 
         holder.ibtnModificar.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +101,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 final EditText evName, evDescripcion;
                 final TextView evHour, evDate;
                 ImageButton ibtnHora, ibtnDate;
-                final Spinner spiDias, spiColors;
+                final Spinner spiPriority;
 
                 evName = vista.findViewById(R.id.evName);
                 evDescripcion = vista.findViewById(R.id.evDescription);
@@ -135,14 +130,14 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
 
 
-                spiColors = vista.findViewById(R.id.spiColors);
+                spiPriority = vista.findViewById(R.id.spiColors);
 
-                spiColors.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, colores));
+                spiPriority.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, priority));
 
                 evName.setText(events.get(position).getEvName());
                 evDescripcion.setText(events.get(position).getEvDescription());
-                evHour.setText(events.get(position).getEvHour());
-                evDate.setText(events.get(position).getEvDate());
+                evHour.setText(events.get(position).getEvDate().getHours()+":"+events.get(position).getEvDate().getMinutes());
+                evDate.setText(events.get(position).getEvDate().getDay()+"/"+events.get(position).getEvDate().getMonth()+"/"+events.get(position).getEvDate().getYear());
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -173,7 +168,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                                 registro.put("motivo", evDescripcion.getText().toString());
                                 registro.put("hora", evHour.getText().toString());
                                 registro.put("dia", spiDias.getSelectedItem().toString());
-                                registro.put("color", spiColors.getSelectedItem().toString());
+                                registro.put("color", spiPriority.getSelectedItem().toString());
 
                                 // los inserto en la base de datos
                                 //db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
@@ -189,18 +184,37 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             }*/
 
                             // db.close();
-                            Evento evento = new Evento();
-                            evento.setIdEvent(events.get(position).getIdEvent());
-                            evento.setEvName(evName.getText().toString().trim());
-                            evento.setEvDescription(evDescripcion.getText().toString());
-                            evento.setEvHour(evHour.getText().toString());
-                            evento.setEvDate(evDate.getText().toString());
-                            evento.setEvColor(spiColors.getSelectedItem().toString());
 
-                            databaseReference.child("Eventos").child(evento.getIdEvent()).setValue(evento);
+                            Events events = new Events();
+                            EvDate evdate = new EvDate();
+                            String[] dateParts = evDate.getText().toString().split("/");
+                            String[] hourParts = evHour.getText().toString().split(":");
+
+                            evdate.setDay(Integer.parseInt(dateParts[0]));
+                            evdate.setMonth(Integer.parseInt(dateParts[1]));
+                            evdate.setYear(Integer.parseInt(dateParts[2]));
+                            evdate.setHours(Integer.parseInt(hourParts[0]));
+                            evdate.setMinutes(Integer.parseInt(hourParts[1]));
+                            int priority;
+                            if(spiPriority.getSelectedItem().toString() == "ALTA"){
+                                priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
+                                priority = 2 ; }else{
+                                priority = 3; }
+
+                            events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
+                            events.setEvName(evName.getText().toString().trim());
+                            events.setEvDescription(evDescripcion.getText().toString());            //*** MODIFICAR ALGUN EVENTO  ****
+                            events.setEvDate(evdate);
+                            events.setEvPriority(priority);
+                            events.setEvCreateUser(AdaptadorCitas.this.events.get(position).getEvCreateUser());
+                            events.setPublic(false);                            //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
+                            events.setEvGroups(null);
+                            events.setState(1);
+
+                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);
 
 
-                            Toast.makeText(context, "Cita Modificada", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Evento Modificado", Toast.LENGTH_SHORT).show();
 
 
 
@@ -229,7 +243,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 AlertDialog.Builder alerta = new AlertDialog.Builder(context);
 
                 alerta.setTitle("ELIMINAR");
-                alerta.setMessage("¿Estas seguro que deseas eliminar la cita?");
+                alerta.setMessage("¿Estas seguro que deseas eliminar el Evento?");
                 alerta.setCancelable(false);
 
                 alerta.setPositiveButton("SI", new DialogInterface.OnClickListener() {
@@ -249,9 +263,9 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                         } else {
                             Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
                         }*/
-                        Evento evento = new Evento();
-                        evento.setIdEvent(events.get(position).getIdEvent());
-                        databaseReference.child("Eventos").child(evento.getIdEvent()).removeValue();
+                        Events events = new Events();
+                        events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
+                        databaseReference.child("Events").child(events.getIdEvent()).removeValue();
 
                     }
                 });
@@ -301,7 +315,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
     public class CitasViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout clEvento;
-        TextView evDate, evName, evDescripcion, evHour;
+        TextView evDate, evName, evDescripcion, evHour;         //cambio para realizar el commit nuevamente
         ImageButton ibtnModificar, ibtnBorrar;
 
         public CitasViewHolder(@NonNull View itemView) {

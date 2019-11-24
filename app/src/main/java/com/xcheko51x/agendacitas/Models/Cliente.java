@@ -1,4 +1,4 @@
-package com.xcheko51x.agendacitas.Modelos;
+package com.xcheko51x.agendacitas.Models;
 
 public class Cliente {
 
