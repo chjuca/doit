@@ -28,6 +28,7 @@ import com.xcheko51x.agendacitas.Models.EvDate;
 import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.R;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -190,11 +191,13 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             String[] dateParts = evDate.getText().toString().split("/");
                             String[] hourParts = evHour.getText().toString().split(":");
 
-                            evdate.setDay(Integer.parseInt(dateParts[0]));
-                            evdate.setMonth(Integer.parseInt(dateParts[1]));
+                            DecimalFormat format = new DecimalFormat("00");
+
+                            evdate.setDay(format.format(Integer.parseInt(dateParts[0])));
+                            evdate.setMonth(format.format(Integer.parseInt(dateParts[1])));
                             evdate.setYear(Integer.parseInt(dateParts[2]));
-                            evdate.setHours(Integer.parseInt(hourParts[0]));
-                            evdate.setMinutes(Integer.parseInt(hourParts[1]));
+                            evdate.setHours(format.format(Integer.parseInt(hourParts[0])));
+                            evdate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
                             int priority;
                             if(spiPriority.getSelectedItem().toString() == "ALTA"){
                                 priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
