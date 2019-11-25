@@ -32,10 +32,6 @@ public class AcercaDeFragment extends Fragment {
 
         tvAcercaDe = root.findViewById(R.id.tvAcercaDe);
 
-        tvAcercaDe.setText(
-                "Aqui Agregaran algo, no se haran los locos"
-
-        );
 
         return root;
     }
