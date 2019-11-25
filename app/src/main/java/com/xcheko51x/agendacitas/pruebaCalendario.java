@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class pruebaCalendario extends AppCompatActivity {
@@ -44,7 +46,13 @@ public class pruebaCalendario extends AppCompatActivity {
             public void onDayClick(Date dateClicked) {
                 Context context = getApplicationContext();
                 Log.d("asd", dateClicked.toString());
-                if (dateClicked.toString().compareTo("Fri Nov 29 00:00:00 GMT 2019") == 0){
+                try {
+                    long epoch = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dateClicked.toString()).getTime() / 1000;
+                    Log.d("timestamp", dateClicked.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (dateClicked.toString().compareTo("Fri Nov 29 00:00:00 GMT+00:00 2019") == 0){
                     Toast.makeText(context, "Evento de prueba", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "No hay eventos", Toast.LENGTH_SHORT).show();

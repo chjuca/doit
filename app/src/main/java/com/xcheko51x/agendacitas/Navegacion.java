@@ -1,12 +1,18 @@
 package com.xcheko51x.agendacitas;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Navegacion extends AppCompatActivity {
 
@@ -28,6 +40,8 @@ public class Navegacion extends AppCompatActivity {
     NavigationView navigationView;
 
     private AppBarConfiguration mAppBarConfiguration;
+    CompactCalendarView compactCalendar;
+    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +65,9 @@ public class Navegacion extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+/////////////////////////////////////////
+
+
     }
 
     @Override

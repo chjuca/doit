@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:weightSum="100"
@@ -71,8 +71,6 @@
         android:layout_marginTop="23dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/compactcalendar_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,38 +78,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCitas"
-        android:layout_width="364dp"
-        android:layout_height="165dp"
+        android:layout_width="360dp"
+        android:layout_height="409dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="84dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" />
-
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-        android:id="@+id/compactcalendar_view"
-        android:layout_width="fill_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="36dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="#fff"
-        app:compactCalendarCurrentDayBackgroundColor="#fff7c0"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#6ec4db"
-        app:compactCalendarMultiEventIndicatorColor="#fff"
-        app:compactCalendarTargetHeight="250dp"
-        app:compactCalendarTextColor="#ffe95451"
-        app:compactCalendarTextSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/rvCitas"
-        app:layout_constraintTop_toBottomOf="@+id/spiDiasMain"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
