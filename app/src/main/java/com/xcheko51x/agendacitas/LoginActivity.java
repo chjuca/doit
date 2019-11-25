@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.xcheko51x.agendacitas.ui.notification.NotificationActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -77,6 +78,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
     @Override
@@ -107,10 +112,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-                // ...
+                Toast.makeText(this, "Error al logearse con google", Toast.LENGTH_SHORT);
             }
         }
     }
@@ -152,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, Navegacion.class);
+        Intent intent = new Intent(LoginActivity.this, NotificationActivity.class);
         startActivity(intent);
         finish();
     }

@@ -38,6 +38,7 @@ import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
 import com.xcheko51x.agendacitas.pruebaCalendario;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -171,11 +172,14 @@ public class CitasFragment extends Fragment {
                             String[] dateParts = evDate.getText().toString().split("/");
                             String[] hourParts = evHour.getText().toString().split(":");
                             EvDate evDate = new EvDate();
-                            evDate.setDay(Integer.parseInt(dateParts[0]));
-                            evDate.setMonth(Integer.parseInt(dateParts[1]));
+
+
+                            DecimalFormat format = new DecimalFormat("00");
+                            evDate.setDay(format.format(Integer.parseInt(dateParts[0])));
+                            evDate.setMonth(format.format(Integer.parseInt(dateParts[1])));
                             evDate.setYear(Integer.parseInt(dateParts[2]));
-                            evDate.setHours(Integer.parseInt(hourParts[0]));
-                            evDate.setMinutes(Integer.parseInt(hourParts[1]));
+                            evDate.setHours(format.format(Integer.parseInt(hourParts[0])));
+                            evDate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
                             int priority;
                             if(spiPriority.getSelectedItem().toString() == "ALTA"){
                                 priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){

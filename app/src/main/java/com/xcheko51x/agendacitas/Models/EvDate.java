@@ -3,15 +3,15 @@ package com.xcheko51x.agendacitas.Models;
 public class EvDate {
 
     private int year;
-    private int day;
-    private int month;
-    private int hours;
-    private int minutes;
+    private String day;
+    private String month;
+    private String hours;
+    private String minutes;
 
     public EvDate() {
     }
 
-    public EvDate(int year, int day, int month, int hours, int minutes) {
+    public EvDate(int year, String day, String month, String hours, String minutes) {
         this.year = year;
         this.day = day;
         this.month = month;
@@ -27,46 +27,35 @@ public class EvDate {
         this.year = year;
     }
 
-    public int getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public int getHours() {
+    public String getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(String hours) {
         this.hours = hours;
     }
 
-    public int getMinutes() {
+    public String getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(int minutes) {
+    public void setMinutes(String minutes) {
         this.minutes = minutes;
-    }
-
-    @Override
-    public String toString() {
-        return "EvDate{" +
-                "year=" + year +
-                ", day=" + day +
-                ", month=" + month +
-                ", hours=" + hours +
-                ", minutes=" + minutes +
-                '}';
     }
 }
