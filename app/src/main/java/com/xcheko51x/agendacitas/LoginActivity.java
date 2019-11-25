@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Set the dimensions of the sign-in button.
         signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        // signInButton.setSize(SignInButton.SIZE_STANDARD); Ahora modificaremos las dimensiones
         signInButton.setOnClickListener(this);
 
     }
