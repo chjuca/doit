@@ -73,7 +73,7 @@ public class CitasFragment extends Fragment {
 
         ibtnAdd = root.findViewById(R.id.ibtnAgregar);
         ibtnShowAll = root.findViewById(R.id.ibtnMostrarTodas);
-        spiDiasMain = root.findViewById(R.id.spiDiasMain);
+        //spiDiasMain = root.findViewById(R.id.spiDiasMain);
         rvCitas = root.findViewById(R.id.rvCitas);
         rvCitas.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
@@ -288,8 +288,6 @@ public class CitasFragment extends Fragment {
 
             }
         });
-
-
     }
     /*public void obtenerCitas(String dia, List<Cita> citas) {
         citas.clear();
