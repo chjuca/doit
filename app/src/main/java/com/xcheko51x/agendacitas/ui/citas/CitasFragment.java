@@ -36,6 +36,7 @@ import com.xcheko51x.agendacitas.Models.EvDate;
 import com.xcheko51x.agendacitas.Models.Events;
 import com.xcheko51x.agendacitas.MostrarTodos;
 import com.xcheko51x.agendacitas.R;
+import com.xcheko51x.agendacitas.pruebaCalendario;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -160,7 +161,7 @@ public class CitasFragment extends Fragment {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-/*                            Cita cita = new Cita();
+/*                          Cita cita = new Cita();
                             cita.setIdCita(UUID.randomUUID().toString());
                             cita.setNomCliente(evName.getText().toString());
                             System.out.println(evName.getText().toString());
@@ -222,7 +223,7 @@ public class CitasFragment extends Fragment {
         ibtnShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MostrarTodos.class);
+                Intent intent = new Intent(getContext(), pruebaCalendario.class);
                 startActivity(intent);
             }
         });
