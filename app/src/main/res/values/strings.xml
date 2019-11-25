@@ -30,4 +30,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
+
+    <string name="about">DoneIt! es una aplicación para dispositivos móviles, donde el usuario puede crear recordatorios donde introduce: la hora, la fecha, el asunto, y una breve descripción de la tarea.  Además, la app permite visualizar una notificación, tiempo antes de que se cumpla el límite establecido para recordar al usuario de una tarea o evento.</string>
+    <string name="acerca_de">Acerca de</string>
+
 </resources>

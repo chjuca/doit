@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Acerca de"
+                android:text="@string/acerca_de"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:gravity="center_horizontal" />
@@ -34,6 +34,7 @@
 
             <TextView
                 android:id="@+id/tvAcercaDe"
+                android:text="@string/about"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
