@@ -9,6 +9,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -127,24 +128,24 @@ public class NotificationActivity extends AppCompatActivity {
     // Metodo que establece que accion realizar al dar click en la notificacion
     private void setPenndignIntent(){
         // Llevar a la clase que muestra detalles del evento
-        //Intent intent = new Intent(this, MostrarEvento.class);
-        //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        //stackBuilder.addParentStack(NotificacionActivity.class);
-        //stackBuilder.addNextIntent(intent);
-        //pendingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
-        //pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
+        Intent intent = new Intent(this, Navegacion.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(Navegacion.class);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getActivity(NotificationActivity.this, 0, intent, 0);
 
     }
 
     // Metodo que establece que accion realizar al dar click en el boton 'Abrir' de la notificacion
     private void setOpenPendingIntent(){
         // Llevar a la clase MostrarEvento
-        //Intent intent = new Intent(this, MostrarEvento.class);
-        //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        //stackBuilder.addParentStack(NotificacionActivity.class);
-        //stackBuilder.addNextIntent(intent);
-        //openPedingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
-        //pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
+        Intent intent = new Intent(this, Navegacion.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(Navegacion.class);
+        stackBuilder.addNextIntent(intent);
+        openPedingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+        openPedingIntent = PendingIntent.getActivity(NotificationActivity.this, 0, intent, 0);
 
     }
 
@@ -180,7 +181,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         builder.setContentIntent(pendingIntent); // Establece que accion realizar cuando pulsa en la notificacion
         builder.addAction(R.drawable.ic_done_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
-        builder.addAction(R.drawable.ic_volume_off_black_24dp,"SILENCIAR",silencePedIngIntent); // boton de 'Silenciar'
+        //builder.addAction(R.drawable.ic_volume_off_black_24dp,"SILENCIAR",silencePedIngIntent); // boton de 'Silenciar'
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
