@@ -19,6 +19,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.xcheko51x.agendacitas.Controllers.EventsController;
+import com.xcheko51x.agendacitas.Models.Events;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -43,12 +47,17 @@ public class Navegacion extends AppCompatActivity {
     CompactCalendarView compactCalendar;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navegacion);
          toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Cargamos los eventos en el calendar view
+        EventsController eventsController = new EventsController();
+        eventsController.chargeEventsFromFirebase(user, getApplicationContext());
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
