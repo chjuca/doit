@@ -12,14 +12,11 @@
             android:id="@+id/nav_acerca_de"
             android:icon="@drawable/icon_nosotros"
             android:title="@string/menu_acerca_de" />
-    </group>
-    <group>
         <item
             android:id="@+id/nav_cerrar_sesion"
             android:icon="@mipmap/ic_close"
             android:title="@string/cerrar_sesion"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold"  />
     </group>
 
 </menu>
