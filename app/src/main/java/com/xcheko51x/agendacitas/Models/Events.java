@@ -98,5 +98,20 @@ public class Events {
     public void setState(int state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Events{" +
+                "idEvent='" + idEvent + '\'' +
+                ", evName='" + evName + '\'' +
+                ", evDescription='" + evDescription + '\'' +
+                ", evDate=" + evDate +
+                ", evPriority=" + evPriority +
+                ", evCreateUser='" + evCreateUser + '\'' +
+                ", isPublic=" + isPublic +
+                ", evGroups=" + evGroups +
+                ", state=" + state +
+                '}';
+    }
 }
 
