@@ -1,30 +1,26 @@
 package com.xcheko51x.agendacitas;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorTodasCitas;
-import com.xcheko51x.agendacitas.Modelos.Cita;
+import com.xcheko51x.agendacitas.Models.Events;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MostrarTodos extends AppCompatActivity {
 
     RecyclerView rvCitasLunes, rvCitasMartes, rvCitasMiercoles, rvCitasJueves, rvCitasViernes, rvCitasSabado, rvCitasDomingo;
 
-    List<Cita> listaCitasLunes = new ArrayList<>();
+/*    List<Cita> listaCitasLunes = new ArrayList<>();
     List<Cita> listaCitasMartes = new ArrayList<>();
     List<Cita> listaCitasMiercoles = new ArrayList<>();
     List<Cita> listaCitasJueves = new ArrayList<>();
     List<Cita> listaCitasViernes = new ArrayList<>();
     List<Cita> listaCitasSabado = new ArrayList<>();
-    List<Cita> listaCitasDomingo = new ArrayList<>();
+    List<Cita> listaCitasDomingo = new ArrayList<>();*/
 
     AdaptadorTodasCitas adaptador;
 
@@ -34,7 +30,7 @@ public class MostrarTodos extends AppCompatActivity {
         setContentView(R.layout.activity_mostrar_todos);
         getSupportActionBar().hide();
 
-        rvCitasLunes = findViewById(R.id.rvCitasLunes);
+        /*rvCitasLunes = findViewById(R.id.rvCitasLunes);
         rvCitasLunes.setLayoutManager(new GridLayoutManager(MostrarTodos.this, 1));
         obtenerTodasCitas("Lunes", listaCitasLunes, rvCitasLunes);
 
@@ -60,11 +56,11 @@ public class MostrarTodos extends AppCompatActivity {
 
         rvCitasDomingo = findViewById(R.id.rvCitasDomingo);
         rvCitasDomingo.setLayoutManager(new GridLayoutManager(MostrarTodos.this, 1));
-        obtenerTodasCitas("Domingo", listaCitasDomingo, rvCitasDomingo);
+        obtenerTodasCitas("Domingo", listaCitasDomingo, rvCitasDomingo);*/
     }
 
-    public void obtenerTodasCitas(String dia, List<Cita> citas, RecyclerView rvCitas) {
-        citas.clear();
+    public void obtenerTodasCitas(String dia, List<Events> events, RecyclerView rvCitas) {
+/*        citas.clear();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(MostrarTodos.this, "dbSistema", null, 1);
         SQLiteDatabase db = admin.getWritableDatabase();
@@ -76,7 +72,7 @@ public class MostrarTodos extends AppCompatActivity {
             do {
                 citas.add(
                         new Cita(
-                                fila.getInt(0),
+                                fila.getString(0),
                                 fila.getString(1),
                                 fila.getString(2),
                                 fila.getString(3),
@@ -94,6 +90,6 @@ public class MostrarTodos extends AppCompatActivity {
 
         //Toast.makeText(MostrarTodos.this, ""+listaCitasLunes.size(), Toast.LENGTH_SHORT).show();
         adaptador = new AdaptadorTodasCitas(MostrarTodos.this, citas);
-        rvCitas.setAdapter(adaptador);
+        rvCitas.setAdapter(adaptador);*/
     }
 }

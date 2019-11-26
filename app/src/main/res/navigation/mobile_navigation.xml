@@ -13,28 +13,15 @@
         tools:layout="@layout/fragment_citas" />
 
     <fragment
-        android:id="@+id/nav_tareas"
-        android:name="com.xcheko51x.agendacitas.ui.tareas.TareasFragment"
-        android:label="@string/menu_tareas"
-        tools:layout="@layout/fragment_tareas" />
-
-    <fragment
         android:id="@+id/nav_acerca_de"
         android:name="com.xcheko51x.agendacitas.ui.acercade.AcercaDeFragment"
         android:label="@string/menu_acerca_de"
         tools:layout="@layout/fragment_acerca_de" />
 
     <fragment
-        android:id="@+id/nav_exportar_db"
-        android:name="com.xcheko51x.agendacitas.ui.AccionesDB.ExportarDBFragment"
-        android:label="@string/exportar_db"
-        tools:layout="@layout/fragment_exportar_db" />
-
-    <fragment
-        android:id="@+id/nav_importar_db"
-        android:name="com.xcheko51x.agendacitas.ui.AccionesDB.ImportarDBFragment"
-        android:label="@string/importar_db"
-        tools:layout="@layout/fragment_importar_db" />
-
+        android:id="@+id/nav_cerrar_sesion"
+        android:name="com.xcheko51x.agendacitas.SignOutFragment"
+        android:label="CERRAR SESION"
+        tools:layout="@layout/fragment_sign_out"/>
 
 </navigation>
