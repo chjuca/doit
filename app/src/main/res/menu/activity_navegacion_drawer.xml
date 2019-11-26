@@ -2,21 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <!-- Items del nav -->
+
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_citas"
             android:icon="@drawable/icon_calendario"
             android:title="@string/menu_citas" />
+
+        <item
+            android:id="@+id/nav_tareas"
+            android:icon="@drawable/icon_tarea"
+            android:title="@string/menu_tareas" />
+
         <item
             android:id="@+id/nav_acerca_de"
             android:icon="@drawable/icon_nosotros"
             android:title="@string/menu_acerca_de" />
+
         <item
-            android:id="@+id/nav_cerrar_sesion"
-            android:icon="@mipmap/ic_close"
-            android:title="@string/cerrar_sesion"
-            android:textStyle="bold"  />
+            android:id="@+id/nav_exportar_db"
+            android:icon="@drawable/icon_exportar_db"
+            android:title="EXPORTAR AGENDA" />
+
+        <item
+            android:id="@+id/nav_importar_db"
+            android:icon="@drawable/icon_importar_db"
+            android:title="IMPORTAR AGENDA" />
+
     </group>
 
 </menu>

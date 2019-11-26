@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.xcheko51x.agendacitas.Models.Cliente;
+import com.xcheko51x.agendacitas.Modelos.Cliente;
 import com.xcheko51x.agendacitas.R;
 import com.xcheko51x.agendacitas.TareasCliente;
 
