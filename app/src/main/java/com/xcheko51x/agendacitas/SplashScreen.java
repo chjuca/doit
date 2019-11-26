@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.xcheko51x.agendacitas.ui.notification.NotificationActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -34,8 +33,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent intent = new Intent(SplashScreen.this, Navegacion.class);
                 startActivity(intent);
                 finish();
             }

@@ -5,33 +5,17 @@
     <string name="title_activity_navegacion">Navegacion</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- Nombres header nav -->
     <string name="nav_header_title">SISTEMA DE AGENDA</string>
-    <string name="nav_email">EMAIL</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Nombres de cada ventana -->
-    <string name="menu_citas">EVENTOS</string>
+    <string name="menu_citas">CITAS</string>
     <string name="menu_tareas">TAREAS</string>
     <string name="menu_acerca_de">ACERCA DE</string>
     <string name="exportar_db">EXPORTAR AGENDA</string>
     <string name="importar_db">IMPORTAR AGENDA</string>
-    <string name="cerrar_sesion">CERRAR SESION</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-
-
-    <string name="about">DoneIt! es una aplicación para dispositivos móviles, donde el usuario puede crear recordatorios donde introduce: la hora, la fecha, el asunto, y una breve descripción de la tarea.  Además, la app permite visualizar una notificación, tiempo antes de que se cumpla el límite establecido para recordar al usuario de una tarea o evento.</string>
-    <string name="acerca_de">Acerca de</string>
 
 </resources>

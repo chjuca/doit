@@ -1,15 +1,16 @@
 package com.xcheko51x.agendacitas.Adaptadores;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -21,72 +22,58 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.xcheko51x.agendacitas.Models.EvDate;
-import com.xcheko51x.agendacitas.Models.Events;
+import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
+import com.xcheko51x.agendacitas.Modelos.Cita;
 import com.xcheko51x.agendacitas.R;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
 public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasViewHolder> {
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    private int dia, mes, anio;
-
     Context context;
+    List<Cita> citas;
 
-    List<Events> events;
+    String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+    String[] colores = {"GRIS", "VERDE", "NARANJA", "NEGRO", "PURPURA"};
 
-    Events eventsSelecionado;
-
-    String[] priority = {"ALTA", "MEDIA", "BAJA"};
-
-    public AdaptadorCitas(Context context, List<Events> listaEvents) {
-
+    public AdaptadorCitas(Context context, List<Cita> listaCitas) {
         this.context = context;
-        this.events = listaEvents;
+        this.citas = listaCitas;
 
-        if(events.size() == 0) {
-            Toast.makeText(context, "NO HAY EVENTOS ESTE DIA", Toast.LENGTH_SHORT).show();
+        if(citas.size() == 0) {
+            Toast.makeText(context, "NO HAY CITAS ESTE DIA", Toast.LENGTH_SHORT).show();
         }
     }
 
     @NonNull
     @Override
     public CitasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        inicializarFirebase();
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_citas, null, false);
         return new AdaptadorCitas.CitasViewHolder(vista);
-    }
-
-    private void inicializarFirebase() {
-
-        FirebaseApp.initializeApp(context);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
     }
 
     @Override
     public void onBindViewHolder(@NonNull CitasViewHolder holder, final int position) {
 
-        holder.evDate.setText(events.get(position).getEvDate().getDay()+"/"+events.get(position).getEvDate().getMonth()+"/"+events.get(position).getEvDate().getYear());
-        holder.evName.setText(events.get(position).getEvName());
+        holder.tvIdCita.setText(""+citas.get(position).getIdCita());
+        holder.tvNombre.setText(citas.get(position).getNomCliente());
+        holder.tvTelefono.setText(citas.get(position).getTelCliente());
 
-        holder.evDescripcion.setText(events.get(position).getEvDescription());
-        holder.evHour.setText(events.get(position).getEvDate().getHours()+":"+events.get(position).getEvDate().getMinutes());
+        holder.tvMotivo.setText(citas.get(position).getMotivo());
+        holder.tvHora.setText(citas.get(position).getHoraCita());
+        holder.tvDia.setText(citas.get(position).getDiaCita());
 
-        if(events.get(position).getEvPriority()==1){
-            holder.clEvento.setBackgroundResource(R.color.high);
-        }else if(events.get(position).getEvPriority()==2){
-            holder.clEvento.setBackgroundResource(R.color.half);
-            }else{
-                holder.clEvento.setBackgroundResource(R.color.low);
+        if(citas.get(position).getColor().equals("GRIS")) {
+            holder.clCita.setBackgroundResource(R.color.gris);
+        } else if(citas.get(position).getColor().equals("VERDE")) {
+            holder.clCita.setBackgroundResource(R.color.verde);
+        } else if(citas.get(position).getColor().equals("NARANJA")) {
+            holder.clCita.setBackgroundResource(R.color.naranja);
+        } else if(citas.get(position).getColor().equals("NEGRO")) {
+            holder.clCita.setBackgroundResource(R.color.negro);
+        } else if(citas.get(position).getColor().equals("PURPURA")) {
+            holder.clCita.setBackgroundResource(R.color.purpura);
         }
 
         holder.ibtnModificar.setOnClickListener(new View.OnClickListener() {
@@ -99,129 +86,79 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                final EditText evName, evDescripcion;
-                final TextView evHour, evDate;
-                ImageButton ibtnHora, ibtnDate;
-                final Spinner spiPriority;
+                final EditText etNombre, etTelefono, etMotivo;
+                final TextView tvHora;
+                ImageButton ibtnHora;
+                final Spinner spiDias, spiColores;
 
-                evName = vista.findViewById(R.id.evName);
-                evDescripcion = vista.findViewById(R.id.evDescription);
-                evDate = vista.findViewById(R.id.evDate);
-                evHour = vista.findViewById(R.id.evHour);
+                etNombre = vista.findViewById(R.id.etNombre);
+                etTelefono = vista.findViewById(R.id.etTelefono);
+                etMotivo = vista.findViewById(R.id.etMotivo);
+                tvHora = vista.findViewById(R.id.tvHora);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                ibtnDate = vista.findViewById(R.id.ibtnDate);
-                ibtnDate.setOnClickListener(new View.OnClickListener(){
+                spiDias = vista.findViewById(R.id.spiDias);
+                spiColores = vista.findViewById(R.id.spiColores);
 
-                    @Override
-                    public void onClick(View v) {
-                        final Calendar calendar = Calendar.getInstance();
-                        dia = calendar.get(Calendar.DAY_OF_MONTH);
-                        mes = calendar.get(Calendar.MONTH);
-                        anio = calendar.get(Calendar.YEAR);
+                spiDias.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, dias));
+                spiColores.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, colores));
 
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                evDate.setText(dayOfMonth + "/" + (month+1) + "/" + year );
-                            }
-                        },dia, mes, anio);
-                        datePickerDialog.show();
-                    }
-                });
-
-
-
-                spiPriority = vista.findViewById(R.id.spiColors);
-
-                spiPriority.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, priority));
-
-                evName.setText(events.get(position).getEvName());
-                evDescripcion.setText(events.get(position).getEvDescription());
-                evHour.setText(events.get(position).getEvDate().getHours()+":"+events.get(position).getEvDate().getMinutes());
-                evDate.setText(events.get(position).getEvDate().getDay()+"/"+events.get(position).getEvDate().getMonth()+"/"+events.get(position).getEvDate().getYear());
+                etNombre.setText(citas.get(position).getNomCliente());
+                etTelefono.setText(citas.get(position).getTelCliente());
+                etMotivo.setText(citas.get(position).getMotivo());
+                tvHora.setText(citas.get(position).getHoraCita());
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        obtenerHora(evHour);
+                        obtenerHora(tvHora);
                     }
                 });
 
                 builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if( evName.getText().equals("") || evDescripcion.getText().equals("") || evHour.getText().toString().equals("")) {
+                        if( etNombre.getText().equals("") || etTelefono.getText().equals("") || etMotivo.getText().equals("") || tvHora.getText().toString().equals("") || spiDias.getSelectedItem().toString().equals("SELECCIONA UN DIA")) {
                             Toast.makeText(context, "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
 
-/*                          AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
                             SQLiteDatabase db = admin.getWritableDatabase();
 
-                            Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), evHour.getText().toString()});
+                            Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), tvHora.getText().toString()});
 
                             if(fila != null && fila.getCount() != 0) {
                                 Toast.makeText(context, "No se puede agendar en esa hora.", Toast.LENGTH_LONG).show();
                             } else {
                                 ContentValues registro = new ContentValues();
 
-                                registro.put("nomCliente", evName.getText().toString());
+                                registro.put("nomCliente", etNombre.getText().toString());
                                 registro.put("telCliente", etTelefono.getText().toString());
-                                registro.put("motivo", evDescripcion.getText().toString());
-                                registro.put("hora", evHour.getText().toString());
+                                registro.put("motivo", etMotivo.getText().toString());
+                                registro.put("hora", tvHora.getText().toString());
                                 registro.put("dia", spiDias.getSelectedItem().toString());
-                                registro.put("color", spiPriority.getSelectedItem().toString());
+                                registro.put("color", spiColores.getSelectedItem().toString());
 
                                 // los inserto en la base de datos
-                                //db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
+                                db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
 
-*//*                                citas.get(position).setNomCliente(etNombre.getText().toString());
+                                citas.get(position).setNomCliente(etNombre.getText().toString());
                                 citas.get(position).setTelCliente(etTelefono.getText().toString());
                                 citas.get(position).setMotivo(etMotivo.getText().toString());
-                                citas.get(position).setHoraCita(evHour.getText().toString());
+                                citas.get(position).setHoraCita(tvHora.getText().toString());
                                 citas.get(position).setDiaCita(spiDias.getSelectedItem().toString());
-                                citas.get(position).setColor(spiColores.getSelectedItem().toString());*//*
+                                citas.get(position).setColor(spiColores.getSelectedItem().toString());
 
                                 notifyDataSetChanged();
-                            }*/
+                            }
 
-                            // db.close();
+                            db.close();
 
-                            Events events = new Events();
-                            EvDate evdate = new EvDate();
-                            String[] dateParts = evDate.getText().toString().split("/");
-                            String[] hourParts = evHour.getText().toString().split(":");
-
-                            DecimalFormat format = new DecimalFormat("00");
-
-                            evdate.setDay(format.format(Integer.parseInt(dateParts[0])));
-                            evdate.setMonth(format.format(Integer.parseInt(dateParts[1])));
-                            evdate.setYear(Integer.parseInt(dateParts[2]));
-                            evdate.setHours(format.format(Integer.parseInt(hourParts[0])));
-                            evdate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
-                            int priority;
-                            if(spiPriority.getSelectedItem().toString() == "ALTA"){
-                                priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
-                                priority = 2 ; }else{
-                                priority = 3; }
-
-                            events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
-                            events.setEvName(evName.getText().toString().trim());
-                            events.setEvDescription(evDescripcion.getText().toString());            //*** MODIFICAR ALGUN EVENTO  ****
-                            events.setEvDate(evdate);
-                            events.setEvPriority(priority);
-                            events.setEvCreateUser(AdaptadorCitas.this.events.get(position).getEvCreateUser());
-                            events.setPublic(false);                            //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
-                            events.setEvGroups(null);
-                            events.setState(1);
-
-                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);
-
-
-                            Toast.makeText(context, "Evento Modificado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Cita Modificada", Toast.LENGTH_SHORT).show();
 
 
 
                         }
+
                     }
                 });
 
@@ -246,30 +183,26 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 AlertDialog.Builder alerta = new AlertDialog.Builder(context);
 
                 alerta.setTitle("ELIMINAR");
-                alerta.setMessage("¿Estas seguro que deseas eliminar el Evento?");
+                alerta.setMessage("¿Estas seguro que deseas eliminar la cita?");
                 alerta.setCancelable(false);
 
                 alerta.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
- /*                       AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
+                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
                         SQLiteDatabase db = admin.getWritableDatabase();
 
-                        int cant = db.delete("citas", "idCita=?", new String[] {""+events.get(position).getIdEvent()});
+                        int cant = db.delete("citas", "idCita=?", new String[] {""+citas.get(position).getIdCita()});
                         db.close();
 
                         if(cant == 1) {
                             Toast.makeText(context, "Cita eliminada", Toast.LENGTH_LONG).show();
-                            events.remove(position);
+                            citas.remove(position);
                             notifyDataSetChanged();
                         } else {
                             Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
-                        }*/
-                        Events events = new Events();
-                        events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
-                        databaseReference.child("Events").child(events.getIdEvent()).removeValue();
-
+                        }
                     }
                 });
 
@@ -312,23 +245,25 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return citas.size();
     }
 
     public class CitasViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout clEvento;
-        TextView evDate, evName, evDescripcion, evHour;         //cambio para realizar el commit nuevamenterrar;
+        ConstraintLayout clCita;
+        TextView tvIdCita, tvNombre, tvTelefono, tvMotivo, tvHora, tvDia;
         ImageButton ibtnModificar, ibtnBorrar;
 
         public CitasViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clEvento = itemView.findViewById(R.id.clEvento);
-            evDate = itemView.findViewById(R.id.evDate);
-            evName = itemView.findViewById(R.id.evNombre);
-            evDescripcion = itemView.findViewById(R.id.evDescripcion);
-            evHour = itemView.findViewById(R.id.evHour);
+            clCita = itemView.findViewById(R.id.clCita);
+            tvIdCita = itemView.findViewById(R.id.tvIdCita);
+            tvNombre = itemView.findViewById(R.id.tvNombre);
+            tvTelefono = itemView.findViewById(R.id.tvTelefono);
+            tvMotivo = itemView.findViewById(R.id.tvMotivo);
+            tvHora = itemView.findViewById(R.id.tvHora);
+            tvDia = itemView.findViewById(R.id.tvDia);
             ibtnModificar = itemView.findViewById(R.id.ibtnModificar);
             ibtnBorrar = itemView.findViewById(R.id.ibtnBorrar);
 

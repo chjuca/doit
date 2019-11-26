@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorTareas;
-import com.xcheko51x.agendacitas.Models.Tarea;
+import com.xcheko51x.agendacitas.Modelos.Tarea;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,6 @@ public class TareasCliente extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tareas_cliente);
         nomCliente = getIntent().getExtras().getString("nomCliente");

@@ -20,10 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
-import com.xcheko51x.agendacitas.Models.Tarea;
+import com.xcheko51x.agendacitas.Modelos.Tarea;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.List;
@@ -32,16 +30,12 @@ public class AdaptadorTareas extends RecyclerView.Adapter<AdaptadorTareas.Tareas
 
     Context context;
     List<Tarea> listaTareas;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
 
     String[] estados = {"PENDIENTE", "ENVIADO", "ENTREGADO"};
 
     public AdaptadorTareas(Context context, List<Tarea> listaTareas) {
         this.context = context;
         this.listaTareas = listaTareas;
-
-
     }
 
     @NonNull
@@ -70,7 +64,7 @@ public class AdaptadorTareas extends RecyclerView.Adapter<AdaptadorTareas.Tareas
                 final Spinner spiEstado = vista.findViewById(R.id.spiEstado);
                 final ImageButton ibtnLimpiarTexto = vista.findViewById(R.id.ibtnLimpiarTexto);
 
-                tvAccion.setText("EDITAR TAREA");
+                tvAccion.setText("EDITAR TARERA");
 
                 spiEstado.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, estados));
 

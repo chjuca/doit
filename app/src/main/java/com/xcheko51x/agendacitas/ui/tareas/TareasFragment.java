@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xcheko51x.agendacitas.Adaptadores.AdaptadorClientes;
 import com.xcheko51x.agendacitas.AdminSQLiteOpenHelper;
-import com.xcheko51x.agendacitas.Models.Cliente;
+import com.xcheko51x.agendacitas.Modelos.Cliente;
 import com.xcheko51x.agendacitas.R;
 
 import java.util.ArrayList;
