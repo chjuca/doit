@@ -68,13 +68,12 @@ public class Navegacion extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_citas, R.id.nav_tareas, R.id.nav_acerca_de, R.id.nav_exportar_db, R.id.nav_importar_db)
+                R.id.nav_citas, R.id.nav_acerca_de, R.id.nav_cerrar_sesion)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-/////////////////////////////////////////
 
 
     }
