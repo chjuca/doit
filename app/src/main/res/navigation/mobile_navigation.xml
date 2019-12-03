@@ -8,19 +8,19 @@
 
     <fragment
         android:id="@+id/nav_citas"
-        android:name="com.xcheko51x.agendacitas.ui.citas.CitasFragment"
+        android:name="com.doitutpl.doit.ui.citas.CitasFragment"
         android:label="@string/menu_citas"
         tools:layout="@layout/fragment_citas" />
 
     <fragment
         android:id="@+id/nav_acerca_de"
-        android:name="com.xcheko51x.agendacitas.ui.acercade.AcercaDeFragment"
+        android:name="com.doitutpl.doit.ui.acercade.AcercaDeFragment"
         android:label="@string/menu_acerca_de"
         tools:layout="@layout/fragment_acerca_de" />
 
     <fragment
         android:id="@+id/nav_cerrar_sesion"
-        android:name="com.xcheko51x.agendacitas.SignOutFragment"
+        android:name="com.doitutpl.doit.SignOutFragment"
         android:label="CERRAR SESION"
         tools:layout="@layout/fragment_sign_out"/>
 

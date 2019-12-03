@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.xcheko51x.agendacitas"
+        applicationId 'com.doitutpl.doit'
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 
 
-    // Para imagenes y Gif's
+    // Para imagenes y Gifs
     implementation 'com.github.bumptech.glide:glide:4.10.0'
 
     // Firebase
