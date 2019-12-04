@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doitutpl.doit.Adaptadores.AdaptadorClientes;
-import com.doitutpl.doit.AdminSQLiteOpenHelper;
 import com.doitutpl.doit.Models.Cliente;
 import com.doitutpl.doit.R;
 

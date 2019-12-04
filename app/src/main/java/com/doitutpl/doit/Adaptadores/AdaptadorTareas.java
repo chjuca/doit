@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.doitutpl.doit.AdminSQLiteOpenHelper;
 import com.doitutpl.doit.Models.Tarea;
 import com.doitutpl.doit.R;
 
