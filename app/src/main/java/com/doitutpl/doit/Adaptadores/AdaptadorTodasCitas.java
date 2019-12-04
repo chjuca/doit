@@ -71,7 +71,7 @@ public class AdaptadorTodasCitas extends RecyclerView.Adapter<AdaptadorTodasCita
             super(itemView);
 
             clCita = itemView.findViewById(R.id.clEvento);
-            tvIdCita = itemView.findViewById(R.id.evDate);
+            tvIdCita = itemView.findViewById(R.id.groupKey);
             tvHora = itemView.findViewById(R.id.evHour);
             tvNombre = itemView.findViewById(R.id.evNombre);
             tvTelefono = itemView.findViewById(R.id.tvTelefono);
