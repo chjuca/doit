@@ -104,12 +104,12 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 ImageButton ibtnHora, ibtnDate;
                 final Spinner spiPriority;
 
-                evName = vista.findViewById(R.id.evName);
-                evDescripcion = vista.findViewById(R.id.evDescription);
-                evDate = vista.findViewById(R.id.evDate);
+                evName = vista.findViewById(R.id.groupName);
+                evDescripcion = vista.findViewById(R.id.groupPass);
+                evDate = vista.findViewById(R.id.groupKey);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                ibtnDate = vista.findViewById(R.id.ibtnDate);
+                ibtnDate = vista.findViewById(R.id.btnCopy);
                 ibtnDate.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -325,7 +325,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
             super(itemView);
 
             clEvento = itemView.findViewById(R.id.clEvento);
-            evDate = itemView.findViewById(R.id.evDate);
+            evDate = itemView.findViewById(R.id.groupKey);
             evName = itemView.findViewById(R.id.evNombre);
             evDescripcion = itemView.findViewById(R.id.evDescripcion);
             evHour = itemView.findViewById(R.id.evHour);
