@@ -6,15 +6,16 @@ public class Groups {
     private Member[] members;
     private String chat;
     private String password;
+    private String groupAdminEmail;
 
     public Groups() {
     }
 
-    public Groups(String keyGroup, Member[] members, String chat, String password) {
+    public Groups(String keyGroup, String chat, String password, String groupAdminEmail) {
         this.keyGroup = keyGroup;
-        this.members = members;
         this.chat = chat;
         this.password = password;
+        this.groupAdminEmail = groupAdminEmail;
     }
 
     public String getKeyGroup() {
@@ -47,5 +48,13 @@ public class Groups {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGroupAdminEmail() {
+        return groupAdminEmail;
+    }
+
+    public void setGroupAdminEmail(String groupAdminEmail) {
+        this.groupAdminEmail = groupAdminEmail;
     }
 }

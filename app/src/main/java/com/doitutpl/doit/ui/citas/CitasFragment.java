@@ -91,7 +91,7 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                evName = vista.findViewById(R.id.groupName);
+                evName = vista.findViewById(R.id.groupKey);
                 evDescription = vista.findViewById(R.id.groupPass);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
