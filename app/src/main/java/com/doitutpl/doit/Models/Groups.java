@@ -1,9 +1,11 @@
 package com.doitutpl.doit.Models;
 
+import java.util.ArrayList;
+
 public class Groups {
 
     private String  keyGroup;
-    private Member[] members;
+    private ArrayList <Member> members = new ArrayList<>();
     private String chat;
     private String password;
     private String groupAdminEmail;
@@ -26,20 +28,20 @@ public class Groups {
         this.keyGroup = keyGroup;
     }
 
-    public Member[] getMembers() {
-        return members;
-    }
-
-    public void setMembers(Member[] members) {
-        this.members = members;
-    }
-
     public String getChat() {
         return chat;
     }
 
     public void setChat(String chat) {
         this.chat = chat;
+    }
+
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<Member> members) {
+        this.members = members;
     }
 
     public String getPassword() {
@@ -57,4 +59,5 @@ public class Groups {
     public void setGroupAdminEmail(String groupAdminEmail) {
         this.groupAdminEmail = groupAdminEmail;
     }
+
 }

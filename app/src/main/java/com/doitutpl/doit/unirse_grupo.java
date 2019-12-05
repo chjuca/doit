@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Groups;
+import com.doitutpl.doit.Models.Member;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,13 +24,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class unirse_grupo extends AppCompatActivity {
 
     ArrayList<Groups> listGroup = new ArrayList<>();
+    Groups objGroup = new Groups();
     Button btnJoin;
     EditText groupKey, groupPass;
     Context context = this;
+    Member objMember = new Member();
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -57,11 +62,25 @@ public class unirse_grupo extends AppCompatActivity {
                             Groups objGroup = objSnapshot.getValue(Groups.class);                              // GET DE GRUPOS
                             listGroup.add(objGroup);
                         }
+                        objGroup = listGroup.get(0);
 
-                        if (listGroup.size() == 0){
-                            System.out.println("ENTRO");
+                        if (objGroup == null){
+                            Toast.makeText(context, "El grupo buscado no existe", Toast.LENGTH_LONG).show();
                         }else{
-                            System.out.println("correcto");
+                            if (objGroup.getPassword().equals(groupPass.getText().toString())){
+
+                                //===================
+                                // QUEMANDO DATOS
+                                //==================
+                                objMember.setEmail("chjuca");// AQUI
+                                objMember.setKeyMember("adsaws");
+                                objGroup.getMembers().add(objMember);
+                                databaseReference.child("Groups").child(objGroup.getKeyGroup()).setValue(objGroup);
+                                Toast.makeText(context, "Bienvenido", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     }
 
