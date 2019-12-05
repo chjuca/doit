@@ -62,26 +62,6 @@ public class unirse_grupo extends AppCompatActivity {
                             Groups objGroup = objSnapshot.getValue(Groups.class);                              // GET DE GRUPOS
                             listGroup.add(objGroup);
                         }
-                        objGroup = listGroup.get(0);
-
-                        if (objGroup == null){
-                            Toast.makeText(context, "El grupo buscado no existe", Toast.LENGTH_LONG).show();
-                        }else{
-                            if (objGroup.getPassword().equals(groupPass.getText().toString())){
-
-                                //===================
-                                // QUEMANDO DATOS
-                                //==================
-                                objMember.setEmail("chjuca");// AQUI
-                                objMember.setKeyMember("adsaws");
-                                objGroup.getMembers().add(objMember);
-                                databaseReference.child("Groups").child(objGroup.getKeyGroup()).setValue(objGroup);
-                                Toast.makeText(context, "Bienvenido", Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
-                            }
-
-                        }
                     }
 
                             @Override
@@ -89,7 +69,25 @@ public class unirse_grupo extends AppCompatActivity {
 
                     }
                 });
+                if (listGroup.size() == 0){
+                    Toast.makeText(context, "El grupo buscado no existe", Toast.LENGTH_LONG).show();
+                }else{
+                    objGroup = listGroup.get(0);
+                    if (objGroup.getPassword().equals(groupPass.getText().toString())){
 
+                        //===================
+                        // QUEMANDO DATOS
+                        //==================
+                        objMember.setEmail("chjuca");// AQUI
+                        objMember.setKeyMember("adsaws");
+                        objGroup.getMembers().add(objMember);
+                        databaseReference.child("Groups").child(objGroup.getKeyGroup()).setValue(objGroup);
+                        Toast.makeText(context, "Bienvenido", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                    }
+
+                }
 
             }
         });
