@@ -8,15 +8,12 @@ import androidx.annotation.NonNull;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class GroupsController {
@@ -26,7 +23,7 @@ public class GroupsController {
     public boolean validateData(Group group) {
         /*Aqui se debe validar que los datos esten correctos*/
         boolean isValidData = true;
-        if (group.keyGroup == null || group.chat == null || group.password == null || group.groupAdminEmail == null) {
+        if (group.keyGroup == null || group.keyChat == null || group.password == null || group.groupAdminEmail == null) {
             isValidData = false;
             Log.println(Log.ERROR, "Invalid Data", "No valid data for save Object Group into firebase");
         }
@@ -35,7 +32,9 @@ public class GroupsController {
 
 
     // Metodo para guardar un grupo en la base de datos
-    public void save(Group group, Context context) {
+    static int saveExitCode;
+    public int save(Context context, Group group) {
+        GroupsController.saveExitCode = -1; // * Exit Code -1, No iniciado
         /* Metodo para guardar el grupo en la base de datos */
 
         // Validamos la informacion
@@ -47,8 +46,12 @@ public class GroupsController {
             // Lo guardamos en la base de datos
             databaseReference.child(StaticData.GROUPS_NODE_TITLE).child(group.getKeyGroup()).setValue(group);
 
+            GroupsController.saveExitCode = 0; // * Exit Code 0; Correcto
+        }else {
+            GroupsController.saveExitCode = 1; // * Exit Code 1; Data inválida
         }
 
+        return GroupsController.saveExitCode;
     }
 
 
@@ -135,6 +138,9 @@ public class GroupsController {
         }
         return belongs;
     }
+
+
+
 
 
 }

@@ -1,16 +1,10 @@
 package com.doitutpl.doit.Models;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.doitutpl.doit.Controllers.GroupsController;
-import com.doitutpl.doit.StaticData;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
 import java.util.Map;
 
 public class Group {
@@ -19,7 +13,7 @@ public class Group {
     // Atributos propios
     public String  keyGroup;
     public Map<String,Member> members;
-    public String chat;
+    public String keyChat;
     public String password;
     public String groupAdminEmail;
 
@@ -32,9 +26,9 @@ public class Group {
 
 
     // Constructor para usarse desde la UI
-    public Group(String keyGroup, String chat, String password, FirebaseUser groupAdmin) {
+    public Group(String keyGroup, String keyChat, String password, FirebaseUser groupAdmin) {
         this.keyGroup = keyGroup;
-        this.chat = chat;
+        this.keyChat = keyChat;
         this.password = password;
         this.groupAdminEmail = groupAdmin.getEmail();
     }
@@ -49,8 +43,8 @@ public class Group {
     }
 
 
-    public String getChat() {
-        return chat;
+    public String getKeyChat() {
+        return keyChat;
     }
 
     public Map<String, Member> getMembers() {
@@ -61,8 +55,8 @@ public class Group {
         this.members = members;
     }
 
-    public void setChat(String chat) {
-        this.chat = chat;
+    public void setKeyChat(String keyChat) {
+        this.keyChat = keyChat;
     }
 
     public String getPassword() {
@@ -84,7 +78,7 @@ public class Group {
     // Metodo para guardarse en la base de datos
     public void save(Context context){
         GroupsController groupsController = new GroupsController();
-        groupsController.save(this, context);
+        groupsController.save(context, this);
     }
 
 

@@ -43,6 +43,8 @@ public class AddGroup extends AppCompatActivity {
         btnGenerateKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtenemos los datos desde la UI
+
 
 
             }
