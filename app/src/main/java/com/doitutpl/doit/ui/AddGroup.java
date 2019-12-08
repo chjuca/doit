@@ -1,4 +1,4 @@
-package com.doitutpl.doit;
+package com.doitutpl.doit.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,13 +13,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doitutpl.doit.R;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class agregar_grupo extends AppCompatActivity {
+public class AddGroup extends AppCompatActivity {
 
     ImageButton btnCopy;
     Button btnGenerateKey;

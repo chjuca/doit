@@ -8,14 +8,14 @@ public class MembersController {
 
 
     // Metodo para obtener un objeto del tipo miembro a partir de un objeto dedl tipo usuario
-    public Member parseMember(User user){
+    public static Member parseMember(User user){
         Member member = new Member();
 
         member.setEmail(user.getEmail());
 
         return member;
     }
-    public Member parseMember(FirebaseUser user){
+    public static Member parseMember(FirebaseUser user){
         Member member = new Member();
 
         member.setEmail(user.getEmail());

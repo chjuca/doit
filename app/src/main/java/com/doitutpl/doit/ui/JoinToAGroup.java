@@ -1,4 +1,4 @@
-package com.doitutpl.doit;
+package com.doitutpl.doit.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.doitutpl.doit.Controllers.GroupsController;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
+import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class unirse_grupo extends AppCompatActivity {
+public class JoinToAGroup extends AppCompatActivity {
 
     //ArrayList<Group> listGroup = new ArrayList<>();
     //Group objGroup = new Group();

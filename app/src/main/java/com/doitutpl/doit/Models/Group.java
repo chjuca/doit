@@ -48,16 +48,17 @@ public class Group {
         this.keyGroup = keyGroup;
     }
 
+
+    public String getChat() {
+        return chat;
+    }
+
     public Map<String, Member> getMembers() {
         return members;
     }
 
     public void setMembers(Map<String, Member> members) {
         this.members = members;
-    }
-
-    public String getChat() {
-        return chat;
     }
 
     public void setChat(String chat) {

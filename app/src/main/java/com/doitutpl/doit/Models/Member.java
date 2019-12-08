@@ -3,12 +3,11 @@ package com.doitutpl.doit.Models;
 public class Member {
     public String email;
 
-    public Member(String keyMember, String email) {
+    public Member(String email) {
         this.email = email;
     }
 
     public Member() {
-
 
     }
 
