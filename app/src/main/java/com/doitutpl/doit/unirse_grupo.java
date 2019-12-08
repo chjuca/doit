@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.doitutpl.doit.Models.Events;
-import com.doitutpl.doit.Models.Groups;
+import com.doitutpl.doit.Controllers.GroupsController;
+import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,14 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class unirse_grupo extends AppCompatActivity {
 
-    ArrayList<Groups> listGroup = new ArrayList<>();
-    Groups objGroup = new Groups();
+    //ArrayList<Group> listGroup = new ArrayList<>();
+    //Group objGroup = new Group();
     Button btnJoin;
     EditText groupKey, groupPass;
     Context context = this;
@@ -48,54 +46,25 @@ public class unirse_grupo extends AppCompatActivity {
         groupKey = findViewById(R.id.groupKey);
         groupPass = findViewById(R.id.groupPass);
 
-        inicializarFirebase();
+
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                databaseReference.child("Groups").orderByChild("keyGroup").equalTo(groupKey.getText().toString()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        listGroup.clear();
-                        for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                            Groups objGroup = objSnapshot.getValue(Groups.class);                              // GET DE GRUPOS
-                            listGroup.add(objGroup);
-                        }
-                    }
+                // Obtenemoss los datos de la UI
+                String targetGroupKey = groupKey.getText().toString();
+                String targetPassword = groupPass.getText().toString();
 
-                            @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
-                if (listGroup.size() == 0){
-                    Toast.makeText(context, "El grupo buscado no existe", Toast.LENGTH_LONG).show();
-                }else{
-                    objGroup = listGroup.get(0);
-                    if (objGroup.getPassword().equals(groupPass.getText().toString())){
 
-                        //===================
-                        // QUEMANDO DATOS
-                        //==================
-                        objMember.setEmail("chjuca");// AQUI
-                        objMember.setKeyMember("adsaws");
-                        objGroup.getMembers().add(objMember);
-                        databaseReference.child("Groups").child(objGroup.getKeyGroup()).setValue(objGroup);
-                        Toast.makeText(context, "Bienvenido", Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
-                    }
-
-                }
+                GroupsController groupsController = new GroupsController();
+                System.out.println("Llammamos a addMember de group controller");
+                groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
 
             }
         });
 
     }
-    private void inicializarFirebase() {
-        FirebaseApp.initializeApp(context);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-    }
+
 }

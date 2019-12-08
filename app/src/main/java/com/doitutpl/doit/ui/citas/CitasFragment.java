@@ -132,7 +132,9 @@ public class CitasFragment extends Fragment {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-/*                          Cita cita = new Cita();
+/*                          Cita cita = new Cita(); FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseUser user = FirebaseAuth.getI
                             cita.setIdCita(UUID.randomUUID().toString());
                             cita.setNomCliente(evName.getText().toString());
                             System.out.println(evName.getText().toString());

@@ -9,13 +9,13 @@ public class Events {
     private int evPriority;
     private String evCreateUser;
     private  boolean isPublic;
-    private Groups evGroups;
+    private Group evGroups;
     private int state; // 0: cancelado    1: pendiente     2: pasado
 
     public Events() {
     }
 
-    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreateUser, boolean isPublic, Groups evGroups, int state) {
+    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreateUser, boolean isPublic, Group evGroups, int state) {
         this.idEvent = idEvent;
         this.evName = evName;
         this.evDescription = evDescription;
@@ -83,11 +83,11 @@ public class Events {
         isPublic = aPublic;
     }
 
-    public Groups getEvGroups() {
+    public Group getEvGroups() {
         return evGroups;
     }
 
-    public void setEvGroups(Groups evGroups) {
+    public void setEvGroups(Group evGroups) {
         this.evGroups = evGroups;
     }
 

@@ -27,9 +27,6 @@
             android:name=".MostrarTodos"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".TareasCliente"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Navegacion"
             android:label="@string/title_activity_navegacion"
             android:screenOrientation="portrait"
