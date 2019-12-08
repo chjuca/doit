@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doitutpl.doit.MostrarTodos;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -161,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, CreateGroup.class);
+        Intent intent = new Intent(LoginActivity.this, MostrarTodos.class);
         startActivity(intent);
         finish();
     }
