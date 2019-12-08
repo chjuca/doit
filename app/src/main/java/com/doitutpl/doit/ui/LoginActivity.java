@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, AddGroup.class);
+        Intent intent = new Intent(LoginActivity.this, CreateGroup.class);
         startActivity(intent);
         finish();
     }
