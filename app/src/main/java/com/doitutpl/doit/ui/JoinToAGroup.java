@@ -59,14 +59,44 @@ public class JoinToAGroup extends AppCompatActivity {
                 String targetPassword = groupPass.getText().toString();
 
 
-
                 GroupsController groupsController = new GroupsController();
-                System.out.println("Llammamos a addMember de group controller");
-                groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
+                int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
+                handleAddMemberExitCode(resultCode);
 
             }
         });
 
     }
+
+    // Metodo que maneja el codigo de salida del proceso addMember de la clase GroupsController
+    private void handleAddMemberExitCode(int code) {
+        if(code==0){
+            // ToDo: Todo correcto, miembro añadido
+            // ...
+
+        }else if(code==1){
+            // ToDo: Error. El usuario ya pertenece al grupo
+            // ...
+
+        }else if(code==2){
+            // ToDo: Error. Contraseña incorrecta
+            // ...
+
+        }else if(code==3){
+            // ToDo: Error. No existe ningún grupo con esa llave
+            // ...
+
+        }else if(code==4){
+            // ToDo: Error. Proceso cancelado
+            // ...
+
+        }else{
+            // ToDo: Error inesperado
+            // ...
+
+        }
+    }
+
+
 
 }
