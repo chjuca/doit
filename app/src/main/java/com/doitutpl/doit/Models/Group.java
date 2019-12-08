@@ -10,12 +10,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+import java.util.Map;
+
 public class Group {
 
 
     // Atributos propios
     public String  keyGroup;
-    public Member[] members;
+    public Map<String,Member> members;
     public String chat;
     public String password;
     public String groupAdminEmail;
@@ -26,6 +29,17 @@ public class Group {
         /*Constructor*/
     }
 
+
+
+    // Constructor para usarse desde la UI
+    public Group(String keyGroup, String chat, String password, FirebaseUser groupAdmin) {
+        this.keyGroup = keyGroup;
+        this.chat = chat;
+        this.password = password;
+        this.groupAdminEmail = groupAdmin.getEmail();
+    }
+
+
     public String getKeyGroup() {
         return keyGroup;
     }
@@ -34,11 +48,11 @@ public class Group {
         this.keyGroup = keyGroup;
     }
 
-    public Member[] getMembers() {
+    public Map<String, Member> getMembers() {
         return members;
     }
 
-    public void setMembers(Member[] members) {
+    public void setMembers(Map<String, Member> members) {
         this.members = members;
     }
 
@@ -55,9 +69,7 @@ public class Group {
     }
 
     public void setPassword(String password) {
-        this.password = password;    // Atributos de control
-    boolean isValidData = false;
-
+        this.password = password;
     }
 
     public String getGroupAdminEmail() {
@@ -68,25 +80,12 @@ public class Group {
         this.groupAdminEmail = groupAdminEmail;
     }
 
-    // Constructor para usarse desde la UI
-    public Group(String keyGroup, String chat, String password, FirebaseUser groupAdmin) {
-        this.keyGroup = keyGroup;
-        this.chat = chat;
-        this.password = password;
-        this.groupAdminEmail = groupAdmin.getEmail();
-    }
-
     // Metodo para guardarse en la base de datos
     public void save(Context context){
         GroupsController groupsController = new GroupsController();
         groupsController.save(this, context);
     }
 
-    /* Metodo para construir este objeto a partir ded un JSON de la base de datos
-    public Group(){
-
-
-    }*/
 
 
 

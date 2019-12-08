@@ -150,7 +150,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser user){
+
         if(user != null){
+            StaticData.currentUser = user;
             goToLoggedActivity();
 
         }
@@ -158,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, NotificationActivity.class);
+        Intent intent = new Intent(LoginActivity.this, unirse_grupo.class);
         startActivity(intent);
         finish();
     }

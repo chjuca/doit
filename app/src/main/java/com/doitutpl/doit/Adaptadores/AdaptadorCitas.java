@@ -104,7 +104,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 ImageButton ibtnHora, ibtnDate;
                 final Spinner spiPriority;
 
-                evName = vista.findViewById(R.id.groupName);
+                evName = vista.findViewById(R.id.groupKey);
                 evDescripcion = vista.findViewById(R.id.groupPass);
                 evDate = vista.findViewById(R.id.groupKey);
                 evHour = vista.findViewById(R.id.evHour);

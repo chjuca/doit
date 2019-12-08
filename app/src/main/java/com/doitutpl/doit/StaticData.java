@@ -17,4 +17,5 @@ public class StaticData {
     public static final String eventsNodeTItle = "Events";
     public static final String groupsNodeTitle = "Groups";
     public static final String chatsNodeTItle = "Chats";
+    public static final String membersNodeTitle = "members";
 }

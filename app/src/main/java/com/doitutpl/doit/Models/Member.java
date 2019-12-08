@@ -1,14 +1,18 @@
 package com.doitutpl.doit.Models;
 
 public class Member {
-    private String email;
+    public String email;
 
-    public Member(String email) {
+    public Member(String keyMember, String email) {
         this.email = email;
     }
 
     public Member() {
+
+
     }
+
+
 
     public String getEmail() {
         return email;

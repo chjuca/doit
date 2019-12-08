@@ -13,7 +13,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.UUID;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class agregar_grupo extends AppCompatActivity {
 
@@ -21,8 +25,7 @@ public class agregar_grupo extends AppCompatActivity {
     Button btnGenerateKey;
     EditText groupName, groupPass;
     TextView groupKey;
-    Context context;
-
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +33,17 @@ public class agregar_grupo extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_grupo);
 
         btnCopy = findViewById(R.id.btnCopy);
-        groupName = findViewById(R.id.groupName);
+        groupName = findViewById(R.id.groupKey);
         groupPass = findViewById(R.id.groupPass);
         groupKey = findViewById(R.id.groupKey);
-        btnGenerateKey = findViewById(R.id.btnGenerateKey);
+        btnGenerateKey = findViewById(R.id.btnJoin);
+
 
         btnGenerateKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                groupKey.setText(UUID.randomUUID().toString());
-                btnGenerateKey.setEnabled(false);
+
+
             }
         });
 
@@ -49,11 +53,12 @@ public class agregar_grupo extends AppCompatActivity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("text",  groupKey.getText());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(context)
+                Toast.makeText( context, "Copiado en Portapapeles", Toast.LENGTH_SHORT).show();
             }
         });
 
 
 
     }
+
 }
