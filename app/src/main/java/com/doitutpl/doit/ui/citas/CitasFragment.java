@@ -81,35 +81,6 @@ public class CitasFragment extends Fragment {
         inicializarFirebase();
         obtenerEventos();
 
-        //spiDiasMain.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, dias));
-
- /*       spiDiasMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(MainActivity.this, ""+parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
-*//*                if(parent.getSelectedItem().equals("Lunes")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Martes")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Miercoles")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Jueves")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Viernes")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Sabado")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                } else if(parent.getSelectedItem().equals("Domingo")) {
-                    obtenerCitas(""+parent.getSelectedItem(), listaCitas);
-                }*//*
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         ibtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,12 +91,12 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                evName = vista.findViewById(R.id.evName);
-                evDescription = vista.findViewById(R.id.evDescription);
+                evName = vista.findViewById(R.id.groupKey);
+                evDescription = vista.findViewById(R.id.groupPass);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
-                ibtnDate = vista.findViewById(R.id.ibtnDate);
-                evDate = vista.findViewById(R.id.evDate);
+                ibtnDate = vista.findViewById(R.id.btnCopy);
+                evDate = vista.findViewById(R.id.groupKey);
                 ibtnDate.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -161,7 +132,9 @@ public class CitasFragment extends Fragment {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-/*                          Cita cita = new Cita();
+/*                          Cita cita = new Cita(); FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseUser user = FirebaseAuth.getI
                             cita.setIdCita(UUID.randomUUID().toString());
                             cita.setNomCliente(evName.getText().toString());
                             System.out.println(evName.getText().toString());

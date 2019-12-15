@@ -1,4 +1,4 @@
-package com.doitutpl.doit;
+package com.doitutpl.doit.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.doitutpl.doit.R;
 
 public class SplashScreen extends AppCompatActivity {
 
