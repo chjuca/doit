@@ -141,10 +141,6 @@ public class GroupsController {
         }
         return belongs;
     }
-<<<<<<< HEAD
-=======
-
-
 
     // Método para traer los grupos del usuario logeado
     public ArrayList<Group> pullUserGroups(Context context){
@@ -186,10 +182,5 @@ public class GroupsController {
         System.out.println(arrayListGroups);
         return arrayListGroups;
     }
-
-
-
-
->>>>>>> 5ac63bfc8d9e99fc9c02e0ce57315f08b62ca4bd
 }
 
