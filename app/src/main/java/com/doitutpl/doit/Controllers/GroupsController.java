@@ -194,11 +194,12 @@ public class GroupsController {
             return true;
         }
 
-        for (Map.Entry<String, Member> entry : group.members.entrySet()) { // SI esta en los miembros
-            if(entry.getValue().getEmail().equals(user.getEmail())){
+        for (Map.Entry<String, Member> entry : group.members.entrySet()) { // Si esta en los miembros
+            if(isAlreadyMember(group, entry.getValue())){
                 return true;
             }
         }
+
         return false;
 
 
