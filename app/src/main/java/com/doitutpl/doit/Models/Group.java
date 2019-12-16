@@ -3,6 +3,7 @@ package com.doitutpl.doit.Models;
 import android.content.Context;
 
 import com.doitutpl.doit.Controllers.GroupsController;
+import com.doitutpl.doit.Controllers.MembersController;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
@@ -31,6 +32,10 @@ public class Group {
         this.keyChat = keyChat;
         this.password = password;
         this.groupAdminEmail = groupAdmin.getEmail();
+
+        // ! Agregamos el usuario admin como miembro también del grupo
+        Member member = MembersController.parseMember(groupAdmin);
+        this.members.put("admin", member);
     }
 
 
@@ -77,6 +82,7 @@ public class Group {
 
     // Metodo para guardarse en la base de datos
     public void save(Context context){
+
         GroupsController groupsController = new GroupsController();
         groupsController.save(context, this);
     }
