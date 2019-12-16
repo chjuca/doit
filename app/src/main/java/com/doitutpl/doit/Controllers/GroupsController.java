@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -161,8 +162,8 @@ public class GroupsController {
                         for(DataSnapshot child : dataSnapshot.getChildren()){
                             Group group = child.getValue(Group.class);
 
-                            // Todo: Verificamos si pertenece al usuario (Falta hacer)
-                            if(true) {
+                            // Verificamos si pertenece al usuario
+                            if(belongsToAGroup(StaticData.currentUser, group)) {
                                 arrayListGroups.add(group);
 
                             }
@@ -183,6 +184,24 @@ public class GroupsController {
         }
         System.out.println(arrayListGroups);
         return arrayListGroups;
+    }
+
+
+
+    // Metodo para saber si un grupo pertenece a un usaruio
+    public boolean belongsToAGroup(FirebaseUser user, Group group){
+        if(group.groupAdminEmail.equals(user.getEmail())){ // Si es el admin
+            return true;
+        }
+
+        for (Map.Entry<String, Member> entry : group.members.entrySet()) { // SI esta en los miembros
+            if(entry.getValue().getEmail().equals(user.getEmail())){
+                return true;
+            }
+        }
+        return false;
+
+
     }
 
 
