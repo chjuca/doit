@@ -4,16 +4,19 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GroupsController {
@@ -139,6 +142,48 @@ public class GroupsController {
         return belongs;
     }
 
+
+
+    // Método para traer los grupos del usuario logeado
+    public ArrayList<Group> pullUserGroups(Context context){
+        // Obtenemos la conexión
+        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.GROUPS_NODE_TITLE);
+
+        // ArrayList que guardará los objetos de tipo Group
+        final ArrayList<Group> arrayListGroups = new ArrayList<>();
+
+        // Traemos los datos
+        try {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        for(DataSnapshot child : dataSnapshot.getChildren()){
+                            Group group = child.getValue(Group.class);
+
+                            // Todo: Verificamos si pertenece al usuario (Falta hacer)
+                            if(true) {
+                                arrayListGroups.add(group);
+
+                            }
+
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            }).wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(arrayListGroups);
+        return arrayListGroups;
+    }
 
 
 
