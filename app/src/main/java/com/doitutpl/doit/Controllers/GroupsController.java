@@ -138,10 +138,5 @@ public class GroupsController {
         }
         return belongs;
     }
-
-
-
-
-
 }
 
