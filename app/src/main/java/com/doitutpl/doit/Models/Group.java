@@ -14,6 +14,7 @@ public class Group {
     // Atributos propios
     public String  keyGroup;
     public Map<String,Member> members;
+    public Map<String, GroupEvent> groupEvents;
     public String keyChat;
     public String password;
     public String groupAdminEmail;
@@ -36,9 +37,11 @@ public class Group {
         // ! Agregamos el usuario admin como miembro también del grupo
         Member member = MembersController.parseMember(groupAdmin);
         this.members.put("admin", member);
+
     }
 
 
+    // Getters y setters
     public String getKeyGroup() {
         return keyGroup;
     }
@@ -47,17 +50,24 @@ public class Group {
         this.keyGroup = keyGroup;
     }
 
-
-    public String getKeyChat() {
-        return keyChat;
-    }
-
     public Map<String, Member> getMembers() {
         return members;
     }
 
     public void setMembers(Map<String, Member> members) {
         this.members = members;
+    }
+
+    public Map<String, GroupEvent> getGroupEvents() {
+        return groupEvents;
+    }
+
+    public void setGroupEvents(Map<String, GroupEvent> groupEvents) {
+        this.groupEvents = groupEvents;
+    }
+
+    public String getKeyChat() {
+        return keyChat;
     }
 
     public void setKeyChat(String keyChat) {
@@ -79,6 +89,7 @@ public class Group {
     public void setGroupAdminEmail(String groupAdminEmail) {
         this.groupAdminEmail = groupAdminEmail;
     }
+
 
     // Metodo para guardarse en la base de datos
     public void save(Context context){
