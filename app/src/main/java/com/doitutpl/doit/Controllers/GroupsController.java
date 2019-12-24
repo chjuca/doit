@@ -247,8 +247,6 @@ public class GroupsController {
     // Todo
 
 
-    // Método para traer todos los eventos propios del usaurio
-    // Todo
 
 
     // Metodo para buscar un Event por su llave como GroupEvent

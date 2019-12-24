@@ -63,4 +63,22 @@ public class EventsController {
         System.out.println(EventsController.listEvents);
         return EventsController.listEvents;
     }
+
+
+
+    // Método para traer todos los eventos propios del usaurio
+    public Events pullOwnUserEvents(Context context){
+        // Todo
+
+
+        return null;
+    }
+
+
+
+
+
+
+
+
 }
