@@ -165,7 +165,7 @@ public class CitasFragment extends Fragment {
                             events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
                             events.setEvDate(evDate);
                             events.setEvPriority(priority);
-                            events.setEvCreateUser(email);
+                            events.setEvCreatorUser(email);
                             events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
                             events.setEvGroups(null);
                             events.setState(1);

@@ -209,7 +209,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                             events.setEvDescription(evDescripcion.getText().toString());            //*** MODIFICAR ALGUN EVENTO  ****
                             events.setEvDate(evdate);
                             events.setEvPriority(priority);
-                            events.setEvCreateUser(AdaptadorCitas.this.events.get(position).getEvCreateUser());
+                            events.setEvCreatorUser(AdaptadorCitas.this.events.get(position).getEvCreatorUser());
                             events.setPublic(false);                            //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
                             events.setEvGroups(null);
                             events.setState(1);
