@@ -2,6 +2,8 @@ package com.doitutpl.doit.Controllers;
 
 import android.content.Context;
 
+import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.StaticData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,15 +68,123 @@ public class EventsController {
 
 
 
-    // Método para traer todos los eventos propios del usaurio
-    public Events pullOwnUserEvents(Context context){
-        // Todo
+    // Método para traer todos los eventos propios del usuario
+    public ArrayList<Events> pullOwnUserEvents(Context context){
+
+        // ArrayList con los eventos traidos
+        final ArrayList<Events> arrayListEvents =  new ArrayList<>();
+
+        // Obtenemos la conexiónt
+        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.EVENTS_NODE_TITLE);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+
+                    for(DataSnapshot child : dataSnapshot.getChildren()){
+                        Events event = child.getValue(Events.class);
+
+                        if(event.getEvCreatorUser().equals(StaticData.currentUser.getEmail())){
+                            arrayListEvents.add(event);
+                        }
 
 
-        return null;
+                    }
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        return arrayListEvents;
     }
 
 
+
+    // Metodo para buscar un Event por su llave como GroupEvent
+    public Events searchEventByKey(Context context, String targetKey){
+        // Evento a buscar
+        final Events[] event = {new Events()};
+
+
+
+        // Obtenemos la conexiónt
+        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.EVENTS_NODE_TITLE);
+
+
+        databaseReference.child(targetKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    // Evento encontrado
+
+                    // Serializamos el dataSnapshot a un objeto del tipo Group
+                    Events targetEvent = dataSnapshot.getValue(Events.class);
+
+
+
+                    event[0] = targetEvent;
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return event[0];
+
+    }
+
+    // Método para traer todos los eventos de un usuario, incluyendo los grupales
+    public ArrayList<Events> pullAllEvents(Context context){
+        // ArrayList con los eventos traidos
+        final ArrayList<Events> arrayListEvents =  new ArrayList<>();
+
+
+        arrayListEvents.addAll(pullOwnUserEvents(context));
+        arrayListEvents.addAll(pullOwnUserEvents(context));
+
+
+        return  arrayListEvents;
+
+    }
+
+
+
+    // Método para traer todos los eventos de todos los grupos a los que pertenece el usuario
+    public ArrayList<Events> pullGrupalEvents(Context context){
+        // ArrayList con los eventos traidos
+        final ArrayList<Events> arrayListEvents =  new ArrayList<>();
+
+        // Primero tenemos que traer todos los grupos a los que pertence el usaurio
+
+        GroupsController groupsController = new GroupsController();
+        ArrayList<Group> arrayListGroups = groupsController.pullUserGroups(context);
+
+        // Recorremos ese arraylist y por cada grupo traemos todos sus eventos
+        for(int i=0; i < arrayListGroups.size(); i++){
+            arrayListEvents.addAll(groupsController.pullGroupEvents(context, arrayListGroups.get(i)));
+        }
+
+
+        return arrayListEvents;
+
+
+    }
 
 
 

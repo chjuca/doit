@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Group;
@@ -12,7 +11,6 @@ import com.doitutpl.doit.Models.GroupEvent;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -223,7 +221,9 @@ public class GroupsController {
             String keyEvent = entry.getValue().getKeyEvent();       // Obtenemos la llave
 
 
-            Events event = searchGroupEventByKey(context, keyEvent);        // Buscamos el evento dentro del nodo Events
+
+            EventsController eventsController = new EventsController();
+            Events event = eventsController.searchEventByKey(context, keyEvent);        // Buscamos el evento dentro del nodo Events
 
 
             if(event != null){
@@ -239,54 +239,14 @@ public class GroupsController {
     }
 
 
-    // Método para traer todos los eventos de un usuario, incluyendo los grupales
-    // Todo
-
-
-    // Método para traer todos los eventos de todos los grupos a los que pertenece el usuario
-    // Todo
 
 
 
 
-    // Metodo para buscar un Event por su llave como GroupEvent
-    public Events searchGroupEventByKey(Context context, String targetKey){
-        // Evento a buscar
-        final Events[] event = {new Events()};
 
 
 
-        // Obtenemos la conexiónt
-        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.EVENTS_NODE_TITLE);
 
-
-        databaseReference.child(targetKey).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    // Evento encontrado
-
-                    // Serializamos el dataSnapshot a un objeto del tipo Group
-                    Events targetEvent = dataSnapshot.getValue(Events.class);
-
-
-
-                    event[0] = targetEvent;
-
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return event[0];
-
-    }
 
 }
 
