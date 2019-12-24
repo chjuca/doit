@@ -189,7 +189,7 @@ public class GroupsController {
 
 
 
-    // Metodo para saber si un grupo pertenece a un usaruio
+    // Metodo para saber si un grupo pertenece a un usurio
     public boolean belongsToAGroup(FirebaseUser user, Group group){
         if(group.groupAdminEmail.equals(user.getEmail())){ // Si es el admin
             return true;
@@ -207,7 +207,17 @@ public class GroupsController {
     }
 
 
+    // Método para traer todos los eventos pertenecientes a un grupo
+    // Todo
 
+    // Método para traer todos los eventos de un usuario, incluyendo los grupales
+    // Todo
+
+    // Método para traer todos los eventos de todos los grupos a los que pertenece el usuario
+    // Todo
+
+    // Método para traer todos los eventos propios del usaurio
+    // Todo
 
 }
 
