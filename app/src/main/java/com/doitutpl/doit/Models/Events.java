@@ -7,7 +7,7 @@ public class Events {
     private String evDescription;
     private EvDate evDate;
     private int evPriority;
-    private String evCreateUser;
+    private String evCreatorUser;
     private  boolean isPublic;
     private Group evGroups;
     private int state; // 0: cancelado    1: pendiente     2: pasado
@@ -15,13 +15,13 @@ public class Events {
     public Events() {
     }
 
-    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreateUser, boolean isPublic, Group evGroups, int state) {
+    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreatorUser, boolean isPublic, Group evGroups, int state) {
         this.idEvent = idEvent;
         this.evName = evName;
         this.evDescription = evDescription;
         this.evDate = evDate;
         this.evPriority = evPriority;
-        this.evCreateUser = evCreateUser;
+        this.evCreatorUser = evCreatorUser;
         this.isPublic = isPublic;
         this.evGroups = evGroups;
         this.state = state;
@@ -67,12 +67,12 @@ public class Events {
         this.evPriority = evPriority;
     }
 
-    public String getEvCreateUser() {
-        return evCreateUser;
+    public String getEvCreatorUser() {
+        return evCreatorUser;
     }
 
-    public void setEvCreateUser(String evCreateUser) {
-        this.evCreateUser = evCreateUser;
+    public void setEvCreatorUser(String evCreatorUser) {
+        this.evCreatorUser = evCreatorUser;
     }
 
     public boolean isPublic() {
@@ -107,7 +107,7 @@ public class Events {
                 ", evDescription='" + evDescription + '\'' +
                 ", evDate=" + evDate +
                 ", evPriority=" + evPriority +
-                ", evCreateUser='" + evCreateUser + '\'' +
+                ", evCreatorUser='" + evCreatorUser + '\'' +
                 ", isPublic=" + isPublic +
                 ", evGroups=" + evGroups +
                 ", state=" + state +
