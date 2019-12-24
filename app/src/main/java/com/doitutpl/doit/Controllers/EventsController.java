@@ -3,6 +3,7 @@ package com.doitutpl.doit.Controllers;
 import android.content.Context;
 
 import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.Models.GroupEvent;
 import com.doitutpl.doit.StaticData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.doitutpl.doit.Models.Events;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -150,13 +152,18 @@ public class EventsController {
     }
 
     // Método para traer todos los eventos de un usuario, incluyendo los grupales
+    /*
+    * Este método es el que se va usar más
+    *
+    * */
+
     public ArrayList<Events> pullAllEvents(Context context){
         // ArrayList con los eventos traidos
         final ArrayList<Events> arrayListEvents =  new ArrayList<>();
 
 
         arrayListEvents.addAll(pullOwnUserEvents(context));
-        arrayListEvents.addAll(pullOwnUserEvents(context));
+        arrayListEvents.addAll(pullGrupalEvents(context));
 
 
         return  arrayListEvents;
@@ -177,7 +184,7 @@ public class EventsController {
 
         // Recorremos ese arraylist y por cada grupo traemos todos sus eventos
         for(int i=0; i < arrayListGroups.size(); i++){
-            arrayListEvents.addAll(groupsController.pullGroupEvents(context, arrayListGroups.get(i)));
+            arrayListEvents.addAll(pullGroupEvents(context, arrayListGroups.get(i)));
         }
 
 
@@ -187,6 +194,36 @@ public class EventsController {
     }
 
 
+    // Método para traer todos los eventos pertenecientes a un grupo
+    public ArrayList<Events> pullGroupEvents(Context context, Group group){
+
+        // ArrayList que guardará los objetos de tipo Events
+        final ArrayList<Events> arrayListEvents = new ArrayList<>();
+
+
+
+        for (Map.Entry<String, GroupEvent> entry : group.groupEvents.entrySet()) { // Recorremos la lista con los key ded los eventos
+
+
+            String keyEvent = entry.getValue().getKeyEvent();       // Obtenemos la llave
+
+
+
+            EventsController eventsController = new EventsController();
+            Events event = eventsController.searchEventByKey(context, keyEvent);        // Buscamos el evento dentro del nodo Events
+
+
+            if(event != null){
+                arrayListEvents.add(event);
+
+            }
+
+
+
+        }
+
+        return arrayListEvents;
+    }
 
 
 

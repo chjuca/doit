@@ -207,36 +207,7 @@ public class GroupsController {
     }
 
 
-    // Método para traer todos los eventos pertenecientes a un grupo
-    public ArrayList<Events> pullGroupEvents(Context context, Group group){
 
-        // ArrayList que guardará los objetos de tipo Events
-        final ArrayList<Events> arrayListEvents = new ArrayList<>();
-
-
-
-        for (Map.Entry<String, GroupEvent> entry : group.groupEvents.entrySet()) { // Recorremos la lista con los key ded los eventos
-
-
-            String keyEvent = entry.getValue().getKeyEvent();       // Obtenemos la llave
-
-
-
-            EventsController eventsController = new EventsController();
-            Events event = eventsController.searchEventByKey(context, keyEvent);        // Buscamos el evento dentro del nodo Events
-
-
-            if(event != null){
-                arrayListEvents.add(event);
-
-            }
-
-
-
-        }
-
-        return arrayListEvents;
-    }
 
 
 
