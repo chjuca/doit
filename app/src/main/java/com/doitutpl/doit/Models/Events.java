@@ -5,11 +5,11 @@ public class Events {
     private String idEvent;
     private String evName;
     private String evDescription;
-    private EvDate evDate;
+    private EvDate evDate;              // ? Este debería ser un Map<String, EvDate>
     private int evPriority;
     private String evCreatorUser;
     private  boolean isPublic;
-    private Group evGroups;
+    private Group evGroups;             // ? Este debería ser un Map<String, EvGroup>
     private int state; // 0: cancelado    1: pendiente     2: pasado
 
     public Events() {
