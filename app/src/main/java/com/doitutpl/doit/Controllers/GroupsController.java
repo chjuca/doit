@@ -204,21 +204,5 @@ public class GroupsController {
 
     }
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 7ab90649def673e229bcdb94fb1fcce0a100cd8f
 }
 
