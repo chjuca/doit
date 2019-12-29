@@ -4,13 +4,13 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
+import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.Models.GroupEvent;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -187,7 +187,7 @@ public class GroupsController {
 
 
 
-    // Metodo para saber si un grupo pertenece a un usaruio
+    // Metodo para saber si un grupo pertenece a un usurio
     public boolean belongsToAGroup(FirebaseUser user, Group group){
         if(group.groupAdminEmail.equals(user.getEmail())){ // Si es el admin
             return true;
@@ -204,5 +204,21 @@ public class GroupsController {
 
     }
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 7ab90649def673e229bcdb94fb1fcce0a100cd8f
 }
 
