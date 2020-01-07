@@ -14,14 +14,6 @@ public class MostrarTodos extends AppCompatActivity {
 
     RecyclerView rvCitasLunes, rvCitasMartes, rvCitasMiercoles, rvCitasJueves, rvCitasViernes, rvCitasSabado, rvCitasDomingo;
 
-/*    List<Cita> listaCitasLunes = new ArrayList<>();
-    List<Cita> listaCitasMartes = new ArrayList<>();
-    List<Cita> listaCitasMiercoles = new ArrayList<>();
-    List<Cita> listaCitasJueves = new ArrayList<>();
-    List<Cita> listaCitasViernes = new ArrayList<>();
-    List<Cita> listaCitasSabado = new ArrayList<>();
-    List<Cita> listaCitasDomingo = new ArrayList<>();*/
-
     AdaptadorTodasCitas adaptador;
 
     @Override

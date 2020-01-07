@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.doitutpl.doit.GraficaActivity;
 import com.doitutpl.doit.R;
 
 public class SplashScreen extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent intent = new Intent(SplashScreen.this, JoinToAGroup.class);
                 startActivity(intent);
                 finish();
             }
