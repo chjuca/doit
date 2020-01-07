@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.doitutpl.doit.Models.Events;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -74,6 +75,7 @@ public class EventsController {
 
                     Events events = objSnapshot.getValue(Events.class);                              // GET DE EVENTOS
                     listEvents.add(events);
+
                 }
             }
 
@@ -84,4 +86,5 @@ public class EventsController {
         });
         return listEvents;
     }
+
 }
