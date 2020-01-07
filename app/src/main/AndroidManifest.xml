@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GraficaActivity"></activity>
-        <activity android:name=".ui.JoinToAGroup" />
+        <activity android:name=".GraficaActivity"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity android:name=".ui.JoinToAGroup"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.CreateGroup"
             android:theme="@style/AppTheme.NoActionBar" />

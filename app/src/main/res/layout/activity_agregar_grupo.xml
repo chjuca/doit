@@ -23,7 +23,7 @@
             android:layout_height="60dp"
             android:background="#03A9F4"
             android:gravity="center"
-            android:text="AGREGAR GRUPO"
+            android:text="CREACION GRUPO"
             android:textColor="#FFFFFF"
 
             android:textSize="20sp"

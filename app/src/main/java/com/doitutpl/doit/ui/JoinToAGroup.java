@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doitutpl.doit.Controllers.GroupsController;
@@ -32,6 +34,7 @@ public class JoinToAGroup extends AppCompatActivity {
     //Group objGroup = new Group();
     Button btnJoin;
     EditText groupKey, groupPass;
+    TextView textJoin;
     Context context = this;
     Member objMember = new Member();
 
@@ -47,6 +50,7 @@ public class JoinToAGroup extends AppCompatActivity {
         btnJoin = findViewById(R.id.btnJoin);
         groupKey = findViewById(R.id.groupKey);
         groupPass = findViewById(R.id.groupPass);
+        textJoin = findViewById(R.id.textJoin);
 
 
 
@@ -63,6 +67,14 @@ public class JoinToAGroup extends AppCompatActivity {
                 int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
                 handleAddMemberExitCode(resultCode);
 
+            }
+        });
+
+        textJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), CreateGroup.class);
+                startActivityForResult(intent, 0);
             }
         });
 
