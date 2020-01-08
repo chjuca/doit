@@ -44,7 +44,6 @@ public class GroupsController {
         // Validamos la informacion
         if (validateData(group)) {
 
-
             // Obtenemos la conexion
             DatabaseReference databaseReference = Connection.initializeFirebase(context);
 
