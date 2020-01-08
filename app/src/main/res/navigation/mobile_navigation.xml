@@ -23,5 +23,10 @@
         android:name="com.doitutpl.doit.SignOutFragment"
         android:label="CERRAR SESION"
         tools:layout="@layout/fragment_sign_out"/>
+    <activity
+        android:id="@+id/nav_chat"
+        android:name="com.doitutpl.doit.chat"
+        android:label="activity_chat"
+        tools:layout="@layout/activity_chat" />
 
 </navigation>

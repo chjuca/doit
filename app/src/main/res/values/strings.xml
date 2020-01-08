@@ -15,6 +15,7 @@
     <string name="menu_citas">EVENTOS</string>
     <string name="menu_tareas">TAREAS</string>
     <string name="menu_acerca_de">ACERCA DE</string>
+    <string name="chat">CHAT</string>
     <string name="exportar_db">EXPORTAR AGENDA</string>
     <string name="importar_db">IMPORTAR AGENDA</string>
     <string name="cerrar_sesion">CERRAR SESION</string>
