@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.doitutpl.doit.Controllers.GroupsController;
+import com.doitutpl.doit.Models.Group;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,12 +49,16 @@ import java.util.UUID;
 
 public class CitasFragment extends Fragment {
 
+    GroupsController ObjGroupsController = new GroupsController();
+    ArrayList<Group> groupList = new ArrayList<>();
+
     ImageButton ibtnAdd, ibtnShowAll;
     RecyclerView rvCitas;
     EditText evName, evDescription;
     TextView evHour,evDate;
     ImageButton ibtnHora, ibtnDate;
-    Spinner spiDias, spiDiasMain, spiPriority;
+    Spinner spiGroups ,spiPriority;
+    Switch isPublic;
     private int dia, mes, anio;
     String email = " ";
 
@@ -97,6 +104,11 @@ public class CitasFragment extends Fragment {
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 ibtnDate = vista.findViewById(R.id.btnCopy);
                 evDate = vista.findViewById(R.id.groupKey);
+                spiGroups = vista.findViewById(R.id.spiGroups);
+                spiGroups.setEnabled(false);
+                isPublic = vista.findViewById(R.id.isPublic);
+
+
                 ibtnDate.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -118,6 +130,21 @@ public class CitasFragment extends Fragment {
                 spiPriority = vista.findViewById(R.id.spiColors);
 
                 spiPriority.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, priority));
+
+                isPublic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isPublic.isChecked()){
+                            spiGroups.setEnabled(true);
+                            groupList = ObjGroupsController.pullUserGroups(getContext());
+                            System.out.println(groupList.size());
+
+                        }else{
+                            spiGroups.setEnabled(false);
+                        }
+                    }
+                });
+
 
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
