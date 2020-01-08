@@ -35,7 +35,7 @@ public class CreateGroup extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_grupo);
 
         btnCopy = findViewById(R.id.btnCopy);
-        groupName = findViewById(R.id.groupName);
+        groupName = findViewById(R.id.groupKey);
         groupPass = findViewById(R.id.groupPass);
         groupKey = findViewById(R.id.groupKey);
         btnGenerateKey = findViewById(R.id.btnCreate);

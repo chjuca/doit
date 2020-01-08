@@ -39,8 +39,8 @@ public class JoinToAGroup extends AppCompatActivity {
         setContentView(R.layout.activity_unirse_grupo);
 
         btnJoin = findViewById(R.id.btnCreate);
-        groupKey = findViewById(R.id.groupName);
-        groupPass = findViewById(R.id.groupPass);
+        groupKey = findViewById(R.id.keyGroup);
+        groupPass = findViewById(R.id.passGroup);
         textJoin = findViewById(R.id.textCreate);
 
 
@@ -52,7 +52,6 @@ public class JoinToAGroup extends AppCompatActivity {
                 // Obtenemoss los datos de la UI
                 String targetGroupKey = groupKey.getText().toString();
                 String targetPassword = groupPass.getText().toString();
-
 
                 GroupsController groupsController = new GroupsController();
                 int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());

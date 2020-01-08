@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/groupName"
+                android:id="@+id/groupKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
@@ -54,7 +54,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/evHour"
-                app:layout_constraintStart_toEndOf="@+id/groupName"
+                app:layout_constraintStart_toEndOf="@+id/groupKey"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
