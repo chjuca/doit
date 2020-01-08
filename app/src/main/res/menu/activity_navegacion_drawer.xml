@@ -12,6 +12,10 @@
             android:id="@+id/nav_chat"
             android:title="@string/chat" />
         <item
+            android:id="@+id/nav_cha"
+            android:title="@string/groups" />
+
+        <item
             android:id="@+id/nav_acerca_de"
             android:icon="@drawable/icon_nosotros"
             android:title="@string/menu_acerca_de" />
