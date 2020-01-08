@@ -5,23 +5,23 @@ public class Events {
     private String idEvent;
     private String evName;
     private String evDescription;
-    private EvDate evDate;
+    private EvDate evDate;              // ? Este debería ser un Map<String, EvDate>
     private int evPriority;
-    private String evCreateUser;
+    private String evCreatorUser;
     private  boolean isPublic;
-    private Groups evGroups;
+    private Group evGroups;             // ? Este debería ser un Map<String, EvGroup>
     private int state; // 0: cancelado    1: pendiente     2: pasado
 
     public Events() {
     }
 
-    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreateUser, boolean isPublic, Groups evGroups, int state) {
+    public Events(String idEvent, String evName, String evDescription, EvDate evDate, int evPriority, String evCreatorUser, boolean isPublic, Group evGroups, int state) {
         this.idEvent = idEvent;
         this.evName = evName;
         this.evDescription = evDescription;
         this.evDate = evDate;
         this.evPriority = evPriority;
-        this.evCreateUser = evCreateUser;
+        this.evCreatorUser = evCreatorUser;
         this.isPublic = isPublic;
         this.evGroups = evGroups;
         this.state = state;
@@ -67,12 +67,12 @@ public class Events {
         this.evPriority = evPriority;
     }
 
-    public String getEvCreateUser() {
-        return evCreateUser;
+    public String getEvCreatorUser() {
+        return evCreatorUser;
     }
 
-    public void setEvCreateUser(String evCreateUser) {
-        this.evCreateUser = evCreateUser;
+    public void setEvCreatorUser(String evCreatorUser) {
+        this.evCreatorUser = evCreatorUser;
     }
 
     public boolean isPublic() {
@@ -83,11 +83,11 @@ public class Events {
         isPublic = aPublic;
     }
 
-    public Groups getEvGroups() {
+    public Group getEvGroups() {
         return evGroups;
     }
 
-    public void setEvGroups(Groups evGroups) {
+    public void setEvGroups(Group evGroups) {
         this.evGroups = evGroups;
     }
 
@@ -107,7 +107,7 @@ public class Events {
                 ", evDescription='" + evDescription + '\'' +
                 ", evDate=" + evDate +
                 ", evPriority=" + evPriority +
-                ", evCreateUser='" + evCreateUser + '\'' +
+                ", evCreatorUser='" + evCreatorUser + '\'' +
                 ", isPublic=" + isPublic +
                 ", evGroups=" + evGroups +
                 ", state=" + state +

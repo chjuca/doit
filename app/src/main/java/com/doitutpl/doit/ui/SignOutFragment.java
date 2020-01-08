@@ -1,4 +1,4 @@
-package com.doitutpl.doit;
+package com.doitutpl.doit.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.doitutpl.doit.Navegacion;
+import com.doitutpl.doit.R;
+import com.doitutpl.doit.ui.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 
