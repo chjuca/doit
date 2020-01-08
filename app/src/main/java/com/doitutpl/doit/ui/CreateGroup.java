@@ -13,12 +13,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.R;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.doitutpl.doit.StaticData;
+
+import java.util.UUID;
 
 public class CreateGroup extends AppCompatActivity {
 
@@ -28,24 +27,32 @@ public class CreateGroup extends AppCompatActivity {
     TextView groupKey;
     Context context = this;
 
+    Group objGroup = new Group();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_grupo);
 
         btnCopy = findViewById(R.id.btnCopy);
-        groupName = findViewById(R.id.groupKey);
+        groupName = findViewById(R.id.groupName);
         groupPass = findViewById(R.id.groupPass);
         groupKey = findViewById(R.id.groupKey);
-        btnGenerateKey = findViewById(R.id.btnJoin);
+        btnGenerateKey = findViewById(R.id.btnCreate);
 
 
         btnGenerateKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtenemos los datos desde la UI
+                objGroup.setKeyGroup(UUID.randomUUID().toString());
+                objGroup.setKeyChat(objGroup.getKeyGroup());
+                objGroup.setPassword(groupPass.getText().toString());
+                objGroup.setNameGroup(groupName.getText().toString());
+                objGroup.setGroupAdminEmail(StaticData.currentUser.getEmail());
+                groupKey.setText(objGroup.getKeyGroup());
 
-
+                // Guardamos el grupo en la base de datos
+                objGroup.save(context);
 
             }
         });

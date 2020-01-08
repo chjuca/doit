@@ -91,12 +91,12 @@ public class CitasFragment extends Fragment {
                 View vista = inflater.inflate(R.layout.dialog_agregar_cita, null);
                 builder.setView(vista);
 
-                evName = vista.findViewById(R.id.groupKey);
+                evName = vista.findViewById(R.id.groupName);
                 evDescription = vista.findViewById(R.id.groupPass);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 ibtnDate = vista.findViewById(R.id.btnCopy);
-                evDate = vista.findViewById(R.id.groupKey);
+                evDate = vista.findViewById(R.id.groupName);
                 ibtnDate.setOnClickListener(new View.OnClickListener(){
 
                     @Override

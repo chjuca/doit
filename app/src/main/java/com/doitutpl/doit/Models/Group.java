@@ -12,6 +12,7 @@ public class Group {
 
 
     // Atributos propios
+    public String nameGroup;
     public String  keyGroup;
     public Map<String,Member> members;
     public Map<String, GroupEvent> groupEvents;
@@ -86,9 +87,18 @@ public class Group {
         return groupAdminEmail;
     }
 
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
+
     public void setGroupAdminEmail(String groupAdminEmail) {
         this.groupAdminEmail = groupAdminEmail;
     }
+
 
 
     // Metodo para guardarse en la base de datos
