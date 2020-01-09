@@ -3,6 +3,7 @@ package com.doitutpl.doit.Controllers;
 import android.content.Context;
 
 import com.doitutpl.doit.Adaptadores.AdaptadorCitas;
+import com.doitutpl.doit.StaticData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,7 @@ public class EventsController {
     public void chargeEventsFromFirebase(FirebaseUser user, Context context) { // carga los datos desde la base de datos
         FirebaseApp.initializeApp(context);
 
-        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(StaticData.EVENTS_NODE_TITLE).orderByChild("evCreatorUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
@@ -67,7 +68,7 @@ public class EventsController {
 
     public ArrayList<Events> getEvents(){
 
-        databaseReference.child("Events").orderByChild("evCreateUser").equalTo("renatojobal@gmail.com").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(StaticData.EVENTS_NODE_TITLE).orderByChild("evCreatorUser").equalTo(StaticData.currentUser.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listEvents.clear();
