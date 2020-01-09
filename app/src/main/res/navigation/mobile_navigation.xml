@@ -28,5 +28,10 @@
         android:name="com.doitutpl.doit.chat"
         android:label="activity_chat"
         tools:layout="@layout/activity_chat" />
+    <activity
+        android:id="@+id/nav_group"
+        android:name="com.doitutpl.doit.ui.CreateGroup"
+        android:label="activity_agregar_grupo"
+        tools:layout="@layout/activity_agregar_grupo" />
 
 </navigation>
