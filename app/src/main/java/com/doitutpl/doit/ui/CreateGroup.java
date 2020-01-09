@@ -27,7 +27,7 @@ public class CreateGroup extends AppCompatActivity {
     TextView groupKey;
     Context context = this;
 
-    Group objGroup = new Group();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class CreateGroup extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_grupo);
 
         btnCopy = findViewById(R.id.btnCopy);
-        groupName = findViewById(R.id.groupKey);
+        groupName = findViewById(R.id.groupName);
         groupPass = findViewById(R.id.groupPass);
         groupKey = findViewById(R.id.groupKey);
         btnGenerateKey = findViewById(R.id.btnCreate);
@@ -44,16 +44,24 @@ public class CreateGroup extends AppCompatActivity {
         btnGenerateKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                objGroup.setKeyGroup(UUID.randomUUID().toString());
-                objGroup.setKeyChat(objGroup.getKeyGroup());
-                objGroup.setPassword(groupPass.getText().toString());
-                objGroup.setNameGroup(groupName.getText().toString());
-                objGroup.setGroupAdminEmail(StaticData.currentUser.getEmail());
-                groupKey.setText(objGroup.getKeyGroup());
+
+                // Obtenemos los datos desde la interfaz
+                String targetKeyGroup = UUID.randomUUID().toString();
+                String targetKeyChat = UUID.randomUUID().toString();
+                String targetPassword = groupPass.getText().toString();
+                String targetNameGroup = groupName.getText().toString();
+
+                // ! Este cosntrutor debe usarse obligatoriamente antes de llamar al método .save()
+                // Utilizamos este construcor para que agregue al usuario logeado como primer miembro y como admin
+                Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
+
 
                 // Guardamos el grupo en la base de datos
-                objGroup.save(context);
+                group.save(context);
 
+
+                // Mostramos la clave en pantalla
+                groupKey.setText(group.getKeyGroup());
             }
         });
 
