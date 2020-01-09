@@ -154,34 +154,30 @@ public class GroupsController {
         final ArrayList<Group> arrayListGroups = new ArrayList<>();
 
         // Traemos los datos
-        try {
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        for(DataSnapshot child : dataSnapshot.getChildren()){
-                            Group group = child.getValue(Group.class);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot child : dataSnapshot.getChildren()){
+                        Group group = child.getValue(Group.class);
 
-                            // Verificamos si pertenece al usuario
-                            if(belongsToAGroup(StaticData.currentUser, group)) {
-                                arrayListGroups.add(group);
-
-                            }
-
+                        // Verificamos si pertenece al usuario
+                        if(belongsToAGroup(StaticData.currentUser, group)) {
+                            arrayListGroups.add(group);
 
                         }
 
+
                     }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            }).wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         System.out.println(arrayListGroups);
         return arrayListGroups;
     }

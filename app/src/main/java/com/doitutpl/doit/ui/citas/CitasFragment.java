@@ -268,7 +268,7 @@ public class CitasFragment extends Fragment {
 
     public void obtenerEventos(){
 
-        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Events").orderByChild("evCreatorUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
