@@ -10,9 +10,11 @@
             android:title="@string/menu_citas" />
         <item
             android:id="@+id/nav_chat"
+            android:icon="@mipmap/ic_chat"
             android:title="@string/chat" />
         <item
             android:id="@+id/nav_groups"
+            android:icon="@mipmap/ic_group"
             android:title="@string/groups" />
 
         <item
