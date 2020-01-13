@@ -13,6 +13,11 @@ public class MensajeRecibir extends Mensaje {
         this.hora = hora;
     }
 
+    public MensajeRecibir(String mensaje, String nombre, String urlFoto, String type_mensaje, Long hora) {
+        super(mensaje, nombre, urlFoto, type_mensaje);
+        this.hora = hora;
+    }
+
     public MensajeRecibir(String mensaje, String nombre, String type_mensaje, Long hora) {
         super(mensaje, nombre, type_mensaje);
         this.hora = hora;

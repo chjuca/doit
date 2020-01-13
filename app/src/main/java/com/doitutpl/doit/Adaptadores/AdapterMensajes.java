@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.doitutpl.doit.Models.Mensaje;
 import com.doitutpl.doit.Models.MensajeRecibir;
 import com.doitutpl.doit.R;
@@ -43,6 +44,16 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     public void onBindViewHolder( HolderMensajes holder, int position) {
         holder.getNombre().setText(listMensaje.get(position).getNombre());
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
+
+        //imagenens
+        if(listMensaje.get(position).getType_mensaje().equals("2")){
+            holder.getFotoMensaje().setVisibility(View.VISIBLE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+            Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getFotoMensaje());
+        }else if(listMensaje.get(position).getType_mensaje().equals("1")){
+            holder.getFotoMensaje().setVisibility(View.GONE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+        }
 
         Long codigoHora = listMensaje.get(position).getHora();
         Date d = new Date(codigoHora);
