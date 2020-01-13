@@ -3,16 +3,32 @@ package com.doitutpl.doit.Models;
 public class Mensaje {
     private String mensaje;
     private String nombre;
+    private String urlFoto;
     private String type_mensaje;
 
     public Mensaje() {
 
     }
 
+    public Mensaje(String mensaje, String nombre, String urlFoto, String type_mensaje) {
+        this.mensaje = mensaje;
+        this.nombre = nombre;
+        this.urlFoto = urlFoto;
+        this.type_mensaje = type_mensaje;
+    }
+
     public Mensaje(String mensaje, String nombre, String type_mensaje) {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.type_mensaje = type_mensaje;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     public String getMensaje() {

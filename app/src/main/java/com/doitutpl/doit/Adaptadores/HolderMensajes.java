@@ -1,6 +1,7 @@
 package com.doitutpl.doit.Adaptadores;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.doitutpl.doit.R;
@@ -13,6 +14,7 @@ public class HolderMensajes extends RecyclerView.ViewHolder {
     private TextView nombre;
     private TextView mensaje;
     private TextView hora;
+    private ImageView fotoMensaje;
 
     public HolderMensajes(@NonNull View itemView) {
         super(itemView);
@@ -20,6 +22,15 @@ public class HolderMensajes extends RecyclerView.ViewHolder {
         nombre = (TextView) itemView.findViewById(R.id.txtNombreMensaje);
         mensaje = (TextView) itemView.findViewById(R.id.txtMensaje);
         hora = (TextView) itemView.findViewById(R.id.horaMensaje);
+        fotoMensaje = (ImageView) itemView.findViewById(R.id.fotoMensaje);
+    }
+
+    public ImageView getFotoMensaje() {
+        return fotoMensaje;
+    }
+
+    public void setFotoMensaje(ImageView fotoMensaje) {
+        this.fotoMensaje = fotoMensaje;
     }
 
     public TextView getNombre() {
