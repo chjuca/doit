@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.doitutpl.doit.Models.EvGroup;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -102,14 +105,19 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 final EditText evName, evDescripcion;
                 final TextView evHour, evDate;
                 ImageButton ibtnHora, ibtnDate;
-                final Spinner spiPriority;
+                final Spinner spiPriority, spiGroups;
+                final Switch isPublic;
 
                 evName = vista.findViewById(R.id.groupKey);
                 evDescripcion = vista.findViewById(R.id.groupPass);
-                evDate = vista.findViewById(R.id.groupKey);
+                evDate = vista.findViewById(R.id.evDate);
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 ibtnDate = vista.findViewById(R.id.btnCopy);
+                isPublic = vista.findViewById(R.id.isPublic);
+                isPublic.setEnabled(false);
+                spiGroups = vista.findViewById(R.id.spiGroups);
+                spiGroups.setEnabled(false);
                 ibtnDate.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -140,6 +148,15 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 evHour.setText(events.get(position).getEvDate().getHours()+":"+events.get(position).getEvDate().getMinutes());
                 evDate.setText(events.get(position).getEvDate().getDay()+"/"+events.get(position).getEvDate().getMonth()+"/"+events.get(position).getEvDate().getYear());
 
+                if (events.get(position).isPublic()) {
+                    isPublic.setChecked(events.get(position).isPublic());
+                    isPublic.setLinkTextColor(Color.BLUE);
+                }else {
+                    //=====================
+                    // AQUI PONER EL ELSE
+                    //=================
+                }
+
                 ibtnHora.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,39 +170,6 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                         if( evName.getText().equals("") || evDescripcion.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(context, "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-
-/*                          AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
-                            SQLiteDatabase db = admin.getWritableDatabase();
-
-                            Cursor fila = db.rawQuery("select * from citas WHERE dia = ? AND hora = ?", new String[] {spiDias.getSelectedItem().toString(), evHour.getText().toString()});
-
-                            if(fila != null && fila.getCount() != 0) {
-                                Toast.makeText(context, "No se puede agendar en esa hora.", Toast.LENGTH_LONG).show();
-                            } else {
-                                ContentValues registro = new ContentValues();
-
-                                registro.put("nomCliente", evName.getText().toString());
-                                registro.put("telCliente", etTelefono.getText().toString());
-                                registro.put("motivo", evDescripcion.getText().toString());
-                                registro.put("hora", evHour.getText().toString());
-                                registro.put("dia", spiDias.getSelectedItem().toString());
-                                registro.put("color", spiPriority.getSelectedItem().toString());
-
-                                // los inserto en la base de datos
-                                //db.update("citas", registro, "idCita=?", new String[]{""+citas.get(position).getIdCita()});
-
-*//*                                citas.get(position).setNomCliente(etNombre.getText().toString());
-                                citas.get(position).setTelCliente(etTelefono.getText().toString());
-                                citas.get(position).setMotivo(etMotivo.getText().toString());
-                                citas.get(position).setHoraCita(evHour.getText().toString());
-                                citas.get(position).setDiaCita(spiDias.getSelectedItem().toString());
-                                citas.get(position).setColor(spiColores.getSelectedItem().toString());*//*
-
-                                notifyDataSetChanged();
-                            }*/
-
-                            // db.close();
-
                             Events events = new Events();
                             EvDate evdate = new EvDate();
                             String[] dateParts = evDate.getText().toString().split("/");
@@ -252,23 +236,10 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
                 alerta.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
- /*                       AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(context, "dbSistema", null, 1);
-                        SQLiteDatabase db = admin.getWritableDatabase();
-
-                        int cant = db.delete("citas", "idCita=?", new String[] {""+events.get(position).getIdEvent()});
-                        db.close();
-
-                        if(cant == 1) {
-                            Toast.makeText(context, "Cita eliminada", Toast.LENGTH_LONG).show();
-                            events.remove(position);
-                            notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(context, "No existe esa cita", Toast.LENGTH_LONG).show();
-                        }*/
                         Events events = new Events();
                         events.setIdEvent(AdaptadorCitas.this.events.get(position).getIdEvent());
                         databaseReference.child("Events").child(events.getIdEvent()).removeValue();
+                        databaseReference.child("EvGroups").child(events.getIdEvent()).removeValue();
 
                     }
                 });
