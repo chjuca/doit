@@ -2,16 +2,23 @@ package com.doitutpl.doit.Models;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.doitutpl.doit.Controllers.GroupsController;
 import com.doitutpl.doit.Controllers.MembersController;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Group {
 
 
     // Atributos propios
+    public String nameGroup;
     public String  keyGroup;
     public Map<String,Member> members;
     public Map<String, GroupEvent> groupEvents;
@@ -28,14 +35,18 @@ public class Group {
 
 
     // Constructor para usarse desde la UI
-    public Group(String keyGroup, String keyChat, String password, FirebaseUser groupAdmin) {
+    public Group(String keyGroup, String keyChat, String nameGroup, String password, FirebaseUser groupAdmin) {
+        this.nameGroup = nameGroup;
         this.keyGroup = keyGroup;
         this.keyChat = keyChat;
         this.password = password;
         this.groupAdminEmail = groupAdmin.getEmail();
+        this.members = new HashMap<String, Member>();
+
 
         // ! Agregamos el usuario admin como miembro también del grupo
         Member member = MembersController.parseMember(groupAdmin);
+
         this.members.put("admin", member);
 
     }
@@ -86,9 +97,18 @@ public class Group {
         return groupAdminEmail;
     }
 
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
+
     public void setGroupAdminEmail(String groupAdminEmail) {
         this.groupAdminEmail = groupAdminEmail;
     }
+
 
 
     // Metodo para guardarse en la base de datos
