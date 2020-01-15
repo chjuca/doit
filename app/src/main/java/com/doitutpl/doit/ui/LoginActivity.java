@@ -15,6 +15,7 @@ import com.doitutpl.doit.MostrarTodos;
 import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.ui.notification.NotificationActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -156,14 +157,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(user != null){
             StaticData.currentUser = user;
-            goToLoggedActivity();
+            goToLoggedActivity();git
 
         }
 
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, Navegacion.class);
+        Intent intent = new Intent(LoginActivity.this, NotificationActivity.class);
         startActivity(intent);
         finish();
     }

@@ -52,6 +52,7 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.setListaEventos();
+        System.out.println("Estoy en notificaciones");
         inicializarFirebase();
         time time = new time();
         time.execute();
@@ -195,6 +196,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     // Metodo principal que valida todas las instancias
     public void ejecutar(){
+        System.out.println("Estoy ejecutando notificaciones");
         obtenerEventos(); // obtenemos todos los eventos
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = new Date(); // obtenemos la fecha actual
