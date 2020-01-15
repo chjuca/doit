@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doitutpl.doit.Controllers.GroupsController;
+import com.doitutpl.doit.Models.EvGroup;
 import com.doitutpl.doit.Models.Group;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,13 +71,17 @@ public class CitasFragment extends Fragment {
 
     List<Events> listaEvents = new ArrayList<>();
 
+    EvGroup evGroup = new EvGroup();
+
     String[] dias = {"SELECCIONA UN DIA", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
     String[] priority = {"ALTA", "MEDIA", "BAJA"};
+    boolean eventIsPublic = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_citas, container, false);
 
+        groupList = ObjGroupsController.pullUserGroups(getContext());
 
         ibtnAdd = root.findViewById(R.id.ibtnAgregar);
         ibtnShowAll = root.findViewById(R.id.ibtnMostrarTodas);
@@ -103,7 +108,7 @@ public class CitasFragment extends Fragment {
                 evHour = vista.findViewById(R.id.evHour);
                 ibtnHora = vista.findViewById(R.id.ibtnHora);
                 ibtnDate = vista.findViewById(R.id.btnCopy);
-                evDate = vista.findViewById(R.id.groupKey);
+                evDate = vista.findViewById(R.id.evDate);
                 spiGroups = vista.findViewById(R.id.spiGroups);
                 spiGroups.setEnabled(false);
                 isPublic = vista.findViewById(R.id.isPublic);
@@ -136,11 +141,16 @@ public class CitasFragment extends Fragment {
                     public void onClick(View v) {
                         if (isPublic.isChecked()){
                             spiGroups.setEnabled(true);
-                            groupList = ObjGroupsController.pullUserGroups(getContext());
-                            System.out.println(groupList.size());
+                            eventIsPublic = true;
+                            final String[] groupsName = new String[groupList.size()];
+                            for (int i = 0; i < groupsName.length; i++){
+                                groupsName[i]= groupList.get(i).getNameGroup().toUpperCase();
+                            }
+                            spiGroups.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, groupsName));
 
                         }else{
                             spiGroups.setEnabled(false);
+                            eventIsPublic = false;
                         }
                     }
                 });
@@ -159,13 +169,6 @@ public class CitasFragment extends Fragment {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-/*                          Cita cita = new Cita(); FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    FirebaseUser user = FirebaseAuth.getI
-                            cita.setIdCita(UUID.randomUUID().toString());
-                            cita.setNomCliente(evName.getText().toString());
-                            System.out.println(evName.getText().toString());
-                            cita.setMotivo(evDescription.toString());*/
                             Events events = new Events();
                             events.setIdEvent(UUID.randomUUID().toString());
                             String[] dateParts = evDate.getText().toString().split("/");
@@ -193,16 +196,25 @@ public class CitasFragment extends Fragment {
                             events.setEvDate(evDate);
                             events.setEvPriority(priority);
                             events.setEvCreatorUser(email);
-                            events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
+                            events.setPublic(eventIsPublic);
                             events.setEvGroups(null);
+                            events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
                             events.setState(1);
 
-                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);
+
+                            if (eventIsPublic){
+                                events.setPublic(true);
+                                events.setEvGroups(groupList.get(spiGroups.getSelectedItemPosition()));
+                                evGroup.setKeyGroup(events.getIdEvent());
+                                evGroup.setName(events.getEvName());
+                            }
+
+                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);          // Guardamos el Evento
+                            databaseReference.child("EvGroups").child(events.getIdEvent()).setValue(evGroup);          // Guardamos el Evento Grupal
+
                             Toast.makeText(getContext(), "Evento Agendado", Toast.LENGTH_SHORT).show();
 
                             }
-
-
                             obtenerEventos();
                         }
                 });
