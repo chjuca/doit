@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/groupKey"
+            android:id="@+id/keyGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
-            android:id="@+id/groupPass"
+            android:id="@+id/passGroup"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="8dp"
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/groupKey" />
 
         <Button
-            android:id="@+id/btnJoin"
+            android:id="@+id/btnCreate"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginStart="8dp"
@@ -81,4 +81,36 @@
             app:layout_constraintTop_toBottomOf="@+id/evDescripcion" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textCreateGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="40dp"
+        android:text="Aún no tienes grupo "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textCreate"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="111dp"
+        android:layout_marginRight="111dp"
+        android:layout_marginBottom="40dp"
+        android:clickable="true"
+        android:text="  ¡Crea Uno!"
+        android:textColor="@color/naranja"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textCreateGroup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

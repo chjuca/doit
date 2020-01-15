@@ -1,30 +1,23 @@
 package com.doitutpl.doit.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.doitutpl.doit.Controllers.GroupsController;
-import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class JoinToAGroup extends AppCompatActivity {
 
@@ -32,6 +25,7 @@ public class JoinToAGroup extends AppCompatActivity {
     //Group objGroup = new Group();
     Button btnJoin;
     EditText groupKey, groupPass;
+    TextView textJoin;
     Context context = this;
     Member objMember = new Member();
 
@@ -44,9 +38,10 @@ public class JoinToAGroup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unirse_grupo);
 
-        btnJoin = findViewById(R.id.btnJoin);
-        groupKey = findViewById(R.id.groupKey);
-        groupPass = findViewById(R.id.groupPass);
+        btnJoin = findViewById(R.id.btnCreate);
+        groupKey = findViewById(R.id.keyGroup);
+        groupPass = findViewById(R.id.passGroup);
+        textJoin = findViewById(R.id.textCreate);
 
 
 
@@ -58,11 +53,18 @@ public class JoinToAGroup extends AppCompatActivity {
                 String targetGroupKey = groupKey.getText().toString();
                 String targetPassword = groupPass.getText().toString();
 
-
                 GroupsController groupsController = new GroupsController();
                 int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
                 handleAddMemberExitCode(resultCode);
 
+            }
+        });
+
+        textJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), CreateGroup.class);
+                startActivityForResult(intent, 0);
             }
         });
 
