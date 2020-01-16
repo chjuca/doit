@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp">
+    >
 
 
 
@@ -92,7 +92,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:hint="Nombre del Evento"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#000000"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -106,8 +106,8 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:hint="Descripción"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textStyle="italic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -152,6 +152,28 @@
                     android:src="@drawable/icon_eliminar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textColor"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ibtnModificar"
+                    app:layout_constraintStart_toEndOf="@+id/textColor"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
