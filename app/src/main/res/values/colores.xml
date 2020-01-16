@@ -18,4 +18,8 @@
     <color name="disable_thumb_grey">#1c000000</color>
     <color name="enable_thumb_green">#46bdbf</color>
 
+    <!-- Colores del fondo -->
+    <color name="font">#DDDDDD</color>
+
+
 </resources>
