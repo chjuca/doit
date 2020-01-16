@@ -157,14 +157,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(user != null){
             StaticData.currentUser = user;
-            goToLoggedActivity();git
+            goToLoggedActivity();
 
         }
 
     }
 
     private void goToLoggedActivity(){
-        Intent intent = new Intent(LoginActivity.this, NotificationActivity.class);
+        Intent intent = new Intent(LoginActivity.this, Navegacion.class);
         startActivity(intent);
         finish();
     }
