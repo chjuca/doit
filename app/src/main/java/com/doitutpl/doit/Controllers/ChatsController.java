@@ -30,14 +30,14 @@ public class ChatsController {
 
     public void sendMessage (final Context context, final String keyChat, final Mensaje mensaje, String memberEmail){
         // Obtenemos la conexión
-        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.GROUPS_NODE_TITLE);
+        final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.CHATS_NODE_TITLE);
 
         //Aqui se selecciona el Chat al cual ira el mensaje
         databaseReference.child(keyChat).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("ENTRO");
-                DatabaseReference newMemberReference = databaseReference.child(keyChat).child(StaticData.CHATS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
+                DatabaseReference newMemberReference = databaseReference.child(keyChat).push(); // Obtenemos la referencia para agregar el nuevo miembro
                 newMemberReference.setValue(mensaje);
             }
 

@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.doitutpl.doit.Adaptadores.AdapterMensajes;
+import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.Mensaje;
 import com.doitutpl.doit.Models.MensajeEnviar;
 import com.doitutpl.doit.Models.MensajeRecibir;
@@ -39,6 +40,13 @@ public class chat extends AppCompatActivity {
     private AdapterMensajes adapter;
     private ImageButton btnEnviarFoto;
 
+
+    //============================
+    // AQUI SE RECIBE LA KEYSHAT
+    //===========================
+
+    final String keyChat = "JBalvin";
+
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -58,7 +66,7 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("chat");//Sala de chat (nombre)
+        databaseReference = database.getReference("Chats").child(keyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
         adapter = new AdapterMensajes(this);
@@ -69,8 +77,11 @@ public class chat extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
+                ChatsController chatsController = new ChatsController();
+                chatsController.sendMessage(getApplicationContext(),keyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
                 txtMensajes.setText("");
+                /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
+                txtMensajes.setText("");*/
             }
         });
 

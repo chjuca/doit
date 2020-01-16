@@ -184,7 +184,7 @@ public class GroupsController {
 
     // Metodo para saber si un grupo pertenece a un usurio
     public boolean belongsToAGroup(FirebaseUser user, Group group){
-        if(group.groupAdminEmail.equals(user.getEmail())){ // Si es el admin
+        if((group.groupAdminEmail).equals(user.getEmail())){ // Si es el admin  // Aqui va group.groupAdminEmail
             return true;
         }
 
@@ -195,7 +195,6 @@ public class GroupsController {
         }
 
         return false;
-
 
     }
 
