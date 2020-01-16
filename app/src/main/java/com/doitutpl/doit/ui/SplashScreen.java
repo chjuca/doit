@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.doitutpl.doit.GraficaActivity;
 import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
+import com.doitutpl.doit.ui.notification.NotificationActivity;
 
 public class SplashScreen extends AppCompatActivity {
 

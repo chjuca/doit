@@ -143,8 +143,6 @@ public class GroupsController {
         return belongs;
     }
 
-
-
     // Método para traer los grupos del usuario logeado
     public ArrayList<Group> pullUserGroups(Context context){
         // Obtenemos la conexión
@@ -200,19 +198,6 @@ public class GroupsController {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

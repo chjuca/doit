@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.doitutpl.doit.StaticData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -91,7 +92,7 @@ public class NotificationActivity extends AppCompatActivity {
         String [] horaParts = fechaActual[1].split(":");
 
         // Se obtiene toda la coleccion de eventos desde firebase
-        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener(){
+        databaseReference.child(StaticData.EVENTS_NODE_TITLE).orderByChild("evCreatorUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
@@ -201,6 +202,7 @@ public class NotificationActivity extends AppCompatActivity {
         String dateEv = formatDate.format(date);  // transformamos a String la fecha
         time time = new time(); // creamos un objeto de tipo tiempo
         time.execute();
+        System.out.println(dayliEvents);
         for(Events objEvents:dayliEvents){
             String dateEvent = String.format("%d/%s/%s %s:%s",objEvents.getEvDate().getYear(),
                     objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
