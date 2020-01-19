@@ -182,7 +182,7 @@ public class GroupsController {
 
 
 
-    // Metodo para saber si un grupo pertenece a un usurio
+    // Metodo para saber si un grupo pertenece a un usuario
     public boolean belongsToAGroup(FirebaseUser user, Group group){
         if((group.groupAdminEmail).equals(user.getEmail())){ // Si es el admin  // Aqui va group.groupAdminEmail
             return true;
