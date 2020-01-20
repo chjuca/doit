@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="gris">#858585</color>
-    <color name="verde">#4CAF50</color>
+    <color name="verde">#0D2A86</color>
     <color name="naranja">#FF9800</color>
     <color name="negro">#000000</color>
     <color name="purpura">#9C27B0</color>
@@ -11,5 +11,15 @@
     <color name="high">#de3535</color>
     <color name="half">#dddd32</color>
     <color name="low">#89de4f</color>
+
+
+    <!-- Colores del switch -->
+    <color name="disable_forground_grey">#42221f1f</color>
+    <color name="disable_thumb_grey">#1c000000</color>
+    <color name="enable_thumb_green">#46bdbf</color>
+
+    <!-- Colores del fondo -->
+    <color name="font">#DDDDDD</color>
+
 
 </resources>

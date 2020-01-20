@@ -1,22 +1,28 @@
 package com.doitutpl.doit.ui.notification;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.doitutpl.doit.Models.Events;
+import com.doitutpl.doit.Models.NotificationsEvents;
+import com.doitutpl.doit.Navegacion;
+import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.ui.LoadingActivity;
+import com.doitutpl.doit.ui.LoginActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,24 +31,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.doitutpl.doit.Models.Events;
-import com.doitutpl.doit.Navegacion;
-import com.doitutpl.doit.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    private Button btNotificacion;
+
     private PendingIntent pendingIntent;
     private PendingIntent openPedingIntent;
-    private PendingIntent silencePedIngIntent;
-    private final static String CHANNEL_ID = "Notificacion";
-    private final static int NOTIFICACION_ID = 0;
-    List<Events> dayliEvents = new ArrayList<>(); // ArrayList que guarda los eventos diarios
+    private PendingIntent readPedIngIntent = null;
+    List<NotificationsEvents> listNotifications = new ArrayList<>();
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -51,11 +53,10 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.setListaEventos();
         inicializarFirebase();
         time time = new time();
         time.execute();
-        startActivity(new Intent(getApplicationContext(), Navegacion.class));
+        startActivity(new Intent(getApplicationContext(), LoadingActivity.class));
     }
 
     private void inicializarFirebase() {
@@ -65,17 +66,16 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     // Metodo que establece la notificacion
-    private void setNotificacion(Events objEvents){
-        setPenndignIntent();
-        setOpenPendingIntent();
-        setSilencePendingIntent();
-        createNotificationChannel();
-        createNotification(objEvents);  // Metodo que crea la notificacion
-    }
+    private void setNotificacion(Events objEvents,int notificacionId){
 
-    public void setListaEventos(){
-        this.inicializarFirebase();
-        obtenerEventos();
+        //setOpenPendingIntent();
+        //setReadPendingIntent(notificacionId);
+        if (objEvents.isPublic()){
+            notificationGroups(objEvents,notificacionId);
+        }else{
+            notificationEvents(objEvents,notificacionId);
+        }
+        //createNotificationEvents(objEvents,notificacionId);  // Metodo que crea la notificacion
     }
 
     // Metodo que obtiene los eventos
@@ -91,7 +91,7 @@ public class NotificationActivity extends AppCompatActivity {
         String [] horaParts = fechaActual[1].split(":");
 
         // Se obtiene toda la coleccion de eventos desde firebase
-        databaseReference.child("Events").orderByChild("evCreateUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener(){
+        databaseReference.child(StaticData.EVENTS_NODE_TITLE).orderByChild("evCreatorUser").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaEvents.clear();
@@ -100,7 +100,8 @@ public class NotificationActivity extends AppCompatActivity {
                     listaEvents.add(events);
                 }
 
-                dayliEvents.clear();
+                listNotifications.clear();
+                int channel = 0;
                 for(Events objEvents:listaEvents){
 
                     // Se transforma la fecha obtenida en formato 'yyyy/mm/dd'
@@ -109,7 +110,8 @@ public class NotificationActivity extends AppCompatActivity {
 
                     // Si la fecha transformada es igual al dia actual se agrega los eventos a 'dayliEvents'
                     if (dateEvent.equals(fechaActual[0])){
-                        dayliEvents.add(objEvents);
+                        listNotifications.add(new NotificationsEvents(objEvents,channel));
+                        channel++;
                     }
                 }
 
@@ -122,66 +124,105 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-    // Metodo que establece que accion realizar al dar click en la notificacion
-    private void setPenndignIntent(){
-        // Llevar a la clase que muestra detalles del evento
-        Intent intent = new Intent(this, Navegacion.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(Navegacion.class);
-        stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
-        pendingIntent = PendingIntent.getActivity(NotificationActivity.this, 0, intent, 0);
-
-    }
-
     // Metodo que establece que accion realizar al dar click en el boton 'Abrir' de la notificacion
     private void setOpenPendingIntent(){
-        // Llevar a la clase MostrarEvento
+        // Llevar a la clase que muestra detalles del evento
         Intent intent = new Intent(this, Navegacion.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(Navegacion.class);
-        stackBuilder.addNextIntent(intent);
-        openPedingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
-        openPedingIntent = PendingIntent.getActivity(NotificationActivity.this, 0, intent, 0);
-
+        openPedingIntent = PendingIntent.getActivity(
+                getApplicationContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
     }
 
-    // // Metodo que establece que accion realizar al dar click en el boton 'Silenciar de la notificacion
-    private void setSilencePendingIntent(){
+    //  Metodo que establece que accion realizar al dar click en el boton 'Silenciar de la notificacion
+    private void setReadPendingIntent(int notificacionId){
         // creamos un objeto
+        Intent intent = null;
+
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.cancel( NOTIFICACION_ID);
-        //time time = new time();
+        notificationManagerCompat.cancel(notificacionId);
     }
 
     // Metodo que crea el canal de la notificacion
     private void createNotificationChannel(){
+        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "NOTIFICACION";
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,name, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
         }
+
+         */
+
+    }
+
+    public void notificationNewMember(String groupName,String userName){
+        createNotification(new Random().nextInt(1000),
+                String.format("%s: %s se unió a tu grupo",groupName.toUpperCase(),userName),"");
+        StaticData.groupName = "";
+    }
+
+    private void notificationEvents(Events objEvents,int notificacionId){
+        createNotification(notificacionId,objEvents.getEvName().toUpperCase(),
+                String.format("Hora de inicio: %s:%s",objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes()));
+    }
+
+    private void notificationGroups(Events objEvents, int notificacionId){
+        createNotification(notificacionId,String.format("%s: %s",objEvents.getEvGroups().getNameGroup().toUpperCase(),
+                objEvents.getEvName().toUpperCase()),
+                String.format("Hora de inicio: %s:%s",objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes()));
     }
 
     // Metodo que crea la notificacion
-    private void createNotification(Events objEvents){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_event_note_black_24dp); // Se establece el icono de la notificacion traido desde el paquete 'drawle'
-        builder.setContentTitle(objEvents.getEvName().toUpperCase()); // Titulo de la notificacion
-        builder.setContentText("Hora de inicio: "+objEvents.getEvDate().getHours()+":"+objEvents.getEvDate().getMinutes()); // Hora del evento
+    private void createNotification(int notificacionId,String title, String description){
+        
+        String channelId = "notification_channel_1";
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                getApplicationContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                getApplicationContext(),channelId
+        );
+        builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setContentText(description);
         builder.setColor(Color.MAGENTA); // Color de la notificacion
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        //builder.setLights(Color.MAGENTA,onMn:1000, offMs:1000);
-        builder.setVibrate(new long[]{1000,1000,1000,1000}); // Establece la vibracion de la notificacion
-        builder.setDefaults(Notification.DEFAULT_SOUND); // Establece el sonido por defecto que tiene el usuario
-
-        builder.setContentIntent(pendingIntent); // Establece que accion realizar cuando pulsa en la notificacion
-        builder.addAction(R.drawable.ic_done_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
-        //builder.addAction(R.drawable.ic_volume_off_black_24dp,"SILENCIAR",silencePedIngIntent); // boton de 'Silenciar'
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+        builder.setVibrate(new long[]{1000,1000,1000,1000});
+        builder.setContentIntent(pendingIntent);
+        builder.setContentTitle(title);
+        builder.setContentText(description);
+        builder.setAutoCancel(true);
+        builder.setLights(Color.MAGENTA,1000,1000);
+        //builder.addAction(R.drawable.ic_open_in_browser_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
+        //builder.addAction(R.drawable.ic_done_all_black_24dp,"Marcar como realizado",readPedIngIntent); // boton de 'Marcar como realizado'
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if(notificationManager != null && notificationManager.getNotificationChannel(channelId) == null){
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        channelId,"Notification_Channel_1",
+                        notificationManager.IMPORTANCE_HIGH
+                );
+                notificationChannel.setDescription("This notification channel is used to  notify user.");
+                notificationChannel.enableVibration(true);
+                notificationChannel.enableLights(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        Notification notification = builder.build();
+        if(notificationManager != null){
+            notificationManager.notify(notificacionId, notification);
+        }
     }
 
     // Hilo que permite que se realicen varios procedimientos a la misma ves
@@ -201,26 +242,29 @@ public class NotificationActivity extends AppCompatActivity {
         String dateEv = formatDate.format(date);  // transformamos a String la fecha
         time time = new time(); // creamos un objeto de tipo tiempo
         time.execute();
-        for(Events objEvents:dayliEvents){
-            String dateEvent = String.format("%d/%s/%s %s:%s",objEvents.getEvDate().getYear(),
-                    objEvents.getEvDate().getMonth(),objEvents.getEvDate().getDay(),
-                    objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes());
-            System.out.println(dateEv +' '+dateEvent);
+
+        for(NotificationsEvents objNotification:listNotifications){
+            String dateEvent = String.format("%d/%s/%s %s:%s",objNotification.getEvent().getEvDate().getYear(),
+                    objNotification.getEvent().getEvDate().getMonth(),objNotification.getEvent().getEvDate().getDay(),
+                    objNotification.getEvent().getEvDate().getHours(),objNotification.getEvent().getEvDate().getMinutes());
+            //System.out.println(dateEv +' '+dateEvent);
 
             // si la fecha del evento es igual a la actual entra
             if(dateEvent.equals(dateEv)){
 
-                if(objEvents.getEvPriority() == 1)
+                if(objNotification.getEvent().getEvPriority() == 1)
                     // Si la prioridad es 1 --> 'Alta' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 5 veces
                     time.tiempo = 10;
                 else
-                    if (objEvents.getEvPriority() == 2)
-                        // Si la prioridad es 2 --> 'Media' se recuerda el evento cada 20 segundos, es decir se creara la notificacion 3 veces
-                        time.tiempo = 20;
-                    else
-                        // Si la prioridad es 3 --> 'Baja' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 2 veces
-                        time.tiempo = 30;
-                setNotificacion(objEvents);
+                if (objNotification.getEvent().getEvPriority() == 2)
+                    // Si la prioridad es 2 --> 'Media' se recuerda el evento cada 20 segundos, es decir se creara la notificacion 3 veces
+                    time.tiempo = 20;
+                else
+                    // Si la prioridad es 3 --> 'Baja' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 2 veces
+                    time.tiempo = 30;
+
+                setNotificacion(objNotification.getEvent(),objNotification.getNotificationId());
+
             }
         }
 
@@ -242,5 +286,14 @@ public class NotificationActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             ejecutar();
         }
+    }
+
+
+
+
+    public void goToLoadingActivity(){
+        Intent intent = new Intent(NotificationActivity.this, LoadingActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
