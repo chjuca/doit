@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.doitutpl.doit.Models.Mensaje;
 import com.doitutpl.doit.Models.MensajeRecibir;
 import com.doitutpl.doit.R;
 
@@ -14,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.SimpleTimeZone;
-import java.util.logging.SimpleFormatter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +32,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 
     @Override
     public HolderMensajes onCreateViewHolder( ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mesajes,parent,false);
+        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mesajes_receptor,parent,false);
 
         return new HolderMensajes(v);
     }
@@ -65,5 +62,6 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     public int getItemCount() {
         return listMensaje.size();
     }
+
 
 }
