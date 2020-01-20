@@ -63,7 +63,7 @@ public class listGroup extends AppCompatActivity {
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        StaticData.currentKeyChat = lGrupo.getKeyChat();
+                        StaticData.currentsKeyChat = lGrupo.getKeyChat();
                         Intent intent = new Intent(listGroup.this, chat.class);
 
                         intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
