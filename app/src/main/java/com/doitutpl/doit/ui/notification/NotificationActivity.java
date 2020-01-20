@@ -199,6 +199,8 @@ public class NotificationActivity extends AppCompatActivity {
         builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
+        builder.setContentTitle(title);
+        builder.setContentText(description);
         builder.setAutoCancel(true);
         builder.setLights(Color.MAGENTA,1000,1000);
         //builder.addAction(R.drawable.ic_open_in_browser_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
