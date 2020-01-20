@@ -54,7 +54,7 @@ public class pruebaCalendario extends AppCompatActivity {
         return eventsController.getListEvents();
     }
 
-    private void renderCalendarView(MCalendarView calendarView){ /// metodo que se encarga del redenrilado para pintar el calendario
+    private void renderCalendarView(MCalendarView calendarView){ /// metodo que se encarga del redenrisado para pintar el calendario
         for (Events objEvents: EventsController.listEvents){ // recorriendo la lista eventos y cargando la fecha
             int year = objEvents.getEvDate().getYear();
             int month = Integer.parseInt(objEvents.getEvDate().getMonth());
