@@ -173,7 +173,13 @@ public class NotificationActivity extends AppCompatActivity {
         );
         builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
-        builder.setContentTitle(objEvents.getEvName().toUpperCase());
+        if (objEvents.isPublic()){
+            builder.setContentTitle(String.format("%s: %s",objEvents.getEvGroups().getNameGroup().toUpperCase(),
+                    objEvents.getEvName().toUpperCase()));
+        }else{
+            builder.setContentTitle(objEvents.getEvName().toUpperCase());
+        }
+
         builder.setContentText("Hora de inicio: "+objEvents.getEvDate().getHours()+":"+objEvents.getEvDate().getMinutes());
         builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
