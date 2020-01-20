@@ -1,7 +1,5 @@
 package com.doitutpl.doit.Models;
 
-import com.google.firebase.auth.FirebaseUser;
-
 
 public class User {
 
