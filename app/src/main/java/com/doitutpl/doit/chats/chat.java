@@ -17,6 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.doitutpl.doit.Adaptadores.AdapterMensajes;
 import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.MensajeEnviar;
@@ -33,14 +41,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Random;
 
@@ -160,8 +160,17 @@ public class chat extends AppCompatActivity {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
                 if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
-                            String.format("%s: %s", m.getNombre(), m.getMensaje()));
+                    if(m.getType_mensaje().equals("3")){
+                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                                String.format("%s: Se ha recibido un nuevo archivo", m.getNombre()));
+                    }
+                    if(m.getType_mensaje().equals("2")){
+                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                                String.format("%s: Se ha recibido una nueva imagen", m.getNombre()));
+                    }else {
+                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                                String.format("%s: %s", m.getNombre(), m.getMensaje()));
+                    }
 
 
                 }

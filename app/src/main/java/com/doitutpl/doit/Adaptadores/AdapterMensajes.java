@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.doitutpl.doit.Models.MensajeRecibir;
 import com.doitutpl.doit.R;
@@ -16,8 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 
