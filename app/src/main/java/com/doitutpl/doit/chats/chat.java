@@ -1,10 +1,14 @@
 package com.doitutpl.doit.chats;
 
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+
+import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -35,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +55,7 @@ public class chat extends AppCompatActivity {
     private Button btnEnviar;
     private AdapterMensajes adapter;
     private ImageButton btnEnviarFoto;
+    private Uri fileUri;
 
 
     private FirebaseDatabase database;
@@ -57,7 +63,7 @@ public class chat extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private static final int PHOTO_SEND = 1;
-    private static final int PHOTO_PERFIL = 2;
+    private static final int FILE_SEND = 2;
     private String keyReceptor;
     String chatKey = "JBalvin";
     String groupName = "";
@@ -77,7 +83,7 @@ public class chat extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         //keyChat = StaticData.currentChat;
         evNombre = (TextView) findViewById(R.id.evNombre);
-        rvMensajes =(RecyclerView) findViewById(R.id.rvMensajes);
+        rvMensajes = (RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);
         btnEnviar = (Button) findViewById(R.id.btnEnviar);
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
@@ -95,7 +101,9 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ChatsController chatsController = new ChatsController();
+
                 chatsController.sendMessage(getApplicationContext(),chatKey, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
+
                 txtMensajes.setText("");
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
@@ -105,12 +113,42 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("image/jpeg");
-                i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-                startActivityForResult(Intent.createChooser(i,"Selecciona una foto"),PHOTO_SEND);
+                CharSequence options[] = new CharSequence[]{
+                        "Imagenes",
+                        "Archivos PDF"
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(chat.this);
+                builder.setTitle("Seleccione lo que desea enviar");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int wich) {
+                        if (wich == 0) {
+                            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                            i.setType("image/*");
+                            i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), PHOTO_SEND);
+                        }
+                        if (wich == 1) {
+                            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                            i.setType("application/pdf");
+                            i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            startActivityForResult(Intent.createChooser(i, "Selecciona un archivo"), FILE_SEND);
+                        }
+                    }
+                });
+                builder.show();
             }
         });
+
+        /*
+        imgFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
+                imgFile.getContext().startActivity(intent);
+            }
+        });
+*/
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -155,15 +193,29 @@ public class chat extends AppCompatActivity {
 
     }
 
-    private void setScrollbar(){
-        rvMensajes.scrollToPosition(adapter.getItemCount()-1);
+    private void setScrollbar() {
+        rvMensajes.scrollToPosition(adapter.getItemCount() - 1);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
+        if(requestCode == FILE_SEND && resultCode == RESULT_OK){
+            fileUri = data.getData();
+
+            storageReference = storage.getReference("files_chat");//imagenes_chat
+            final StorageReference fileReferencia = storageReference.child(((Uri) fileUri).getLastPathSegment());
+            fileReferencia.putFile(fileUri);
+            fileReferencia.getDownloadUrl().addOnSuccessListener(this, new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    MensajeEnviar m = new MensajeEnviar("Se envio un archivo",evNombre.getText().toString(),fileUri.toString(),"3",ServerValue.TIMESTAMP);
+                    databaseReference.push().setValue(m);
+                }
+            });
+
+        }if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
             Uri u = data.getData();
 
             storageReference = storage.getReference("imagenes_chat");//imagenes_chat
@@ -172,7 +224,7 @@ public class chat extends AppCompatActivity {
             fotoReferencia.getDownloadUrl().addOnSuccessListener(this, new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    MensajeEnviar m = new MensajeEnviar("Se envio una foto",uri.toString(),evNombre.getText().toString(),"2",ServerValue.TIMESTAMP);
+                    MensajeEnviar m = new MensajeEnviar("Se envio una foto",evNombre.getText().toString(), uri.toString(),"2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
                 }
             });
