@@ -36,7 +36,14 @@
             <ImageView
                 android:id="@+id/fotoMensaje"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/fileMensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_insert_drive_file_black_24dp"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </LinearLayout>

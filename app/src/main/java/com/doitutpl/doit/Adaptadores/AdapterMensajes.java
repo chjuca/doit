@@ -24,6 +24,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     private List<MensajeRecibir> listMensaje = new ArrayList<>();
     private Context c;
 
+
     public AdapterMensajes( Context c) {
         this.c = c;
     }
@@ -31,6 +32,10 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     public void addMensaje(MensajeRecibir m){
         listMensaje.add(m);
         notifyItemInserted(listMensaje.size());
+    }
+
+    public List<MensajeRecibir> getListMensaje() {
+        return listMensaje;
     }
 
     @Override
@@ -53,6 +58,10 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         }else if(listMensaje.get(position).getType_mensaje().equals("1")){
             holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
+        }else if (listMensaje.get(position).getType_mensaje().equals("3")){
+            holder.getFileMensaje().setVisibility(View.VISIBLE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+
         }
 
         Long codigoHora = listMensaje.get(position).getHora();
