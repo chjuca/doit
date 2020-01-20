@@ -1,10 +1,4 @@
-package com.doitutpl.doit;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.doitutpl.doit.chats;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,9 +11,10 @@ import android.widget.TextView;
 
 import com.doitutpl.doit.Adaptadores.AdapterMensajes;
 import com.doitutpl.doit.Controllers.ChatsController;
-import com.doitutpl.doit.Models.Mensaje;
 import com.doitutpl.doit.Models.MensajeEnviar;
 import com.doitutpl.doit.Models.MensajeRecibir;
+import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class chat extends AppCompatActivity {
 
@@ -45,7 +45,7 @@ public class chat extends AppCompatActivity {
     // AQUI SE RECIBE LA KEYSHAT
     //===========================
 
-    final String keyChat = "JBalvin";
+    private String keyChat = "JBalvin";
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -53,6 +53,7 @@ public class chat extends AppCompatActivity {
     private StorageReference storageReference;
     private static final int PHOTO_SEND = 1;
     private static final int PHOTO_PERFIL = 2;
+    private String keyReceptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

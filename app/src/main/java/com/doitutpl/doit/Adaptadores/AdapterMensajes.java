@@ -57,7 +57,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 
         Long codigoHora = listMensaje.get(position).getHora();
         Date d = new Date(codigoHora);
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");//a pm o am
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
         holder.getHora().setText(sdf.format(d));
     }
 

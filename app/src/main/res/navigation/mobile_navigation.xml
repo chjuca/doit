@@ -25,7 +25,7 @@
         tools:layout="@layout/fragment_sign_out"/>
     <activity
         android:id="@+id/nav_chat"
-        android:name="com.doitutpl.doit.chat"
+        android:name="com.doitutpl.doit.chats.chat"
         android:label="activity_chat"
         tools:layout="@layout/activity_chat" />
     <activity
@@ -33,5 +33,10 @@
         android:name="com.doitutpl.doit.ui.JoinToAGroup"
         android:label="activity_unirse_grupo"
         tools:layout="@layout/activity_unirse_grupo" />
+    <activity
+        android:id="@+id/listaGrupos"
+        android:name="com.doitutpl.doit.chats.listGroup"
+        android:label="activity_lista_grupos"
+        tools:layout="@layout/activity_lista_grupos" />
 
 </navigation>
