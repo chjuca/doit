@@ -1,6 +1,8 @@
 package com.doitutpl.doit.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +48,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     }
 
     @Override
-    public void onBindViewHolder( HolderMensajes holder, int position) {
+    public void onBindViewHolder(final HolderMensajes holder, final int position) {
         holder.getNombre().setText(listMensaje.get(position).getNombre());
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
 
@@ -58,6 +60,16 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         }else if(listMensaje.get(position).getType_mensaje().equals("1")){
             holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
+        }else if (listMensaje.get(position).getType_mensaje().equals("3")){
+            holder.getFileMensaje().setVisibility(View.VISIBLE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto()));
+                    holder.itemView.getContext().startActivity(intent);
+                }
+            });
         }
 
         Long codigoHora = listMensaje.get(position).getHora();
