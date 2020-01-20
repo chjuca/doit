@@ -1,7 +1,14 @@
 package com.doitutpl.doit.chats;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +20,7 @@ import com.doitutpl.doit.Adaptadores.AdapterMensajes;
 import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.MensajeEnviar;
 import com.doitutpl.doit.Models.MensajeRecibir;
+import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,8 +36,11 @@ import com.google.firebase.storage.StorageReference;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Random;
 
 public class chat extends AppCompatActivity {
 
@@ -41,12 +52,6 @@ public class chat extends AppCompatActivity {
     private ImageButton btnEnviarFoto;
 
 
-    //============================
-    // AQUI SE RECIBE LA KEYSHAT
-    //===========================
-
-    private String keyChat = "JBalvin";
-
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -55,11 +60,14 @@ public class chat extends AppCompatActivity {
     private static final int PHOTO_PERFIL = 2;
     private String keyReceptor;
 
+    static String keyChat;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        keyChat = StaticData.currentChat;
         evNombre = (TextView) findViewById(R.id.evNombre);
         rvMensajes =(RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);
@@ -108,7 +116,12 @@ public class chat extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
+
                 adapter.addMensaje(m);
+                if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
+                    createNotification(new Random().nextInt(10000), "GRUPO PRUEBA: Nuevo mensaje",
+                            String.format("%s: %s", m.getNombre(), m.getMensaje()));
+                }
             }
 
             @Override
@@ -139,9 +152,6 @@ public class chat extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,6 +169,61 @@ public class chat extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    // Metodo que crea la notificacion
+    private void createNotification(int notificacionId,String title, String description){
+
+        String channelId = "notification_channel_1";
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, Navegacion.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                getApplicationContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                getApplicationContext(),channelId
+        );
+        builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setContentText(description);
+        builder.setColor(Color.MAGENTA); // Color de la notificacion
+        builder.setVibrate(new long[]{1000,1000,1000,1000});
+        builder.setContentIntent(pendingIntent);
+        builder.setContentTitle(title);
+        builder.setContentText(description);
+        builder.setAutoCancel(true);
+        builder.setLights(Color.MAGENTA,1000,1000);
+        //builder.addAction(R.drawable.ic_open_in_browser_black_24dp,"ABRIR",openPedingIntent); // boton de 'Abrir'
+        //builder.addAction(R.drawable.ic_done_all_black_24dp,"Marcar como realizado",readPedIngIntent); // boton de 'Marcar como realizado'
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if(notificationManager != null && notificationManager.getNotificationChannel(channelId) == null){
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        channelId,"Notification_Channel_1",
+                        notificationManager.IMPORTANCE_HIGH
+                );
+                notificationChannel.setDescription("This notification channel is used to  notify user.");
+                notificationChannel.enableVibration(true);
+                notificationChannel.enableLights(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        Notification notification = builder.build();
+        if(notificationManager != null){
+            notificationManager.notify(notificacionId, notification);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        StaticData.currentChat = "";
     }
 }
 
