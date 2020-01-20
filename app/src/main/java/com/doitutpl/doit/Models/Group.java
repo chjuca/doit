@@ -27,9 +27,13 @@ public class Group {
     public String groupAdminEmail;
 
 
-
     public Group(){
         /*Constructor*/
+    }
+
+    public Group(String keyGroup, Group model){
+        /*Constructor*/
+        this.keyGroup = keyGroup;
     }
 
 
