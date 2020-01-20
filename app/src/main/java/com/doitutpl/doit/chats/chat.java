@@ -60,13 +60,6 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle!= null){
-            keyReceptor = bundle.getString("keyGroup");
-        }else{
-            finish();
-        }
-
         evNombre = (TextView) findViewById(R.id.evNombre);
         rvMensajes =(RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);

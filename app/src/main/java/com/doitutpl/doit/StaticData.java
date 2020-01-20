@@ -1,6 +1,9 @@
 package com.doitutpl.doit;
 
+import com.doitutpl.doit.Models.Group;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 
 
@@ -18,6 +21,13 @@ public class StaticData {
     public static final String GROUPS_NODE_TITLE = "Groups";
     public static final String CHATS_NODE_TITLE = "Chats";
     public static final String MEMBERS_NODE_TITLE = "members";
+    public static  String groupName = "";
+
+
+
+    // Array que guarda los grupos
+    public static ArrayList<Group> arrayGroups = new ArrayList<>();
+
 
 
 

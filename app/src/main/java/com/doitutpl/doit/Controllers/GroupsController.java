@@ -5,9 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Group;
-import com.doitutpl.doit.Models.GroupEvent;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,7 +13,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -90,7 +87,9 @@ public class GroupsController {
                             DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
                             newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
                             Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
-                            GroupsController.addMemberExitCodeProcess = 0;                              // * Exit Code 0 CORRECT
+                            GroupsController.addMemberExitCodeProcess = 0;
+
+                            StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
                         } else { // EL usuario ya esta agregado en el grupo
 
                             Log.println(Log.ERROR, "ERROR", "This user is already on this group");
@@ -182,19 +181,15 @@ public class GroupsController {
 
 
 
-    // Metodo para saber si un grupo pertenece a un usurio
+    // Metodo para saber si un grupo pertenece a un usuario
     public boolean belongsToAGroup(FirebaseUser user, Group group){
         if((group.groupAdminEmail).equals(user.getEmail())){ // Si es el admin  // Aqui va group.groupAdminEmail
             return true;
         }
 
-        for (Map.Entry<String, Member> entry : group.members.entrySet()) { // Si esta en los miembros
-            if(isAlreadyMember(group, entry.getValue())){
-                return true;
-            }
-        }
 
-        return false;
+        return isAlreadyMember(group, MembersController.parseMember(user));
+
 
     }
 
