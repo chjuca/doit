@@ -65,7 +65,8 @@ public class listGroup extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         chat objChat = new chat();
-                        chat.keyChat = lGrupo.getKeyChat();
+                        objChat.setChatKey(lGrupo.getKeyChat());
+                        objChat.setNameGroup(lGrupo.getNameGroup());
 
                         Intent intent = new Intent(listGroup.this, chat.class);
                         intent.putExtra("KeyGroup", lGrupo.getKeyGroup());

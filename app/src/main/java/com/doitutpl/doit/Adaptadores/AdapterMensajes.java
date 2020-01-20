@@ -44,8 +44,8 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     public void onBindViewHolder( HolderMensajes holder, int position) {
         //System.out.println(listMensaje.isEmpty());
 
-        System.out.println(listMensaje.get(position).getMensaje());
-        System.out.println("---------------------------------");
+        //System.out.println(listMensaje.get(position).getMensaje());
+        //System.out.println("---------------------------------");
         holder.getNombre().setText(listMensaje.get(position).getNombre());
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
 

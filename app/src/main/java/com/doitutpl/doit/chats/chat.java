@@ -59,15 +59,23 @@ public class chat extends AppCompatActivity {
     private static final int PHOTO_SEND = 1;
     private static final int PHOTO_PERFIL = 2;
     private String keyReceptor;
+    String chatKey = "JBalvin";
+    String groupName = "";
 
-    static String keyChat;
+    //static String keyChat = "JBalvin";
+    public void setChatKey(String chatKey){
+        this.chatKey = chatKey;
+    }
 
+    public void setNameGroup(String groupName){
+        this.groupName = groupName;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        keyChat = StaticData.currentChat;
+        //keyChat = StaticData.currentChat;
         evNombre = (TextView) findViewById(R.id.evNombre);
         rvMensajes =(RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);
@@ -75,7 +83,7 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Chats").child(keyChat);//Sala de chat (nombre)
+        databaseReference = database.getReference("Chats").child(chatKey);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
         adapter = new AdapterMensajes(this);
@@ -87,7 +95,7 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ChatsController chatsController = new ChatsController();
-                chatsController.sendMessage(getApplicationContext(),keyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
+                chatsController.sendMessage(getApplicationContext(),chatKey, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
                 txtMensajes.setText("");
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
@@ -119,7 +127,7 @@ public class chat extends AppCompatActivity {
 
                 adapter.addMensaje(m);
                 if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    createNotification(new Random().nextInt(10000), "GRUPO PRUEBA: Nuevo mensaje",
+                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje",groupName.toUpperCase()),
                             String.format("%s: %s", m.getNombre(), m.getMensaje()));
                 }
             }
@@ -196,6 +204,7 @@ public class chat extends AppCompatActivity {
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
         builder.setContentTitle(title);
+        //builder.setLargeIcon(StaticData.currentUser.);
         builder.setContentText(description);
         builder.setAutoCancel(true);
         builder.setLights(Color.MAGENTA,1000,1000);
