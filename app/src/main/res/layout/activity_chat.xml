@@ -41,8 +41,9 @@
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnEnviar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+
             android:background="@drawable/ic_menu_send"
             />
     </LinearLayout>
