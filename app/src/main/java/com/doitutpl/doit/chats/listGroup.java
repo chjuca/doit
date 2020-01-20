@@ -64,14 +64,16 @@ public class listGroup extends AppCompatActivity {
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+<<<<<<< HEAD
                         chat objChat = new chat();
                         objChat.setChatKey(lGrupo.getKeyChat());
                         objChat.setNameGroup(lGrupo.getNameGroup());
 
+=======
+                        StaticData.currentKeyChat = lGrupo.getKeyChat();
+>>>>>>> c492e9781d62ab4c873cc1263d56f5c4983974f0
                         Intent intent = new Intent(listGroup.this, chat.class);
-                        intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         startActivity(intent);
-                        //Toast.makeText(listGroup.this,"Key: "+lGrupo.getKeyGroup(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

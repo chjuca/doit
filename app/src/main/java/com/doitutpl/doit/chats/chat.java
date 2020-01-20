@@ -77,6 +77,7 @@ public class chat extends AppCompatActivity {
         this.groupName = groupName;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,13 +90,19 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
+
         databaseReference = database.getReference("Chats").child(chatKey);//Sala de chat (nombre)
+
         storage = FirebaseStorage.getInstance();
 
-        adapter = new AdapterMensajes(this);
-        LinearLayoutManager l = new LinearLayoutManager(this);
-        rvMensajes.setLayoutManager(l);
-        rvMensajes.setAdapter(adapter);
+        if (adapter == null){
+            System.out.println("ENTRO");
+        }else{
+            adapter = new AdapterMensajes(this);
+            LinearLayoutManager l = new LinearLayoutManager(this);
+            rvMensajes.setLayoutManager(l);
+            rvMensajes.setAdapter(adapter);
+        }
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,35 +147,26 @@ public class chat extends AppCompatActivity {
             }
         });
 
-        /*
-        imgFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
-                imgFile.getContext().startActivity(intent);
-            }
-        });
-*/
+        if (adapter!=null) {
+            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    setScrollbar();
+                }
+            });
+        }
 
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                setScrollbar();
-            }
-        });
 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
-
                 adapter.addMensaje(m);
                 if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
                     createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje",groupName.toUpperCase()),
                             String.format("%s: %s", m.getNombre(), m.getMensaje()));
-                }
-            }
+
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -287,3 +285,4 @@ public class chat extends AppCompatActivity {
         StaticData.currentChat = "";
     }
 }
+

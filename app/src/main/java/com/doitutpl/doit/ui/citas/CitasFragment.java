@@ -51,6 +51,7 @@ import java.util.UUID;
 public class CitasFragment extends Fragment {
 
     GroupsController ObjGroupsController = new GroupsController();
+
     ArrayList<Group> groupList = new ArrayList<>();
 
     ImageButton ibtnAdd, ibtnShowAll;
@@ -81,8 +82,6 @@ public class CitasFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_citas, container, false);
 
-        groupList = ObjGroupsController.pullUserGroups(getContext());
-
         ibtnAdd = root.findViewById(R.id.ibtnAgregar);
         ibtnShowAll = root.findViewById(R.id.ibtnMostrarTodas);
         //spiDiasMain = root.findViewById(R.id.spiDiasMain);
@@ -97,6 +96,8 @@ public class CitasFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                groupList.clear();
+                groupList = ObjGroupsController.pullUserGroups(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
 
@@ -146,6 +147,7 @@ public class CitasFragment extends Fragment {
                             for (int i = 0; i < groupsName.length; i++){
                                 groupsName[i]= groupList.get(i).getNameGroup().toUpperCase();
                             }
+                            spiGroups.setAdapter(null);
                             spiGroups.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_spinner, groupsName));
 
                         }else{
