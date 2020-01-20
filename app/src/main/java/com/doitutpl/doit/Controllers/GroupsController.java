@@ -163,8 +163,6 @@ public class GroupsController {
                             arrayListGroups.add(group);
 
                         }
-
-
                     }
 
                 }

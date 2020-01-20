@@ -26,6 +26,7 @@ public class StaticData {
 
 
 
+
     // Array que guarda los grupos
     public static ArrayList<Group> arrayGroups = new ArrayList<>();
 
