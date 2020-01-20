@@ -68,6 +68,7 @@ public class listGroup extends AppCompatActivity {
 
                         intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         StaticData.currentsKeyChat = lGrupo.getKeyGroup();
+                        StaticData.groupName = lGrupo.getNameGroup();
 
                         startActivity(intent);
                     }

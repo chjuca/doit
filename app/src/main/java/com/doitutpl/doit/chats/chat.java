@@ -160,7 +160,7 @@ public class chat extends AppCompatActivity {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
                 if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje", "GRUPO PRUEBA"),
+                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje", StaticData.groupName),
                             String.format("%s: %s", m.getNombre(), m.getMensaje()));
 
 
