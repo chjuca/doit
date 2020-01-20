@@ -90,7 +90,9 @@ public class GroupsController {
                             DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
                             newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
                             Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
-                            GroupsController.addMemberExitCodeProcess = 0;                              // * Exit Code 0 CORRECT
+                            GroupsController.addMemberExitCodeProcess = 0;
+
+                            StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
                         } else { // EL usuario ya esta agregado en el grupo
 
                             Log.println(Log.ERROR, "ERROR", "This user is already on this group");
