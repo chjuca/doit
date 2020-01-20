@@ -43,6 +43,13 @@ public class chat extends AppCompatActivity {
     private ImageButton btnEnviarFoto;
     private Uri fileUri;
 
+
+    //============================
+    // AQUI SE RECIBE LA KEYSHAT
+    //===========================
+
+    private String keyChat = "JBalvin";
+
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -50,7 +57,6 @@ public class chat extends AppCompatActivity {
     private static final int PHOTO_SEND = 1;
     private static final int FILE_SEND = 2;
     private String keyReceptor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +70,30 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Chats").child("JBalvin");//Sala de chat (nombre)
+        databaseReference = database.getReference("Chats").child(StaticData.currentsKeyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
-        if (adapter == null){
-            System.out.println("ENTRO");
-        }else{
-            adapter = new AdapterMensajes(this);
-            LinearLayoutManager l = new LinearLayoutManager(this);
-            rvMensajes.setLayoutManager(l);
-            rvMensajes.setAdapter(adapter);
-        }
+        adapter = new AdapterMensajes(this);
+        LinearLayoutManager l = new LinearLayoutManager(this);
+        rvMensajes.setLayoutManager(l);
+        rvMensajes.setAdapter(adapter);
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChatsController chatsController = new ChatsController();
-                chatsController.sendMessage(getApplicationContext(),"JBalvin", new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
 
-                txtMensajes.setText("");
+
+            btnEnviar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(txtMensajes.getText().toString().length()!=0) {
+                        ChatsController chatsController = new ChatsController();
+                        chatsController.sendMessage(getApplicationContext(), StaticData.currentsKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
+                        txtMensajes.setText("");
+                    }
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
-            }
-        });
+                }
+            });
+
+
 
         btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,24 +125,29 @@ public class chat extends AppCompatActivity {
             }
         });
 
-        if (adapter!=null) {
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                @Override
-                public void onItemRangeInserted(int positionStart, int itemCount) {
-                    super.onItemRangeInserted(positionStart, itemCount);
-                    setScrollbar();
-                }
-            });
-        }
+        /*
+        imgFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
+                imgFile.getContext().startActivity(intent);
+            }
+        });
+*/
 
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                setScrollbar();
+            }
+        });
 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
-                if(adapter!= null) {
-                    adapter.addMensaje(m);
-                }
+                adapter.addMensaje(m);
             }
 
             @Override

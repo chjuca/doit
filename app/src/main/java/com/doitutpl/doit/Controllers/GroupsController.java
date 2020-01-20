@@ -1,21 +1,31 @@
 package com.doitutpl.doit.Controllers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.chats.chat;
+import com.doitutpl.doit.chats.listGroup;
+import com.doitutpl.doit.ui.JoinToAGroup;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import static com.doitutpl.doit.Controllers.EventsController.listEvents;
 
 public class GroupsController {
 
@@ -59,7 +69,7 @@ public class GroupsController {
 
     // Metodo usado para añadir un miembro a un grupo
     static int addMemberExitCodeProcess;
-    public int addMember(Context context, final String keyGroup, final String password, String memberEmail) {
+    public int addMember(final Context context, final String keyGroup, final String password, String memberEmail) {
         GroupsController.addMemberExitCodeProcess = -1; // Exit Code -1 No iniciado
         // Obtenemos la conexión
         final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.GROUPS_NODE_TITLE);
@@ -75,38 +85,43 @@ public class GroupsController {
 
 
                     // Verificamos que la contraseña coincida con la enviada
-                    if (targetGroup.password.equals(password)) { // Si la contraseña coincide
-                        Log.println(Log.INFO, "CORRECT", "Correct group password");
 
-                        // Obtenemos el miembro a agregar, en este caso será el mismo que esté logeado
-                        Member targetMember = MembersController.parseMember(StaticData.currentUser);
+                        if (targetGroup.password.equals(password)) { // Si la contraseña coincide
+                            Log.println(Log.INFO, "CORRECT", "Correct group password");
+
+                            // Obtenemos el miembro a agregar, en este caso será el mismo que esté logeado
+                            Member targetMember = MembersController.parseMember(StaticData.currentUser);
 
 
-                        // Verificamos que el miembro aun no pertenezca al grupo
-                        if (isAlreadyMember(targetGroup, targetMember) == false) {
-                            DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
-                            newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
-                            Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
-                            GroupsController.addMemberExitCodeProcess = 0;
+                            // Verificamos que el miembro aun no pertenezca al grupo
+                            if (isAlreadyMember(targetGroup, targetMember) == false) {
+                                DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
+                                newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
+                                Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
+                                Toast.makeText(context,"Bienvenido a: " + targetGroup.getNameGroup(), Toast.LENGTH_LONG).show();
+                                GroupsController.addMemberExitCodeProcess = 0;
 
-                            StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
-                        } else { // EL usuario ya esta agregado en el grupo
+                                StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
+                            } else { // EL usuario ya esta agregado en el grupo
+                                Toast.makeText(context,"Ya perteneces a este Grupo", Toast.LENGTH_LONG).show();
+                                Log.println(Log.ERROR, "ERROR", "This user is already on this group");
+                                GroupsController.addMemberExitCodeProcess = 1;                              // * Exit Code 1 ERROR
+                            }
 
-                            Log.println(Log.ERROR, "ERROR", "This user is already on this group");
-                            GroupsController.addMemberExitCodeProcess = 1;                              // * Exit Code 1 ERROR
+
+                        } else { // La contrasena es incorrecta
+                            Log.println(Log.ERROR, "ERROR", "Incorrect password");
+                            GroupsController.addMemberExitCodeProcess = 2;                                  // * Exit Code 2 ERROR
+
+                            Toast.makeText(context,"La contraseña es Incorrecta", Toast.LENGTH_LONG).show();
                         }
-
-
-                    } else { // La contrasena es incorrecta
-                        Log.println(Log.ERROR, "ERROR", "Incorrect password");
-                        GroupsController.addMemberExitCodeProcess = 2;                                  // * Exit Code 2 ERROR
-                    }
 
 
                 } else { // La group key no existe en firebase
 
                     Log.println(Log.ERROR, "ERROR", "The group key did not match with the firebase database");
                     GroupsController.addMemberExitCodeProcess = 3;                                      // * Exit Code 3 ERROR
+                    Toast.makeText(context,"El Grupo no Existe", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -190,6 +205,7 @@ public class GroupsController {
 
 
     }
+
 
 }
 

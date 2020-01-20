@@ -55,10 +55,9 @@ public class listGroup extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(GroupViewHolder holder, int position, final Group model) {
+            protected void onBindViewHolder(GroupViewHolder holder, final int position, final Group model) {
 
                 holder.getTxtNombreGrupo().setText(model.nameGroup);
-
                 final Group lGrupo = new Group(getSnapshots().getSnapshot(position).getKey(), model);
 
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
@@ -66,6 +65,10 @@ public class listGroup extends AppCompatActivity {
                     public void onClick(View view) {
                         StaticData.currentKeyChat = lGrupo.getKeyChat();
                         Intent intent = new Intent(listGroup.this, chat.class);
+
+                        intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
+                        StaticData.currentsKeyChat = lGrupo.getKeyGroup();
+
                         startActivity(intent);
                     }
                 });
