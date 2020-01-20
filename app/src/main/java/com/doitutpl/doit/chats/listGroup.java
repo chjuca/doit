@@ -1,21 +1,19 @@
 package com.doitutpl.doit.chats;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.doitutpl.doit.Adaptadores.GroupViewHolder;
-import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,6 +63,7 @@ public class listGroup extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(listGroup.this, chat.class);
                         intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
+                        StaticData.currentKeyChat = lGrupo.getKeyChat();
                         startActivity(intent);
                         //Toast.makeText(listGroup.this,"Key: "+lGrupo.getKeyGroup(), Toast.LENGTH_SHORT).show();
                     }

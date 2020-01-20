@@ -9,6 +9,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.doitutpl.doit.Adaptadores.AdapterMensajes;
 import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.MensajeEnviar;
@@ -25,12 +31,6 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class chat extends AppCompatActivity {
 
     private TextView evNombre;
@@ -45,7 +45,7 @@ public class chat extends AppCompatActivity {
     // AQUI SE RECIBE LA KEYSHAT
     //===========================
 
-    private String keyChat = "JBalvin";
+
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -53,21 +53,26 @@ public class chat extends AppCompatActivity {
     private StorageReference storageReference;
     private static final int PHOTO_SEND = 1;
     private static final int PHOTO_PERFIL = 2;
-    private String keyReceptor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+
+        // Obteniendo los elementos de la interfaz
         evNombre = (TextView) findViewById(R.id.evNombre);
         rvMensajes =(RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);
         btnEnviar = (Button) findViewById(R.id.btnEnviar);
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
+
+
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Chats").child(keyChat);//Sala de chat (nombre)
+        System.out.println(StaticData.currentKeyChat);
+        databaseReference = database.getReference("Chats").child(StaticData.currentKeyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
         adapter = new AdapterMensajes(this);
@@ -79,7 +84,7 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ChatsController chatsController = new ChatsController();
-                chatsController.sendMessage(getApplicationContext(),keyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
+                chatsController.sendMessage(getApplicationContext(),StaticData.currentKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
                 txtMensajes.setText("");
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
