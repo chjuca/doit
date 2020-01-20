@@ -58,15 +58,7 @@ public class chat extends AppCompatActivity {
     private Uri fileUri;
 
 
-<<<<<<< HEAD
-=======
-    //============================
-    // AQUI SE RECIBE LA KEYSHAT
-    //===========================
 
-    private String keyChat = "JBalvin";
-
->>>>>>> 80d9b18a682b9d87c0331d1452736fff62227e67
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -184,12 +176,14 @@ public class chat extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
-                if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje",groupName.toUpperCase()),
+                if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
+                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje", groupName.toUpperCase()),
                             String.format("%s: %s", m.getNombre(), m.getMensaje()));
 
 
+                }
             }
+        }
 
 
             @Override
