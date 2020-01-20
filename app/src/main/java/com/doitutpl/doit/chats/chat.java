@@ -161,14 +161,14 @@ public class chat extends AppCompatActivity {
                 adapter.addMensaje(m);
                 if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
                     if(m.getType_mensaje().equals("3")){
-                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                        createNotification(0, "Tiene un mensaje nuevo",
                                 String.format("%s: Se ha recibido un nuevo archivo", m.getNombre()));
                     }
                     if(m.getType_mensaje().equals("2")){
-                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                        createNotification(0, "Tiene un mensaje nuevo",
                                 String.format("%s: Se ha recibido una nueva imagen", m.getNombre()));
                     }else {
-                        createNotification(new Random().nextInt(10000), "Tiene un mensaje nuevo",
+                        createNotification(0, "Tiene un mensaje nuevo",
                                 String.format("%s: %s", m.getNombre(), m.getMensaje()));
                     }
 
