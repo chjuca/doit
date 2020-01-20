@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Alertas -->
-    <color name="colorPrimary">#2F2F92</color>
+    <color name="colorPrimary">#171768</color>
     <color name="colorPrimaryDark">#083150</color>
     <color name="colorAccent">#1BA2D8</color>
     <color name="colorUtpl">#003F72</color>
