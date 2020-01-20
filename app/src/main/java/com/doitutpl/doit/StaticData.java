@@ -22,6 +22,7 @@ public class StaticData {
     public static final String CHATS_NODE_TITLE = "Chats";
     public static final String MEMBERS_NODE_TITLE = "members";
     public static  String groupName = "";
+    public static  String currentKeyChat = "";
 
 
 
