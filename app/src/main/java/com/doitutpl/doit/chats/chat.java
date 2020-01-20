@@ -70,7 +70,7 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Chats").child(keyChat);//Sala de chat (nombre)
+        databaseReference = database.getReference("Chats").child(StaticData.currentsKeyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
         adapter = new AdapterMensajes(this);
@@ -82,7 +82,7 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ChatsController chatsController = new ChatsController();
-                chatsController.sendMessage(getApplicationContext(), keyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
+                chatsController.sendMessage(getApplicationContext(), StaticData.currentsKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
                 txtMensajes.setText("");
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/

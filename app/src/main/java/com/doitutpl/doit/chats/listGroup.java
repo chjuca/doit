@@ -16,6 +16,7 @@ import com.doitutpl.doit.Adaptadores.GroupViewHolder;
 import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,8 +66,8 @@ public class listGroup extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(listGroup.this, chat.class);
                         intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
+                        StaticData.currentsKeyChat = lGrupo.getKeyGroup();
                         startActivity(intent);
-                        //Toast.makeText(listGroup.this,"Key: "+lGrupo.getKeyGroup(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
