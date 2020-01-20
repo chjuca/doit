@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.doitutpl.doit.Models.MensajeRecibir;
 import com.doitutpl.doit.R;
+import com.doitutpl.doit.StaticData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,9 +33,16 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 
     @Override
     public HolderMensajes onCreateViewHolder( ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(c).inflate(R.layout.card_view_mesajes_receptor,parent,false);
+        View view;
 
-        return new HolderMensajes(v);
+        if (viewType==1){
+            view = LayoutInflater.from(c).inflate(R.layout.card_view_mesajes_emisor,parent,false);
+        }else{
+            view = LayoutInflater.from(c).inflate(R.layout.card_view_mesajes_receptor,parent,false);
+        }
+
+
+        return new HolderMensajes(view);
     }
 
     @Override
@@ -63,5 +71,17 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         return listMensaje.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (listMensaje.get(position).getNombre()!=null){
+            if (listMensaje.get(position).getNombre().equals(StaticData.currentUser.getDisplayName())){
+                return 1;
+            }else {
+                return -1;
+            }
+        }else {
+            return -1;
+        }
 
+    }
 }

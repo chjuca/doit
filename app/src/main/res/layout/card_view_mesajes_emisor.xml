@@ -45,14 +45,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5sp"
-                                android:text="00:00"/>
+                                android:text="00:00"
+                                android:textColor="#FFFFFF"/>
                             <TextView
                                 android:id="@+id/txtNombreMensaje"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 android:layout_weight="1"
-                                android:gravity="end"/>
+                                android:gravity="end"
+                                android:textColor="#FFFFFF"/>
 
                         </LinearLayout>
                         <TextView
@@ -60,8 +62,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3sp"
+                            android:layout_marginRight="3sp"
                             android:text="asd"
-                            android:gravity="end"/>
+                            android:gravity="end"
+                            android:textColor="#FFFFFF"/>
                         <ImageView
                             android:id="@+id/fotoMensaje"
                             android:layout_width="wrap_content"
