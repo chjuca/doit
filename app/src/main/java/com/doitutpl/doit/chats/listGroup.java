@@ -68,10 +68,7 @@ public class listGroup extends AppCompatActivity {
                         chat objChat = new chat();
                         objChat.setChatKey(lGrupo.getKeyChat());
                         objChat.setNameGroup(lGrupo.getNameGroup());
-
-=======
                         StaticData.currentKeyChat = lGrupo.getKeyChat();
->>>>>>> c492e9781d62ab4c873cc1263d56f5c4983974f0
                         Intent intent = new Intent(listGroup.this, chat.class);
                         startActivity(intent);
                     }
