@@ -14,7 +14,7 @@
             android:id="@+id/evNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="David"
+            android:text=""
             android:layout_gravity="center" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
