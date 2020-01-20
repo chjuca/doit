@@ -287,5 +287,3 @@ public class chat extends AppCompatActivity {
         StaticData.currentChat = "";
     }
 }
-
-
