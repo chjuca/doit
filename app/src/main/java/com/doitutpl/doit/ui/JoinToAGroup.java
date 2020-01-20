@@ -16,12 +16,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doitutpl.doit.Controllers.GroupsController;
+import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.chats.chat;
+import com.doitutpl.doit.chats.listGroup;
 import com.doitutpl.doit.ui.notification.NotificationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,9 +68,11 @@ public class JoinToAGroup extends AppCompatActivity {
                 String targetGroupKey = groupKey.getText().toString();
                 String targetPassword = groupPass.getText().toString();
 
-                GroupsController groupsController = new GroupsController();
-                int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
-                handleAddMemberExitCode(resultCode);
+                if (targetGroupKey.length() != 0 && targetPassword.length() != 0) {
+
+                    GroupsController groupsController = new GroupsController();
+                    int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
+                    handleAddMemberExitCode(resultCode);
                 /*
                 createNotification(new Random().nextInt(1000),
                         String.format("%s: %s se unió a tu grupo",StaticData.groupName.toUpperCase(),StaticData.currentUser.getDisplayName()),"");
@@ -74,6 +80,9 @@ public class JoinToAGroup extends AppCompatActivity {
 
                  */
 
+                }else{
+                    Toast.makeText(JoinToAGroup.this,"Aun faltan campos por llenar", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -87,31 +96,30 @@ public class JoinToAGroup extends AppCompatActivity {
 
     }
 
+
     // Metodo que maneja el codigo de salida del proceso addMember de la clase GroupsController
     private void handleAddMemberExitCode(int code) {
         if(code==0){
             // ToDo: Todo correcto, miembro añadido
-            // ...
+            Toast.makeText(JoinToAGroup.this,"Ahora formas parte del Grupo", Toast.LENGTH_LONG).show();
 
         }else if(code==1){
             // ToDo: Error. El usuario ya pertenece al grupo
-            // ...
+            Toast.makeText(JoinToAGroup.this,"Ya perteneces a este Grupo", Toast.LENGTH_LONG).show();
 
         }else if(code==2){
             // ToDo: Error. Contraseña incorrecta
-            // ...
+            Toast.makeText(JoinToAGroup.this,"La contraseña es Incorrecta", Toast.LENGTH_LONG).show();
 
         }else if(code==3){
             // ToDo: Error. No existe ningún grupo con esa llave
-            // ...
+            Toast.makeText(JoinToAGroup.this,"El grupo no Existe", Toast.LENGTH_LONG).show();
 
         }else if(code==4){
             // ToDo: Error. Proceso cancelado
-            // ...
-
+            Toast.makeText(JoinToAGroup.this,"Proceso Cancelado", Toast.LENGTH_LONG).show();
         }else{
             // ToDo: Error inesperado
-            // ...
 
         }
     }

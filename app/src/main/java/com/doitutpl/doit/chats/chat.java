@@ -58,6 +58,15 @@ public class chat extends AppCompatActivity {
     private Uri fileUri;
 
 
+<<<<<<< HEAD
+=======
+    //============================
+    // AQUI SE RECIBE LA KEYSHAT
+    //===========================
+
+    private String keyChat = "JBalvin";
+
+>>>>>>> 80d9b18a682b9d87c0331d1452736fff62227e67
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -77,7 +86,6 @@ public class chat extends AppCompatActivity {
         this.groupName = groupName;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,18 +99,14 @@ public class chat extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        databaseReference = database.getReference("Chats").child(chatKey);//Sala de chat (nombre)
-
+        databaseReference = database.getReference("Chats").child(StaticData.currentsKeyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
-        if (adapter == null){
-            System.out.println("ENTRO");
-        }else{
-            adapter = new AdapterMensajes(this);
-            LinearLayoutManager l = new LinearLayoutManager(this);
-            rvMensajes.setLayoutManager(l);
-            rvMensajes.setAdapter(adapter);
-        }
+        adapter = new AdapterMensajes(this);
+        LinearLayoutManager l = new LinearLayoutManager(this);
+        rvMensajes.setLayoutManager(l);
+        rvMensajes.setAdapter(adapter);
+
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +115,21 @@ public class chat extends AppCompatActivity {
 
                 chatsController.sendMessage(getApplicationContext(),chatKey, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
 
-                txtMensajes.setText("");
+
+            btnEnviar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(txtMensajes.getText().toString().length()!=0) {
+                        ChatsController chatsController = new ChatsController();
+                        chatsController.sendMessage(getApplicationContext(), StaticData.currentsKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
+                        txtMensajes.setText("");
+                    }
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
-            }
-        });
+                }
+            });
+
+
 
         btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,16 +161,23 @@ public class chat extends AppCompatActivity {
             }
         });
 
-        if (adapter!=null) {
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                @Override
-                public void onItemRangeInserted(int positionStart, int itemCount) {
-                    super.onItemRangeInserted(positionStart, itemCount);
-                    setScrollbar();
-                }
-            });
-        }
+        /*
+        imgFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
+                imgFile.getContext().startActivity(intent);
+            }
+        });
+*/
 
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                setScrollbar();
+            }
+        });
 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -166,6 +187,9 @@ public class chat extends AppCompatActivity {
                 if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
                     createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje",groupName.toUpperCase()),
                             String.format("%s: %s", m.getNombre(), m.getMensaje()));
+
+
+            }
 
 
             @Override

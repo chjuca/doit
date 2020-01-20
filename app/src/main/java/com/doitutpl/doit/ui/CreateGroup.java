@@ -53,15 +53,20 @@ public class CreateGroup extends AppCompatActivity {
 
                 // ! Este cosntrutor debe usarse obligatoriamente antes de llamar al método .save()
                 // Utilizamos este construcor para que agregue al usuario logeado como primer miembro y como admin
-                Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
 
+                if(targetPassword.length() != 0 && targetNameGroup.length() != 0){
+                    Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
 
-                // Guardamos el grupo en la base de datos
-                group.save(context);
+                    // Guardamos el grupo en la base de datos
+                    group.save(context);
+                    Toast.makeText(CreateGroup.this,"!Grupo creado Exitosamente¡", Toast.LENGTH_LONG).show();
 
+                    // Mostramos la clave en pantalla
+                    groupKey.setText(group.getKeyGroup());
+                }else{
+                    Toast.makeText(CreateGroup.this,"!Rellene todos los Campos¡", Toast.LENGTH_LONG).show();
+                }
 
-                // Mostramos la clave en pantalla
-                groupKey.setText(group.getKeyGroup());
             }
         });
 
