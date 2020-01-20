@@ -78,16 +78,22 @@ public class chat extends AppCompatActivity {
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adapter);
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChatsController chatsController = new ChatsController();
-                chatsController.sendMessage(getApplicationContext(), StaticData.currentsKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
-                txtMensajes.setText("");
+
+
+            btnEnviar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(txtMensajes.getText().toString().length()!=0) {
+                        ChatsController chatsController = new ChatsController();
+                        chatsController.sendMessage(getApplicationContext(), StaticData.currentsKeyChat, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(), "1", ServerValue.TIMESTAMP), StaticData.currentUser.getEmail());
+                        txtMensajes.setText("");
+                    }
                 /*databaseReference.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(),evNombre.getText().toString(),"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");*/
-            }
-        });
+                }
+            });
+
+
 
         btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
