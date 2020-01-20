@@ -69,7 +69,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 //                public void onClick(View view) {
 //                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto()));
 //                    holder.itemView.getContext().startActivity(intent);
-//                }
+//            }
 //            });
         }
 
