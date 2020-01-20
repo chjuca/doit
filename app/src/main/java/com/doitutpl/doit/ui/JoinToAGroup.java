@@ -14,6 +14,7 @@ import com.doitutpl.doit.Controllers.GroupsController;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.ui.notification.NotificationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,8 @@ public class JoinToAGroup extends AppCompatActivity {
                 GroupsController groupsController = new GroupsController();
                 int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
                 handleAddMemberExitCode(resultCode);
+                NotificationActivity objNotificacion = new NotificationActivity();
+                objNotificacion.notificationNewMember(StaticData.groupName,StaticData.currentUser.getDisplayName());
 
             }
         });

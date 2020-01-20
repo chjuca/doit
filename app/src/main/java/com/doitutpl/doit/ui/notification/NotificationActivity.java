@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -69,7 +70,12 @@ public class NotificationActivity extends AppCompatActivity {
 
         //setOpenPendingIntent();
         //setReadPendingIntent(notificacionId);
-        createNotificationEvents(objEvents,notificacionId);  // Metodo que crea la notificacion
+        if (objEvents.isPublic()){
+            notificationEvents(objEvents,notificacionId);
+        }else{
+            notificationGroups(objEvents,notificacionId);
+        }
+        //createNotificationEvents(objEvents,notificacionId);  // Metodo que crea la notificacion
     }
 
     // Metodo que obtiene los eventos
@@ -153,8 +159,25 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    public void notificationNewMember(String groupName,String userName){
+        createNotification(new Random().nextInt(1000),
+                String.format("%s: %s se unió a tu grupo",groupName.toUpperCase(),userName),"");
+        StaticData.groupName = "";
+    }
+
+    private void notificationEvents(Events objEvents,int notificacionId){
+        createNotification(notificacionId,objEvents.getEvName().toUpperCase(),
+                String.format("Hora de inicio: %s:%s",objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes()));
+    }
+
+    private void notificationGroups(Events objEvents, int notificacionId){
+        createNotification(notificacionId,String.format("%s: %s",objEvents.getEvGroups().getNameGroup().toUpperCase(),
+                objEvents.getEvName().toUpperCase()),
+                String.format("Hora de inicio: %s:%s",objEvents.getEvDate().getHours(),objEvents.getEvDate().getMinutes()));
+    }
+
     // Metodo que crea la notificacion
-    private void createNotificationEvents(Events objEvents,int notificacionId){
+    private void createNotification(int notificacionId,String title, String description){
         
         String channelId = "notification_channel_1";
         NotificationManager notificationManager =
@@ -173,14 +196,7 @@ public class NotificationActivity extends AppCompatActivity {
         );
         builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
-        if (objEvents.isPublic()){
-            builder.setContentTitle(String.format("%s: %s",objEvents.getEvGroups().getNameGroup().toUpperCase(),
-                    objEvents.getEvName().toUpperCase()));
-        }else{
-            builder.setContentTitle(objEvents.getEvName().toUpperCase());
-        }
-
-        builder.setContentText("Hora de inicio: "+objEvents.getEvDate().getHours()+":"+objEvents.getEvDate().getMinutes());
+        builder.setContentText(description);
         builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
@@ -244,6 +260,7 @@ public class NotificationActivity extends AppCompatActivity {
                 else
                     // Si la prioridad es 3 --> 'Baja' se recuerda el evento cada 10 segundos, es decir se creara la notificacion 2 veces
                     time.tiempo = 30;
+
                 setNotificacion(objNotification.getEvent(),objNotification.getNotificationId());
 
             }
