@@ -52,7 +52,6 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.setListaEventos();
         inicializarFirebase();
         time time = new time();
         time.execute();
@@ -71,9 +70,9 @@ public class NotificationActivity extends AppCompatActivity {
         //setOpenPendingIntent();
         //setReadPendingIntent(notificacionId);
         if (objEvents.isPublic()){
-            notificationEvents(objEvents,notificacionId);
-        }else{
             notificationGroups(objEvents,notificacionId);
+        }else{
+            notificationEvents(objEvents,notificacionId);
         }
         //createNotificationEvents(objEvents,notificacionId);  // Metodo que crea la notificacion
     }
