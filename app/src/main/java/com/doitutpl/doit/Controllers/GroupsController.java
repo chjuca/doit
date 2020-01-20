@@ -5,9 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.doitutpl.doit.Models.Events;
 import com.doitutpl.doit.Models.Group;
-import com.doitutpl.doit.Models.GroupEvent;
 import com.doitutpl.doit.Models.Member;
 import com.doitutpl.doit.StaticData;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,7 +13,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -190,13 +187,9 @@ public class GroupsController {
             return true;
         }
 
-        for (Map.Entry<String, Member> entry : group.members.entrySet()) { // Si esta en los miembros
-            if(isAlreadyMember(group, entry.getValue())){
-                return true;
-            }
-        }
 
-        return false;
+        return isAlreadyMember(group, MembersController.parseMember(user));
+
 
     }
 
