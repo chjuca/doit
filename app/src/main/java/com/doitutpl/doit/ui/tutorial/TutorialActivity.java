@@ -8,15 +8,11 @@ import android.os.Bundle;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.doitutpl.doit.ui.SplashScreen;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Trace;
-import android.view.View;
+import android.util.Log;
 
 public class TutorialActivity extends AppCompatActivity {
 
@@ -25,13 +21,11 @@ public class TutorialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
-
-
+        manageTutorial();
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-
 
 
 
@@ -47,7 +41,10 @@ public class TutorialActivity extends AppCompatActivity {
             // Saltar a la pantalla de login
             goToNextActivity();
         }
-        // Continuar con el tutorial
+        // Le decimos a la app que de aquí en adelante ya no será la primera vez que se logee
+        setPreviousLogin("False");
+
+        // Continuar con el tutorial ...
     }
 
     private boolean isFirstLogin() {
@@ -59,10 +56,10 @@ public class TutorialActivity extends AppCompatActivity {
 
 
         // Obtenemos la variable que verifica si el usuario ya ha ingresado anteriormente
-        String previousLogin = prefs.getString(StaticData.PREVIOUS_LOGIN, "False");
+        String firstLogin = prefs.getString(StaticData.FIRST_LOGIN, "True");
+        Log.println(Log.INFO, "INFO", "First login: "+firstLogin);
 
-
-        if(previousLogin.equals("False")){
+        if(firstLogin.equals("False")){
             return false;
         }
 
@@ -79,7 +76,7 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
 
-    private void setPreviousLogin(boolean value){
+    private void setPreviousLogin(String value){
 
         // Ingresamos a las preferencias compartidas
         SharedPreferences prefs =
@@ -87,7 +84,7 @@ public class TutorialActivity extends AppCompatActivity {
 
         // Seteamos la variable
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(StaticData.PREVIOUS_LOGIN, "True");
+        editor.putString(StaticData.FIRST_LOGIN, value);
         editor.commit();
 
     }
