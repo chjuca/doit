@@ -171,7 +171,6 @@ public class chat extends AppCompatActivity {
                 System.out.println(dateM+" "+dateActM);
                 if(dateM.equals(dateActM)) {
                     if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                        System.out.println(StaticData.dateMessage);
                         if (m.getType_mensaje().equals("3")) {
                             createNotification(0, String.format("%s: Ha enviado un archivo", m.getNombre()));
                         }
