@@ -244,7 +244,10 @@ public class chat extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, Navegacion.class);
+        Intent intent = new Intent(this, chat.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        //Intent intent = new Intent(this, Navegacion.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(),
                 0,
@@ -252,6 +255,7 @@ public class chat extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
+        ChatsController objChatsController = new ChatsController();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 getApplicationContext(),channelId
         );
