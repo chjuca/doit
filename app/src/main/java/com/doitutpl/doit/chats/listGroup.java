@@ -58,7 +58,7 @@ public class listGroup extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(GroupViewHolder holder, final int position, Group model) {
+            protected void onBindViewHolder(GroupViewHolder holder, final int position, final Group model) {
 
                 holder.getTxtNombreGrupo().setText(model.nameGroup);
                 holder.getTxtNombreAdmin().setText(model.groupAdminEmail);
