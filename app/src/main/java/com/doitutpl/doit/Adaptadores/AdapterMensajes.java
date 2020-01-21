@@ -64,11 +64,10 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
             holder.getFileMensaje().setVisibility(View.VISIBLE);
 
             holder.getMensaje().setVisibility(View.VISIBLE);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.getFileMensaje().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto()));
-                    holder.itemView.getContext().startActivity(intent);
+                    holder.itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto())));
             }
             });
         }
