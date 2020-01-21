@@ -168,7 +168,7 @@ public class CitasFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
-                            Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Falta llenar un Campo", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 Events events = new Events();
