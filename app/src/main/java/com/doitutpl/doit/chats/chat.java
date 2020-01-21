@@ -168,7 +168,6 @@ public class chat extends AppCompatActivity {
                 Date date = new Date(); // obtenemos la fecha actual
                 String dateM = formatDate.format(date);
                 String dateActM = formatDate.format(d);// transformamos a String la fecha
-                System.out.println(dateM+" "+dateActM);
                 if(dateM.equals(dateActM)) {
                     if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
                         if (m.getType_mensaje().equals("3")) {
