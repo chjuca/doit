@@ -44,6 +44,8 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class chat extends AppCompatActivity {
@@ -161,17 +163,26 @@ public class chat extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
-                if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    if(m.getType_mensaje().equals("3")){
-                        createNotification(0,String.format("%s: Ha enviado un archivo",m.getNombre()));
-                    }
-                    if(m.getType_mensaje().equals("2")){
-                        createNotification(0,String.format("%s: Ha enviado una foto",m.getNombre()));
-                    }else {
-                        createNotification(0, String.format("%s: %s: ",m.getNombre(),m.getMensaje()));
-                    }
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date d = new Date(m.getHora());
+                Date date = new Date(); // obtenemos la fecha actual
+                String dateM = formatDate.format(date);
+                String dateActM = formatDate.format(d);// transformamos a String la fecha
+                System.out.println(dateM+" "+dateActM);
+                if(dateM.equals(dateActM)) {
+                    if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
+                        System.out.println(StaticData.dateMessage);
+                        if (m.getType_mensaje().equals("3")) {
+                            createNotification(0, String.format("%s: Ha enviado un archivo", m.getNombre()));
+                        }
+                        if (m.getType_mensaje().equals("2")) {
+                            createNotification(0, String.format("%s: Ha enviado una foto", m.getNombre()));
+                        } else {
+                            createNotification(0, String.format("%s: %s: ", m.getNombre(), m.getMensaje()));
+                        }
 
 
+                    }
                 }
 
             }
