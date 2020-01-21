@@ -106,4 +106,12 @@ public class TutorialActivity extends AppCompatActivity {
 
     }
 
+
+    // Método para saltarse el tutorial
+    public void skipOutTutorial(){
+        Intent intent = new Intent(TutorialActivity.this, SplashScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
