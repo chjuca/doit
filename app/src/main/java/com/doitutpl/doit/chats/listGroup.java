@@ -16,6 +16,7 @@ import com.doitutpl.doit.Adaptadores.GroupViewHolder;
 import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -94,5 +95,10 @@ public class listGroup extends AppCompatActivity {
         adapter.stopListening();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Navegacion.class);
+        startActivity(intent);
+    }
 }
