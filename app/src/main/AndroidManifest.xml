@@ -13,7 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ui.LoadingActivity"></activity>
+        <activity
+            android:name=".ui.tutorial.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+                            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+        <activity android:name=".ui.LoadingActivity" />
         <activity android:name=".chats.listGroup" />
         <activity
             android:name=".GraficaActivity"
@@ -42,11 +55,7 @@
         <activity
             android:name=".ui.SplashScreen"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
