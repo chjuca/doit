@@ -14,10 +14,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+
+        android:backgroundTint="@color/colorUtpl"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:tooltipText="Tereminar"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        android:tooltipText="Terminar tutorial"
+        app:srcCompat="@mipmap/ic_skip_color_utpl" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
