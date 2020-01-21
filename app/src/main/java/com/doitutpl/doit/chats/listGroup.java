@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.doitutpl.doit.Adaptadores.GroupViewHolder;
+import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.R;
@@ -64,13 +65,17 @@ public class listGroup extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         StaticData.currentsKeyChat = lGrupo.getKeyChat();
-                        Intent intent = new Intent(listGroup.this, chat.class);
+                        //Intent intent = new Intent(listGroup.this, chat.class);
 
-                        intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
+                        //intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         StaticData.currentsKeyChat = lGrupo.getKeyGroup();
                         StaticData.groupName = lGrupo.getNameGroup();
 
-                        startActivity(intent);
+                        //startActivity(intent);
+
+                        ChatsController chatsController = new ChatsController();
+                        chatsController.startChatActivity(getApplicationContext());
+
                     }
                 });
             }
