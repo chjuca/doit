@@ -1,4 +1,4 @@
-package com.doitutpl.doit.ui.main;
+package com.doitutpl.doit.ui.tutorial;
 
 import android.content.Context;
 
@@ -29,6 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
+        // Todo: Aquí debería retornar una instancia del fragment
         return PlaceholderFragment.newInstance(position + 1);
     }
 
@@ -40,7 +41,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        // Show 5 total pages.
+        return 5;
     }
 }

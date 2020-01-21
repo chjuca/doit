@@ -1,4 +1,4 @@
-package com.doitutpl.doit.ui.main;
+package com.doitutpl.doit.ui.tutorial;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;

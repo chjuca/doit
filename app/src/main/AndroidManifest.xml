@@ -16,7 +16,16 @@
         <activity
             android:name=".ui.tutorial.TutorialActivity"
             android:label="@string/title_activity_tutorial"
-            android:theme="@style/NoActionBar"></activity>
+                            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
         <activity android:name=".ui.LoadingActivity" />
         <activity android:name=".chats.listGroup" />
         <activity
@@ -46,11 +55,7 @@
         <activity
             android:name=".ui.SplashScreen"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
