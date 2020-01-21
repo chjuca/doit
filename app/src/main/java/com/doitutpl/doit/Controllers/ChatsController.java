@@ -1,6 +1,7 @@
 package com.doitutpl.doit.Controllers;
 
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +9,8 @@ import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.Models.Mensaje;
 import com.doitutpl.doit.StaticData;
+import com.doitutpl.doit.chats.chat;
+import com.doitutpl.doit.chats.listGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +50,13 @@ public class ChatsController {
             }
         });
 
+    }
+
+    public void startChatActivity(Context context){
+
+        Intent intent = new Intent(context, chat.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 
 }
