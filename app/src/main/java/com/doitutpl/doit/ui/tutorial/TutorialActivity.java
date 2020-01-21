@@ -8,11 +8,14 @@ import android.os.Bundle;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.doitutpl.doit.ui.SplashScreen;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
 
 public class TutorialActivity extends AppCompatActivity {
 
@@ -22,6 +25,19 @@ public class TutorialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial);
 
         manageTutorial();
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skipOutTutorial();
+            }
+        });
+
+
+
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -87,6 +103,14 @@ public class TutorialActivity extends AppCompatActivity {
         editor.putString(StaticData.FIRST_LOGIN, value);
         editor.commit();
 
+    }
+
+
+    // Método para saltarse el tutorial
+    public void skipOutTutorial(){
+        Intent intent = new Intent(TutorialActivity.this, SplashScreen.class);
+        startActivity(intent);
+        finish();
     }
 
 }
