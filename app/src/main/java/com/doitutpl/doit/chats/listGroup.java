@@ -41,11 +41,11 @@ public class listGroup extends AppCompatActivity {
                 .getReference()
                 .child("Groups");
 
-
         FirebaseRecyclerOptions<Group> options =
                 new FirebaseRecyclerOptions.Builder<Group>()
                         .setQuery(query, Group.class)
                         .build();
+
 
         adapter = new FirebaseRecyclerAdapter<Group, GroupViewHolder>(options) {
             @Override
