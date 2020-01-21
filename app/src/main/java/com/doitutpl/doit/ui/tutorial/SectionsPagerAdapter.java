@@ -42,6 +42,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 FragmentTutorial04 fragmentTutorial04 = new FragmentTutorial04();
                 return fragmentTutorial04;
             case 4:
+                FragmentTutorial05 fragmentTutorial05 = new FragmentTutorial05();
+                return fragmentTutorial05;
+            case 5:
+                FragmentTutorial06 fragmentTutorial06 = new FragmentTutorial06();
+                return fragmentTutorial06;
+            case 6:
                 FragmentTutorialLast fragmentTutorialLast = new FragmentTutorialLast();
                 return fragmentTutorialLast;
         }
