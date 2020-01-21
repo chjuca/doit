@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.fonts.Font;
+import android.graphics.fonts.FontStyle;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -161,15 +163,12 @@ public class chat extends AppCompatActivity {
                 adapter.addMensaje(m);
                 if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
                     if(m.getType_mensaje().equals("3")){
-                        createNotification(0, "Tiene un mensaje nuevo",
-                                String.format("%s: Se ha recibido un nuevo archivo", m.getNombre()));
+                        createNotification(0,String.format("%s: Ha enviado un archivo",m.getNombre()));
                     }
                     if(m.getType_mensaje().equals("2")){
-                        createNotification(0, "Tiene un mensaje nuevo",
-                                String.format("%s: Se ha recibido una nueva imagen", m.getNombre()));
+                        createNotification(0,String.format("%s: Ha enviado una foto",m.getNombre()));
                     }else {
-                        createNotification(0, "Tiene un mensaje nuevo",
-                                String.format("%s: %s", m.getNombre(), m.getMensaje()));
+                        createNotification(0, String.format("%s: ",m.getMensaje()));
                     }
 
 
@@ -239,7 +238,7 @@ public class chat extends AppCompatActivity {
     }
 
     // Metodo que crea la notificacion
-    private void createNotification(int notificacionId,String title, String description){
+    private void createNotification(int notificacionId, String description){
 
         String channelId = "notification_channel_1";
         NotificationManager notificationManager =
@@ -259,10 +258,10 @@ public class chat extends AppCompatActivity {
         builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         builder.setContentText(description);
-        builder.setColor(Color.MAGENTA); // Color de la notificacion
+        //builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
-        builder.setContentTitle(title);
+        builder.setContentTitle(String.format("Do It"));
         //builder.setLargeIcon(StaticData.currentUser.);
         builder.setContentText(description);
         builder.setAutoCancel(true);
