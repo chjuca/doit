@@ -171,50 +171,55 @@ public class CitasFragment extends Fragment {
                         if( evName.getText().equals("") || evDescription.getText().equals("") || evHour.getText().toString().equals("")) {
                             Toast.makeText(getContext(), "NO SE AGENDO TE FALTO LLENAR UN CAMPO.", Toast.LENGTH_SHORT).show();
                         } else {
-                            Events events = new Events();
-                            events.setIdEvent(UUID.randomUUID().toString());
-                            String[] dateParts = evDate.getText().toString().split("/");
-                            String[] hourParts = evHour.getText().toString().split(":");
-                            EvDate evDate = new EvDate();
+
+                            try {
+                                Events events = new Events();
+                                events.setIdEvent(UUID.randomUUID().toString());
+                                String[] dateParts = evDate.getText().toString().split("/");
+                                String[] hourParts = evHour.getText().toString().split(":");
+                                EvDate evDate = new EvDate();
 
 
-                            DecimalFormat format = new DecimalFormat("00");
-                            evDate.setDay(format.format(Integer.parseInt(dateParts[0])));
-                            evDate.setMonth(format.format(Integer.parseInt(dateParts[1])));
-                            evDate.setYear(Integer.parseInt(dateParts[2]));
-                            evDate.setHours(format.format(Integer.parseInt(hourParts[0])));
-                            evDate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
-                            int priority;
-                            if(spiPriority.getSelectedItem().toString() == "ALTA"){
-                                priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
-                                priority = 2 ; }else{
-                                priority = 3; }
-                            if (user != null) {
-                                email = user.getEmail();
+                                DecimalFormat format = new DecimalFormat("00");
+                                evDate.setDay(format.format(Integer.parseInt(dateParts[0])));
+                                evDate.setMonth(format.format(Integer.parseInt(dateParts[1])));
+                                evDate.setYear(Integer.parseInt(dateParts[2]));
+                                evDate.setHours(format.format(Integer.parseInt(hourParts[0])));
+                                evDate.setMinutes(format.format(Integer.parseInt(hourParts[1])));
+                                int priority;
+                                if(spiPriority.getSelectedItem().toString() == "ALTA"){
+                                    priority = 1; }else if(spiPriority.getSelectedItem().toString() =="MEDIA"){
+                                    priority = 2 ; }else{
+                                    priority = 3; }
+                                if (user != null) {
+                                    email = user.getEmail();
+                                }
+
+                                events.setEvName(evName.getText().toString());
+                                events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
+                                events.setEvDate(evDate);
+                                events.setEvPriority(priority);
+                                events.setEvCreatorUser(email);
+                                events.setPublic(eventIsPublic);
+                                events.setEvGroups(null);
+                                events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
+                                events.setState(1);
+
+
+                                if (eventIsPublic){
+                                    events.setPublic(true);
+                                    events.setEvGroups(groupList.get(spiGroups.getSelectedItemPosition()));
+                                    evGroup.setKeyGroup(events.getIdEvent());
+                                    evGroup.setName(events.getEvName());
+                                }
+
+                                databaseReference.child("Events").child(events.getIdEvent()).setValue(events);          // Guardamos el Evento
+                                databaseReference.child("EvGroups").child(events.getIdEvent()).setValue(evGroup);          // Guardamos el Evento Grupal
+
+                                Toast.makeText(getContext(), "Evento Agendado", Toast.LENGTH_SHORT).show();
+                            }catch (Exception e){
+                                Toast.makeText(getContext(), "Por favor, Intente de nuevo", Toast.LENGTH_SHORT).show();
                             }
-
-                            events.setEvName(evName.getText().toString());
-                            events.setEvDescription(evDescription.getText().toString());            //AGREGA LOS CAMPOS A LA BASE DE DATOS
-                            events.setEvDate(evDate);
-                            events.setEvPriority(priority);
-                            events.setEvCreatorUser(email);
-                            events.setPublic(eventIsPublic);
-                            events.setEvGroups(null);
-                            events.setPublic(false);                        //***  MODIFICAR SI CAMBIAMOS LA PANTALLA     ***
-                            events.setState(1);
-
-
-                            if (eventIsPublic){
-                                events.setPublic(true);
-                                events.setEvGroups(groupList.get(spiGroups.getSelectedItemPosition()));
-                                evGroup.setKeyGroup(events.getIdEvent());
-                                evGroup.setName(events.getEvName());
-                            }
-
-                            databaseReference.child("Events").child(events.getIdEvent()).setValue(events);          // Guardamos el Evento
-                            databaseReference.child("EvGroups").child(events.getIdEvent()).setValue(evGroup);          // Guardamos el Evento Grupal
-
-                            Toast.makeText(getContext(), "Evento Agendado", Toast.LENGTH_SHORT).show();
 
                             }
                             obtenerEventos();
