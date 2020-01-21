@@ -168,7 +168,7 @@ public class chat extends AppCompatActivity {
                     if(m.getType_mensaje().equals("2")){
                         createNotification(0,String.format("%s: Ha enviado una foto",m.getNombre()));
                     }else {
-                        createNotification(0, String.format("%s: ",m.getMensaje()));
+                        createNotification(0, String.format("%s: %s: ",m.getNombre(),m.getMensaje()));
                     }
 
 
