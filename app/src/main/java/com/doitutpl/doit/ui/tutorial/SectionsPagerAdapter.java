@@ -30,7 +30,26 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         // Todo: Aquí debería retornar una instancia del fragment
-        return PlaceholderFragment.newInstance(position + 1);
+        // return PlaceholderFragment.newInstance(position + 1);
+
+        switch (position){
+            case 0:
+                FragmentTutorial01 fragmentTutorial01 = new FragmentTutorial01();
+                return fragmentTutorial01;
+            case 1:
+                FragmentTutorial02 fragmentTutorial02 = new FragmentTutorial02();
+                return fragmentTutorial02;
+            case 2:
+                FragmentTutorial03 fragmentTutorial03 = new FragmentTutorial03();
+                return fragmentTutorial03;
+            case 3:
+                FragmentTutorial04 fragmentTutorial04 = new FragmentTutorial04();
+                return fragmentTutorial04;
+            case 4:
+                FragmentTutorial05 fragmentTutorial05 = new FragmentTutorial05();
+                return fragmentTutorial05;
+        }
+        return null;
     }
 
     @Nullable
