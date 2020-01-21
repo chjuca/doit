@@ -8,11 +8,14 @@ import android.os.Bundle;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.doitutpl.doit.ui.SplashScreen;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
 
 public class TutorialActivity extends AppCompatActivity {
 
@@ -22,6 +25,20 @@ public class TutorialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial);
 
         manageTutorial();
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -50,18 +67,18 @@ public class TutorialActivity extends AppCompatActivity {
     private boolean isFirstLogin() {
         // Revisar la variable en los shared preferences
 
-        // Ingresamos a las preferencias compartidas
-        SharedPreferences prefs =
-                getSharedPreferences(StaticData.USER_PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-
-        // Obtenemos la variable que verifica si el usuario ya ha ingresado anteriormente
-        String firstLogin = prefs.getString(StaticData.FIRST_LOGIN, "True");
-        Log.println(Log.INFO, "INFO", "First login: "+firstLogin);
-
-        if(firstLogin.equals("False")){
-            return false;
-        }
+//        // Ingresamos a las preferencias compartidas
+//        SharedPreferences prefs =
+//                getSharedPreferences(StaticData.USER_PREFERENCES_NAME, Context.MODE_PRIVATE);
+//
+//
+//        // Obtenemos la variable que verifica si el usuario ya ha ingresado anteriormente
+//        String firstLogin = prefs.getString(StaticData.FIRST_LOGIN, "True");
+//        Log.println(Log.INFO, "INFO", "First login: "+firstLogin);
+//
+//        if(firstLogin.equals("False")){
+//            return false;
+//        }
 
 
         return true;
