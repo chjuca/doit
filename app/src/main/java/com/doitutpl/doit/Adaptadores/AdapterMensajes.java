@@ -33,6 +33,8 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         notifyItemInserted(listMensaje.size());
     }
 
+
+
     @Override
     public HolderMensajes onCreateViewHolder( ViewGroup parent, int viewType) {
         View view;
@@ -57,6 +59,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
             holder.getFotoMensaje().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
             holder.getFileMensaje().setVisibility(View.GONE);
+            holder.getVideoMensaje().setVisibility(View.GONE);
             Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getFotoMensaje());
         } else if (listMensaje.get(position).getType_mensaje().equals("1")) {
             holder.getMensaje().setVisibility(View.VISIBLE);
@@ -71,7 +74,19 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
                     holder.itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto())));
             }
             });
+        }else if (listMensaje.get(position).getType_mensaje().equals("4")){
+            holder.getVideoMensaje().setVisibility(View.VISIBLE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.getFileMensaje().setVisibility(View.GONE);
+            holder.getVideoMensaje().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto())));
+                }
+            });
         }
+
+
 
 
         Long codigoHora = listMensaje.get(position).getHora();
@@ -79,6 +94,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
         holder.getHora().setText(sdf.format(d));
     }
+
 
     @Override
     public int getItemCount() {

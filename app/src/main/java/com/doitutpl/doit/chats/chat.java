@@ -71,6 +71,7 @@ public class chat extends AppCompatActivity {
     private StorageReference storageReference;
     private static final int PHOTO_SEND = 1;
     private static final int FILE_SEND = 2;
+    private static final int VIDEO_SEND = 3;
     private String keyReceptor;
 
     @Override
@@ -115,7 +116,8 @@ public class chat extends AppCompatActivity {
             public void onClick(View v) {
                 CharSequence options[] = new CharSequence[]{
                         "Imagenes",
-                        "Archivos PDF"
+                        "Archivos PDF",
+                        "Videos"
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(chat.this);
                 builder.setTitle("Seleccione lo que desea enviar");
@@ -133,6 +135,12 @@ public class chat extends AppCompatActivity {
                             i.setType("application/pdf");
                             i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                             startActivityForResult(Intent.createChooser(i, "Selecciona un archivo"), FILE_SEND);
+                        }
+                        if (wich == 2){
+                            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                            i.setType("video/mp4");
+                            i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            startActivityForResult(Intent.createChooser(i, "Selecciona un Video"), VIDEO_SEND);
                         }
                     }
                 });
@@ -243,7 +251,20 @@ public class chat extends AppCompatActivity {
                     databaseReference.push().setValue(m);
                 }
             });
-        }
+        }if(requestCode == VIDEO_SEND && resultCode == RESULT_OK){
+            Uri u = data.getData();
+
+            storageReference = storage.getReference("videos_chat");//imagenes_chat
+            final StorageReference videoReferencia = storageReference.child(((Uri) u).getLastPathSegment());
+            videoReferencia.putFile(u);
+            videoReferencia.getDownloadUrl().addOnSuccessListener(this, new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    MensajeEnviar m = new MensajeEnviar("Se envio un video",evNombre.getText().toString(), uri.toString(),"4",ServerValue.TIMESTAMP);
+                    databaseReference.push().setValue(m);
+                }
+            });
+            }
     }
 
     // Metodo que crea la notificacion
