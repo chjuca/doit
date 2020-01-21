@@ -197,10 +197,10 @@ public class NotificationActivity extends AppCompatActivity {
         builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         builder.setContentText(description);
-        builder.setColor(Color.MAGENTA); // Color de la notificacion
+        //builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
-        builder.setContentTitle(title);
+        builder.setContentTitle(String.format(title));
         builder.setContentText(description);
         builder.setAutoCancel(true);
         builder.setLights(Color.MAGENTA,1000,1000);
