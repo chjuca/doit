@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".ui.tutorial.TutorialActivity"
-            android:label="@string/title_activity_tutorial"
+
                             >
 
             <intent-filter>

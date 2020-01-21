@@ -2,13 +2,9 @@ package com.doitutpl.doit.ui.tutorial;
 
 import android.content.Context;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.doitutpl.doit.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -16,8 +12,8 @@ import com.doitutpl.doit.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+//    @StringRes
+//    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -46,17 +42,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 FragmentTutorial04 fragmentTutorial04 = new FragmentTutorial04();
                 return fragmentTutorial04;
             case 4:
-                FragmentTutorial05 fragmentTutorial05 = new FragmentTutorial05();
-                return fragmentTutorial05;
+                FragmentTutorialLast fragmentTutorialLast = new FragmentTutorialLast();
+                return fragmentTutorialLast;
         }
         return null;
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
-    }
+//    @Nullable
+//    @Override
+//    public CharSequence getPageTitle(int position) {
+//        return mContext.getResources().getString(TAB_TITLES[position]);
+//    }
 
     @Override
     public int getCount() {
