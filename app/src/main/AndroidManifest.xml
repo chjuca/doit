@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ui.LoadingActivity"></activity>
+        <activity
+            android:name=".ui.tutorial.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".ui.LoadingActivity" />
         <activity android:name=".chats.listGroup" />
         <activity
             android:name=".GraficaActivity"
