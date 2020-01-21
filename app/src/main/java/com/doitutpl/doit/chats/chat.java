@@ -1,16 +1,15 @@
 package com.doitutpl.doit.chats;
 
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.fonts.Font;
+import android.graphics.fonts.FontStyle;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.doitutpl.doit.Adaptadores.AdapterMensajes;
 import com.doitutpl.doit.Controllers.ChatsController;
@@ -37,14 +44,8 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class chat extends AppCompatActivity {
@@ -58,15 +59,12 @@ public class chat extends AppCompatActivity {
     private Uri fileUri;
 
 
-<<<<<<< HEAD
-=======
     //============================
     // AQUI SE RECIBE LA KEYSHAT
     //===========================
 
     private String keyChat = "JBalvin";
 
->>>>>>> 80d9b18a682b9d87c0331d1452736fff62227e67
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
@@ -74,23 +72,12 @@ public class chat extends AppCompatActivity {
     private static final int PHOTO_SEND = 1;
     private static final int FILE_SEND = 2;
     private String keyReceptor;
-    String chatKey = "JBalvin";
-    String groupName = "";
-
-    //static String keyChat = "JBalvin";
-    public void setChatKey(String chatKey){
-        this.chatKey = chatKey;
-    }
-
-    public void setNameGroup(String groupName){
-        this.groupName = groupName;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        //keyChat = StaticData.currentChat;
+
         evNombre = (TextView) findViewById(R.id.evNombre);
         rvMensajes = (RecyclerView) findViewById(R.id.rvMensajes);
         txtMensajes = (EditText) findViewById(R.id.txtMensajes);
@@ -98,7 +85,6 @@ public class chat extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseDatabase.getInstance();
-
         databaseReference = database.getReference("Chats").child(StaticData.currentsKeyChat);//Sala de chat (nombre)
         storage = FirebaseStorage.getInstance();
 
@@ -107,13 +93,6 @@ public class chat extends AppCompatActivity {
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adapter);
 
-
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChatsController chatsController = new ChatsController();
-
-                chatsController.sendMessage(getApplicationContext(),chatKey, new MensajeEnviar(txtMensajes.getText().toString(), StaticData.currentUser.getDisplayName(),"1", ServerValue.TIMESTAMP),StaticData.currentUser.getEmail());
 
 
             btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -184,13 +163,27 @@ public class chat extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
-                if(StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    createNotification(new Random().nextInt(10000), String.format("%s: Nuevo mensaje",groupName.toUpperCase()),
-                            String.format("%s: %s", m.getNombre(), m.getMensaje()));
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date d = new Date(m.getHora());
+                Date date = new Date(); // obtenemos la fecha actual
+                String dateM = formatDate.format(date);
+                String dateActM = formatDate.format(d);// transformamos a String la fecha
+                if(dateM.equals(dateActM)) {
+                    if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
+                        if (m.getType_mensaje().equals("3")) {
+                            createNotification(0, String.format("%s: Ha enviado un archivo", m.getNombre()));
+                        }
+                        if (m.getType_mensaje().equals("2")) {
+                            createNotification(0, String.format("%s: Ha enviado una foto", m.getNombre()));
+                        } else {
+                            createNotification(0, String.format("%s: %s: ", m.getNombre(), m.getMensaje()));
+                        }
 
+
+                    }
+                }
 
             }
-
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -254,13 +247,16 @@ public class chat extends AppCompatActivity {
     }
 
     // Metodo que crea la notificacion
-    private void createNotification(int notificacionId,String title, String description){
+    private void createNotification(int notificacionId, String description){
 
         String channelId = "notification_channel_1";
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, Navegacion.class);
+        Intent intent = new Intent(this, chat.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        //Intent intent = new Intent(this, Navegacion.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(),
                 0,
@@ -268,16 +264,17 @@ public class chat extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
+        ChatsController objChatsController = new ChatsController();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 getApplicationContext(),channelId
         );
         builder.setSmallIcon(R.drawable.ic_event_note_black_24dp);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         builder.setContentText(description);
-        builder.setColor(Color.MAGENTA); // Color de la notificacion
+        //builder.setColor(Color.MAGENTA); // Color de la notificacion
         builder.setVibrate(new long[]{1000,1000,1000,1000});
         builder.setContentIntent(pendingIntent);
-        builder.setContentTitle(title);
+        builder.setContentTitle(String.format("Do It"));
         //builder.setLargeIcon(StaticData.currentUser.);
         builder.setContentText(description);
         builder.setAutoCancel(true);
@@ -306,7 +303,9 @@ public class chat extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        StaticData.currentChat = "";
+        Intent intent = new Intent(this, listGroup.class);
+        startActivity(intent);
     }
 }
+
 

@@ -47,14 +47,17 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 android:layout_weight="1"
-                                android:textColor="#FFFFFF"/>
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"/>
                             <TextView
                                 android:id="@+id/horaMensaje"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5sp"
                                 android:text="00:00"
-                                android:textColor="#FFFFFF"/>
+                                android:textSize="10dp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="italic"/>
 
                         </LinearLayout>
                         <TextView
@@ -71,6 +74,12 @@
                             android:layout_height="wrap_content"
                             android:visibility="gone"
                             android:adjustViewBounds="true"/>
+                        <ImageView
+                            android:id="@+id/fileMensaje"
+                            android:background="@drawable/ic_insert_drive_file_black_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>

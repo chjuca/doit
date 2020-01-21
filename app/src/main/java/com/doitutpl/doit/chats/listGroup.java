@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.doitutpl.doit.Adaptadores.GroupViewHolder;
+import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -28,6 +30,7 @@ public class listGroup extends AppCompatActivity {
 
     private FirebaseRecyclerAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +43,11 @@ public class listGroup extends AppCompatActivity {
                 .getReference()
                 .child("Groups");
 
-
         FirebaseRecyclerOptions<Group> options =
                 new FirebaseRecyclerOptions.Builder<Group>()
                         .setQuery(query, Group.class)
                         .build();
+
 
         adapter = new FirebaseRecyclerAdapter<Group, GroupViewHolder>(options) {
             @Override
@@ -58,22 +61,23 @@ public class listGroup extends AppCompatActivity {
             protected void onBindViewHolder(GroupViewHolder holder, final int position, final Group model) {
 
                 holder.getTxtNombreGrupo().setText(model.nameGroup);
+                holder.getTxtNombreAdmin().setText(model.groupAdminEmail);
                 final Group lGrupo = new Group(getSnapshots().getSnapshot(position).getKey(), model);
 
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-<<<<<<< HEAD
-                        chat objChat = new chat();
-                        objChat.setChatKey(lGrupo.getKeyChat());
-                        objChat.setNameGroup(lGrupo.getNameGroup());
-                        StaticData.currentKeyChat = lGrupo.getKeyChat();
-                        Intent intent = new Intent(listGroup.this, chat.class);
+                        StaticData.currentsKeyChat = lGrupo.getKeyChat();
+                        //Intent intent = new Intent(listGroup.this, chat.class);
 
-                        intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
+                        //intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         StaticData.currentsKeyChat = lGrupo.getKeyGroup();
 
-                        startActivity(intent);
+                        //startActivity(intent);
+
+                        ChatsController chatsController = new ChatsController();
+                        chatsController.startChatActivity(getApplicationContext());
+
                     }
                 });
             }
@@ -92,4 +96,10 @@ public class listGroup extends AppCompatActivity {
         adapter.stopListening();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Navegacion.class);
+        startActivity(intent);
+    }
 }

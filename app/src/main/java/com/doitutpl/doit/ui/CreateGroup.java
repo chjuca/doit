@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -73,10 +74,14 @@ public class CreateGroup extends AppCompatActivity {
         btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("text",  groupKey.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText( context, "Copiado en Portapapeles", Toast.LENGTH_SHORT).show();
+                Intent compartir = new Intent(android.content.Intent.ACTION_SEND);
+                compartir.setType("text/plain");
+                String mensaje = "Usa esta llave para unirte al grupo: *" + groupName.getText().toString() + "* en DOIT!+\n" +
+                        groupKey.getText().toString() + "\n" +
+                        "¡Pide la contraseña al Administrador!";
+                compartir.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share Key Chat");
+                compartir.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+                startActivity(Intent.createChooser(compartir, "Compartir vía"));
             }
         });
 

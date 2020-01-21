@@ -1,9 +1,13 @@
 package com.doitutpl.doit.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.doitutpl.doit.Models.MensajeRecibir;
@@ -14,8 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
 
@@ -46,30 +48,36 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
     }
 
     @Override
-    public void onBindViewHolder( HolderMensajes holder, int position) {
-        //System.out.println(listMensaje.isEmpty());
-
-        //System.out.println(listMensaje.get(position).getMensaje());
-        //System.out.println("---------------------------------");
+    public void onBindViewHolder(final HolderMensajes holder, final int position) {
         holder.getNombre().setText(listMensaje.get(position).getNombre());
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
 
         //imagenens
-
         if (listMensaje.get(position).getType_mensaje().equals("2")) {
             holder.getFotoMensaje().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.getFileMensaje().setVisibility(View.GONE);
             Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getFotoMensaje());
         } else if (listMensaje.get(position).getType_mensaje().equals("1")) {
-            holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
+        else if (listMensaje.get(position).getType_mensaje().equals("3")) {
+            holder.getFileMensaje().setVisibility(View.VISIBLE);
+
+            holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.getFileMensaje().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto())));
+            }
+            });
+        }
+
 
         Long codigoHora = listMensaje.get(position).getHora();
         Date d = new Date(codigoHora);
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
         holder.getHora().setText(sdf.format(d));
-
     }
 
     @Override
