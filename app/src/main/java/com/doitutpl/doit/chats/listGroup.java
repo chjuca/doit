@@ -30,6 +30,7 @@ public class listGroup extends AppCompatActivity {
 
     private FirebaseRecyclerAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,7 @@ public class listGroup extends AppCompatActivity {
             protected void onBindViewHolder(GroupViewHolder holder, final int position, final Group model) {
 
                 holder.getTxtNombreGrupo().setText(model.nameGroup);
+                holder.getTxtNombreAdmin().setText(model.groupAdminEmail);
                 final Group lGrupo = new Group(getSnapshots().getSnapshot(position).getKey(), model);
 
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
@@ -70,7 +72,6 @@ public class listGroup extends AppCompatActivity {
 
                         //intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         StaticData.currentsKeyChat = lGrupo.getKeyGroup();
-                        StaticData.groupName = lGrupo.getNameGroup();
 
                         //startActivity(intent);
 

@@ -38,23 +38,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/txtUltimoMensaje"
+                    android:id="@+id/creadoPor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Test"
+                    android:text="Creado por: "
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:layout_weight="1"/>
                 <TextView
-                    android:id="@+id/horaMensaje"
+                    android:id="@+id/txtNombreAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="00:00"
+                    android:text=""
                     android:textStyle="italic"
                     android:gravity="end"
                     android:textSize="10dp"
