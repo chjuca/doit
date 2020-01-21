@@ -59,7 +59,7 @@ public class TutorialActivity extends AppCompatActivity {
 
 
         // Obtenemos la variable que verifica si el usuario ya ha ingresado anteriormente
-        String previousLogin = prefs.getString(StaticData.IS_FIRST_LOGIN, "False");
+        String previousLogin = prefs.getString(StaticData.PREVIOUS_LOGIN, "False");
 
 
         if(previousLogin.equals("False")){
@@ -78,5 +78,18 @@ public class TutorialActivity extends AppCompatActivity {
         finish();
     }
 
+
+    private void setPreviousLogin(boolean value){
+
+        // Ingresamos a las preferencias compartidas
+        SharedPreferences prefs =
+                getSharedPreferences(StaticData.USER_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        // Seteamos la variable
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(StaticData.PREVIOUS_LOGIN, "True");
+        editor.commit();
+
+    }
 
 }
