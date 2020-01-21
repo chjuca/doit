@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -86,11 +87,11 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
         holder.clEvento.setBackgroundResource(R.color.font);
 
         if(events.get(position).getEvPriority()==1){
-            holder.textColor.setBackgroundResource(R.color.high);
+            holder.linearColor.setBackgroundResource(R.color.high);
         }else if(events.get(position).getEvPriority()==2){
-            holder.textColor.setBackgroundResource(R.color.half);
+            holder.linearColor.setBackgroundResource(R.color.half);
             }else{
-            holder.textColor.setBackgroundResource(R.color.low);
+            holder.linearColor.setBackgroundResource(R.color.low);
         }
 
         holder.ibtnModificar.setOnClickListener(new View.OnClickListener() {
@@ -292,6 +293,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
         ConstraintLayout clEvento;
         TextView evDate, evName, evDescripcion, evHour,textColor;         //cambio para realizar el commit nuevamenterrar;
         ImageButton ibtnModificar, ibtnBorrar;
+        LinearLayout linearColor;
 
         public CitasViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -303,7 +305,7 @@ public class AdaptadorCitas extends RecyclerView.Adapter<AdaptadorCitas.CitasVie
             evHour = itemView.findViewById(R.id.evHour);
             ibtnModificar = itemView.findViewById(R.id.ibtnModificar);
             ibtnBorrar = itemView.findViewById(R.id.ibtnBorrar);
-            textColor = itemView.findViewById(R.id.textColor);
+            linearColor = itemView.findViewById(R.id.linearLayout2);
 
         }
     }

@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chats.chat"
-    android:orientation="vertical"
-    android:background="@color/font">
+    tools:context=".chat"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,28 +26,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5sp"
+        android:layout_marginLeft="5sp"
+        android:orientation="horizontal">
         <ImageButton
             android:id="@+id/btnEnviarFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_menu_share"
-            android:layout_gravity="center"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="5sp"
+            android:layout_marginLeft="5sp"
+            android:background="@drawable/ic_attach_file_black_24dp"
+            android:layout_gravity="center"/>
         <EditText
             android:id="@+id/txtMensajes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:hint="Escribe un Mensaje"
+            android:inputType="text"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnEnviar"
             android:layout_width="40dp"
             android:layout_height="30dp"
+
             android:background="@drawable/ic_menu_send"
-            android:layout_marginLeft="8dp"
             />
     </LinearLayout>
 

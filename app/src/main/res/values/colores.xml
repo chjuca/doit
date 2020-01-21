@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="gris">#858585</color>
-    <color name="verde">#0D2A86</color>
+    <color name="principal">#0D2A86</color>
     <color name="naranja">#FF9800</color>
     <color name="negro">#000000</color>
     <color name="purpura">#9C27B0</color>
@@ -19,7 +19,7 @@
     <color name="enable_thumb_green">#46bdbf</color>
 
     <!-- Colores del fondo -->
-    <color name="font">#DDDDDD</color>
+    <color name="font">#FFFFFF</color>
 
 
 </resources>

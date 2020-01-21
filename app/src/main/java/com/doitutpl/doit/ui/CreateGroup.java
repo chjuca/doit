@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,25 +54,34 @@ public class CreateGroup extends AppCompatActivity {
 
                 // ! Este cosntrutor debe usarse obligatoriamente antes de llamar al método .save()
                 // Utilizamos este construcor para que agregue al usuario logeado como primer miembro y como admin
-                Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
 
+                if(targetPassword.length() != 0 && targetNameGroup.length() != 0){
+                    Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
 
-                // Guardamos el grupo en la base de datos
-                group.save(context);
+                    // Guardamos el grupo en la base de datos
+                    group.save(context);
+                    Toast.makeText(CreateGroup.this,"!Grupo creado Exitosamente¡", Toast.LENGTH_LONG).show();
 
+                    // Mostramos la clave en pantalla
+                    groupKey.setText(group.getKeyGroup());
+                }else{
+                    Toast.makeText(CreateGroup.this,"!Rellene todos los Campos¡", Toast.LENGTH_LONG).show();
+                }
 
-                // Mostramos la clave en pantalla
-                groupKey.setText(group.getKeyGroup());
             }
         });
 
         btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("text",  groupKey.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText( context, "Copiado en Portapapeles", Toast.LENGTH_SHORT).show();
+                Intent compartir = new Intent(android.content.Intent.ACTION_SEND);
+                compartir.setType("text/plain");
+                String mensaje = "Usa esta llave para unirte al grupo: *" + groupName.getText().toString() + "* en DOIT!+\n" +
+                        groupKey.getText().toString() + "\n" +
+                        "¡Pide la contraseña al Administrador!";
+                compartir.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share Key Chat");
+                compartir.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+                startActivity(Intent.createChooser(compartir, "Compartir vía"));
             }
         });
 

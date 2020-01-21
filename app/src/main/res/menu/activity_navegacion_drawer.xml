@@ -23,7 +23,7 @@
             android:title="@string/menu_acerca_de" />
         <item
             android:id="@+id/nav_cerrar_sesion"
-            android:icon="@mipmap/ic_close"
+            android:icon="@mipmap/ic_off"
             android:title="@string/cerrar_sesion"
             android:textStyle="bold"  />
     </group>

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chats.listGroup">
+    tools:context=".chats.listGroup"
+    android:background="#99D3DF">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGruposL"
