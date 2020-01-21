@@ -27,6 +27,7 @@ public class HolderMensajes extends RecyclerView.ViewHolder {
         fileMensaje = itemView.findViewById(R.id.fileMensaje);
     }
 
+
     public ImageView getFileMensaje() {
         return fileMensaje;
     }

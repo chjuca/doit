@@ -56,21 +56,21 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensajes>{
         if (listMensaje.get(position).getType_mensaje().equals("2")) {
             holder.getFotoMensaje().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
+            holder.getFileMensaje().setVisibility(View.GONE);
             Glide.with(c).load(listMensaje.get(position).getUrlFoto()).into(holder.getFotoMensaje());
         } else if (listMensaje.get(position).getType_mensaje().equals("1")) {
-            holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
         else if (listMensaje.get(position).getType_mensaje().equals("3")) {
             holder.getFileMensaje().setVisibility(View.VISIBLE);
+
             holder.getMensaje().setVisibility(View.VISIBLE);
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto()));
-//                    holder.itemView.getContext().startActivity(intent);
-//            }
-//            });
+            holder.getFileMensaje().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(listMensaje.get(position).getUrlFoto())));
+            }
+            });
         }
 
 
