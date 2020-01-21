@@ -44,6 +44,8 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class chat extends AppCompatActivity {
@@ -161,17 +163,24 @@ public class chat extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adapter.addMensaje(m);
-                if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
-                    if(m.getType_mensaje().equals("3")){
-                        createNotification(0,String.format("%s: Ha enviado un archivo",m.getNombre()));
-                    }
-                    if(m.getType_mensaje().equals("2")){
-                        createNotification(0,String.format("%s: Ha enviado una foto",m.getNombre()));
-                    }else {
-                        createNotification(0, String.format("%s: %s: ",m.getNombre(),m.getMensaje()));
-                    }
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date d = new Date(m.getHora());
+                Date date = new Date(); // obtenemos la fecha actual
+                String dateM = formatDate.format(date);
+                String dateActM = formatDate.format(d);// transformamos a String la fecha
+                if(dateM.equals(dateActM)) {
+                    if (StaticData.currentUser.getDisplayName() != m.getNombre()) {
+                        if (m.getType_mensaje().equals("3")) {
+                            createNotification(0, String.format("%s: Ha enviado un archivo", m.getNombre()));
+                        }
+                        if (m.getType_mensaje().equals("2")) {
+                            createNotification(0, String.format("%s: Ha enviado una foto", m.getNombre()));
+                        } else {
+                            createNotification(0, String.format("%s: %s: ", m.getNombre(), m.getMensaje()));
+                        }
 
 
+                    }
                 }
 
             }
@@ -244,7 +253,10 @@ public class chat extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, Navegacion.class);
+        Intent intent = new Intent(this, chat.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        //Intent intent = new Intent(this, Navegacion.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(),
                 0,
@@ -252,6 +264,7 @@ public class chat extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
+        ChatsController objChatsController = new ChatsController();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 getApplicationContext(),channelId
         );
@@ -285,6 +298,13 @@ public class chat extends AppCompatActivity {
         if(notificationManager != null){
             notificationManager.notify(notificacionId, notification);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, listGroup.class);
+        startActivity(intent);
     }
 }
 

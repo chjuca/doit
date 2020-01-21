@@ -16,6 +16,7 @@ import com.doitutpl.doit.Adaptadores.GroupViewHolder;
 import com.doitutpl.doit.Controllers.ChatsController;
 import com.doitutpl.doit.Models.Chats;
 import com.doitutpl.doit.Models.Group;
+import com.doitutpl.doit.Navegacion;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -29,6 +30,7 @@ public class listGroup extends AppCompatActivity {
 
     private FirebaseRecyclerAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +43,11 @@ public class listGroup extends AppCompatActivity {
                 .getReference()
                 .child("Groups");
 
-
         FirebaseRecyclerOptions<Group> options =
                 new FirebaseRecyclerOptions.Builder<Group>()
                         .setQuery(query, Group.class)
                         .build();
+
 
         adapter = new FirebaseRecyclerAdapter<Group, GroupViewHolder>(options) {
             @Override
@@ -59,6 +61,7 @@ public class listGroup extends AppCompatActivity {
             protected void onBindViewHolder(GroupViewHolder holder, final int position, final Group model) {
 
                 holder.getTxtNombreGrupo().setText(model.nameGroup);
+                holder.getTxtNombreAdmin().setText(model.groupAdminEmail);
                 final Group lGrupo = new Group(getSnapshots().getSnapshot(position).getKey(), model);
 
                 holder.getLinearLayout().setOnClickListener(new View.OnClickListener() {
@@ -69,7 +72,6 @@ public class listGroup extends AppCompatActivity {
 
                         //intent.putExtra("KeyGroup", lGrupo.getKeyGroup());
                         StaticData.currentsKeyChat = lGrupo.getKeyGroup();
-                        StaticData.groupName = lGrupo.getNameGroup();
 
                         //startActivity(intent);
 
@@ -94,4 +96,10 @@ public class listGroup extends AppCompatActivity {
         adapter.stopListening();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Navegacion.class);
+        startActivity(intent);
+    }
 }

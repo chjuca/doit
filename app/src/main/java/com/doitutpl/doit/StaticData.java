@@ -21,6 +21,16 @@ public class StaticData {
     public static final String GROUPS_NODE_TITLE = "Groups";
     public static final String CHATS_NODE_TITLE = "Chats";
     public static final String MEMBERS_NODE_TITLE = "members";
+    public static final String USER_PREFERENCES_NAME = "UserPreferences";
+    public static final String FIRST_LOGIN = "isFirstLogin";
+
+
+
+
+
+
+
+
     public static  String groupName = "";
     public static String currentsKeyChat = "";
 
