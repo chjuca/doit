@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -32,32 +33,41 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
 import java.util.Random;
 
 public class JoinToAGroup extends AppCompatActivity {
+
+
 
     //ArrayList<Group> listGroup = new ArrayList<>();
     //Group objGroup = new Group();
     Button btnJoin;
     EditText groupKey, groupPass;
     TextView textJoin;
+    String idGroup = "";
     Context context = this;
     Member objMember = new Member();
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unirse_grupo);
 
+        Uri uri = getIntent().getData();
+        if(uri != null){
+            List<String> params = uri.getPathSegments();
+            idGroup = params.get(params.size()-1);
+        }
+
+        StaticData.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         btnJoin = findViewById(R.id.btnCreate);
         groupKey = findViewById(R.id.keyGroup);
         groupPass = findViewById(R.id.passGroup);
         textJoin = findViewById(R.id.textCreate);
-
 
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
@@ -65,13 +75,12 @@ public class JoinToAGroup extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Obtenemoss los datos de la UI
-                String targetGroupKey = groupKey.getText().toString();
-                String targetPassword = groupPass.getText().toString();
+                String targetGroupKey = idGroup;
 
-                if (targetGroupKey.length() != 0 && targetPassword.length() != 0) {
+                if (targetGroupKey.length() != 0) {
 
                     GroupsController groupsController = new GroupsController();
-                    int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, targetPassword, StaticData.currentUser.getEmail());
+                    int resultCode = groupsController.addMember(getApplicationContext(), targetGroupKey, StaticData.currentUser.getEmail());
                     handleAddMemberExitCode(resultCode);
                 /*
                 createNotification(new Random().nextInt(1000),

@@ -69,7 +69,7 @@ public class GroupsController {
 
     // Metodo usado para añadir un miembro a un grupo
     static int addMemberExitCodeProcess;
-    public int addMember(final Context context, final String keyGroup, final String password, String memberEmail) {
+    public int addMember(final Context context, final String keyGroup, String memberEmail) {
         GroupsController.addMemberExitCodeProcess = -1; // Exit Code -1 No iniciado
         // Obtenemos la conexión
         final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.GROUPS_NODE_TITLE);
@@ -82,12 +82,6 @@ public class GroupsController {
 
                     // Serializamos el dataSnapshot a un objeto del tipo Group
                     Group targetGroup = dataSnapshot.getValue(Group.class);
-
-
-                    // Verificamos que la contraseña coincida con la enviada
-
-                        if (targetGroup.password.equals(password)) { // Si la contraseña coincide
-                            Log.println(Log.INFO, "CORRECT", "Correct group password");
 
                             // Obtenemos el miembro a agregar, en este caso será el mismo que esté logeado
                             Member targetMember = MembersController.parseMember(StaticData.currentUser);
@@ -107,16 +101,6 @@ public class GroupsController {
                                 Log.println(Log.ERROR, "ERROR", "This user is already on this group");
                                 GroupsController.addMemberExitCodeProcess = 1;                              // * Exit Code 1 ERROR
                             }
-
-
-                        } else { // La contrasena es incorrecta
-                            Log.println(Log.ERROR, "ERROR", "Incorrect password");
-                            GroupsController.addMemberExitCodeProcess = 2;                                  // * Exit Code 2 ERROR
-
-                            Toast.makeText(context,"La contraseña es Incorrecta", Toast.LENGTH_LONG).show();
-                        }
-
-
                 } else { // La group key no existe en firebase
 
                     Log.println(Log.ERROR, "ERROR", "The group key did not match with the firebase database");

@@ -14,16 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ui.tutorial.TutorialActivity"
-
-                            >
-
+            android:name=".ui.tutorial.TutorialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
         </activity>
         <activity android:name=".ui.LoadingActivity" />
@@ -33,7 +28,19 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.JoinToAGroup"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="www.doit.com" />
+                <data android:scheme="https"
+                    android:host="www.doit.com" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.CreateGroup"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -2,10 +2,13 @@ package com.doitutpl.doit.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +21,17 @@ import com.doitutpl.doit.Models.Group;
 import com.doitutpl.doit.R;
 import com.doitutpl.doit.StaticData;
 
+import java.util.Properties;
 import java.util.UUID;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class CreateGroup extends AppCompatActivity {
 
@@ -29,6 +42,12 @@ public class CreateGroup extends AppCompatActivity {
     Context context = this;
 
 
+    // Mail----
+
+    Session session = null;
+    ProgressDialog pdialog = null;
+    String rec, subject, textMessage;
+    String[] users = {"chjuca@utpl.edu.ec"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +74,17 @@ public class CreateGroup extends AppCompatActivity {
                 // ! Este cosntrutor debe usarse obligatoriamente antes de llamar al método .save()
                 // Utilizamos este construcor para que agregue al usuario logeado como primer miembro y como admin
 
-                if(targetPassword.length() != 0 && targetNameGroup.length() != 0){
+                if (targetPassword.length() != 0 && targetNameGroup.length() != 0) {
                     Group group = new Group(targetKeyGroup, targetKeyChat, targetNameGroup, targetPassword, StaticData.currentUser);
 
                     // Guardamos el grupo en la base de datos
                     group.save(context);
-                    Toast.makeText(CreateGroup.this,"!Grupo creado Exitosamente¡", Toast.LENGTH_LONG).show();
-
-                    // Mostramos la clave en pantalla
-                    groupKey.setText(group.getKeyGroup());
-                }else{
-                    Toast.makeText(CreateGroup.this,"!Rellene todos los Campos¡", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateGroup.this, "!Grupo creado Exitosamente¡", Toast.LENGTH_LONG).show();
+                    for(String user: users){
+                        sendMail(user, targetKeyGroup);
+                    }
+                } else {
+                    Toast.makeText(CreateGroup.this, "!Rellene todos los Campos¡", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -84,9 +103,52 @@ public class CreateGroup extends AppCompatActivity {
                 startActivity(Intent.createChooser(compartir, "Compartir vía"));
             }
         });
-
-
-
     }
 
+    public void sendMail(String receptor, String keyGroup) {
+        //receptor = "chjuca@utpl.edu.ec"; // Correo al que va destinado
+        subject = "Invitación de Grupo";
+        textMessage = "<p>Usa esta llave para unirte al grupo: <b>" + groupName.getText().toString().toUpperCase() + "</b> en DOIT! </p>" +
+                "<br>"+
+                "<a href=\"https://www.doit.com/" + keyGroup + "\">Únete aquí</a>";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        session = Session.getDefaultInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("junio55.jj@gmail.com", "gt7nvHmU");
+            }
+        });
+
+        RetreiveFeedTask task = new RetreiveFeedTask();
+        task.execute(receptor);
+    }
+
+    class RetreiveFeedTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String user = params[0];
+            try{
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user));
+                message.setSubject(subject);
+                message.setContent(textMessage, "text/html; charset=utf-8");
+                Transport.send(message);
+            } catch(MessagingException e) {
+                e.printStackTrace();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
+
