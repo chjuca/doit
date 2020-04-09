@@ -113,7 +113,18 @@ public class Group {
         this.groupAdminEmail = groupAdminEmail;
     }
 
-
+    @Override
+    public String toString() {
+        return "Group{" +
+                "nameGroup='" + nameGroup + '\'' +
+                ", keyGroup='" + keyGroup + '\'' +
+                ", members=" + members +
+                ", groupEvents=" + groupEvents +
+                ", keyChat='" + keyChat + '\'' +
+                ", password='" + password + '\'' +
+                ", groupAdminEmail='" + groupAdminEmail + '\'' +
+                '}';
+    }
 
     // Metodo para guardarse en la base de datos
     public void save(Context context){

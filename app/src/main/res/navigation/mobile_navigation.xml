@@ -30,9 +30,9 @@
         tools:layout="@layout/activity_chat" />
     <activity
         android:id="@+id/nav_groups"
-        android:name="com.doitutpl.doit.ui.JoinToAGroup"
-        android:label="activity_unirse_grupo"
-        tools:layout="@layout/activity_unirse_grupo" />
+        android:name="com.doitutpl.doit.ui.CreateGroup"
+        android:label="activity_agregar_grupo"
+        tools:layout="@layout/activity_agregar_grupo" />
     <activity
         android:id="@+id/listaGrupos"
         android:name="com.doitutpl.doit.chats.listGroup"

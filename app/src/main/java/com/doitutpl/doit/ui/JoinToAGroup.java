@@ -43,11 +43,12 @@ public class JoinToAGroup extends AppCompatActivity {
     //ArrayList<Group> listGroup = new ArrayList<>();
     //Group objGroup = new Group();
     Button btnJoin;
-    EditText groupKey, groupPass;
+    TextView groupPass;
     TextView textJoin;
     String idGroup = "";
     Context context = this;
     Member objMember = new Member();
+    GroupsController objGroupsController = new GroupsController();
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -65,10 +66,7 @@ public class JoinToAGroup extends AppCompatActivity {
 
         StaticData.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         btnJoin = findViewById(R.id.btnCreate);
-        groupKey = findViewById(R.id.keyGroup);
         groupPass = findViewById(R.id.passGroup);
-        textJoin = findViewById(R.id.textCreate);
-
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,16 +88,8 @@ public class JoinToAGroup extends AppCompatActivity {
                  */
 
                 }else{
-                    Toast.makeText(JoinToAGroup.this,"Aun faltan campos por llenar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(JoinToAGroup.this,"Aun faltan obtener la llave del grupo", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
-
-        textJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), CreateGroup.class);
-                startActivityForResult(intent, 0);
             }
         });
 

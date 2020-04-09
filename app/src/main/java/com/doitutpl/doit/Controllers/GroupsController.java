@@ -25,9 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.doitutpl.doit.Controllers.Connection.databaseReference;
 import static com.doitutpl.doit.Controllers.EventsController.listEvents;
 
 public class GroupsController {
+
+    Group targetGroup = null;
 
 
     // Metodo para validar los datos antes de subirlo a la base de datos
@@ -44,6 +47,7 @@ public class GroupsController {
 
     // Metodo para guardar un grupo en la base de datos
     static int saveExitCode;
+
     public int save(Context context, Group group) {
         GroupsController.saveExitCode = -1; // * Exit Code -1, No iniciado
         /* Metodo para guardar el grupo en la base de datos */
@@ -58,7 +62,7 @@ public class GroupsController {
             databaseReference.child(StaticData.GROUPS_NODE_TITLE).child(group.getKeyGroup()).setValue(group);
 
             GroupsController.saveExitCode = 0; // * Exit Code 0; Correcto
-        }else {
+        } else {
             GroupsController.saveExitCode = 1; // * Exit Code 1; Data inválida
         }
 
@@ -66,9 +70,9 @@ public class GroupsController {
     }
 
 
-
     // Metodo usado para añadir un miembro a un grupo
     static int addMemberExitCodeProcess;
+
     public int addMember(final Context context, final String keyGroup, String memberEmail) {
         GroupsController.addMemberExitCodeProcess = -1; // Exit Code -1 No iniciado
         // Obtenemos la conexión
@@ -83,29 +87,29 @@ public class GroupsController {
                     // Serializamos el dataSnapshot a un objeto del tipo Group
                     Group targetGroup = dataSnapshot.getValue(Group.class);
 
-                            // Obtenemos el miembro a agregar, en este caso será el mismo que esté logeado
-                            Member targetMember = MembersController.parseMember(StaticData.currentUser);
+                    // Obtenemos el miembro a agregar, en este caso será el mismo que esté logeado
+                    Member targetMember = MembersController.parseMember(StaticData.currentUser);
 
 
-                            // Verificamos que el miembro aun no pertenezca al grupo
-                            if (isAlreadyMember(targetGroup, targetMember) == false) {
-                                DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
-                                newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
-                                Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
-                                Toast.makeText(context,"Bienvenido a: " + targetGroup.getNameGroup(), Toast.LENGTH_LONG).show();
-                                GroupsController.addMemberExitCodeProcess = 0;
+                    // Verificamos que el miembro aun no pertenezca al grupo
+                    if (isAlreadyMember(targetGroup, targetMember) == false) {
+                        DatabaseReference newMemberReference = databaseReference.child(keyGroup).child(StaticData.MEMBERS_NODE_TITLE).push(); // Obtenemos la referencia para agregar el nuevo miembro
+                        newMemberReference.setValue(targetMember);                                                                      // Agregamos el nuevo miembro
+                        Log.println(Log.INFO, "CORRECT", "The member has been added to the group successfully");
+                        Toast.makeText(context, "Bienvenido a: " + targetGroup.getNameGroup(), Toast.LENGTH_LONG).show();
+                        GroupsController.addMemberExitCodeProcess = 0;
 
-                                StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
-                            } else { // EL usuario ya esta agregado en el grupo
-                                Toast.makeText(context,"Ya perteneces a este Grupo", Toast.LENGTH_LONG).show();
-                                Log.println(Log.ERROR, "ERROR", "This user is already on this group");
-                                GroupsController.addMemberExitCodeProcess = 1;                              // * Exit Code 1 ERROR
-                            }
+                        StaticData.groupName = targetGroup.getNameGroup();// * Exit Code 0 CORRECT
+                    } else { // EL usuario ya esta agregado en el grupo
+                        Toast.makeText(context, "Ya perteneces a este Grupo", Toast.LENGTH_LONG).show();
+                        Log.println(Log.ERROR, "ERROR", "This user is already on this group");
+                        GroupsController.addMemberExitCodeProcess = 1;                              // * Exit Code 1 ERROR
+                    }
                 } else { // La group key no existe en firebase
 
                     Log.println(Log.ERROR, "ERROR", "The group key did not match with the firebase database");
                     GroupsController.addMemberExitCodeProcess = 3;                                      // * Exit Code 3 ERROR
-                    Toast.makeText(context,"El Grupo no Existe", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "El Grupo no Existe", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -142,7 +146,7 @@ public class GroupsController {
     }
 
     // Método para traer los grupos del usuario logeado
-    public ArrayList<Group> pullUserGroups(Context context){
+    public ArrayList<Group> pullUserGroups(Context context) {
         // Obtenemos la conexión
         final DatabaseReference databaseReference = Connection.initializeFirebase(context).child(StaticData.GROUPS_NODE_TITLE);
 
@@ -153,12 +157,12 @@ public class GroupsController {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot child : dataSnapshot.getChildren()){
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Group group = child.getValue(Group.class);
 
                         // Verificamos si pertenece al usuario
-                        if(belongsToAGroup(StaticData.currentUser, group)) {
+                        if (belongsToAGroup(StaticData.currentUser, group)) {
                             arrayListGroups.add(group);
 
                         }
@@ -177,10 +181,9 @@ public class GroupsController {
     }
 
 
-
     // Metodo para saber si un grupo pertenece a un usuario
-    public boolean belongsToAGroup(FirebaseUser user, Group group){
-        if((group.groupAdminEmail).equals(user.getEmail())){ // Si es el admin  // Aqui va group.groupAdminEmail
+    public boolean belongsToAGroup(FirebaseUser user, Group group) {
+        if ((group.groupAdminEmail).equals(user.getEmail())) { // Si es el admin  // Aqui va group.groupAdminEmail
             return true;
         }
 
@@ -190,6 +193,24 @@ public class GroupsController {
 
     }
 
+    public Group getGroup(Context context, String keyGroup) {
+
+        databaseReference.child(StaticData.GROUPS_NODE_TITLE).orderByChild("keyGroup").equalTo(keyGroup).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot objSnapshot: dataSnapshot.getChildren()) {
+                    targetGroup = objSnapshot.getValue(Group.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return targetGroup;
+    }
 
 }
 
