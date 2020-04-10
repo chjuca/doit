@@ -108,6 +108,8 @@ public class CreateGroup extends AppCompatActivity {
                     for (Email email : myDataset) {
                         sendMail(email.getUserEmail(), targetKeyGroup);
                     }
+                    myDataset.clear();
+                    emailAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(CreateGroup.this, "!Rellene todos los Campos¡", Toast.LENGTH_LONG).show();
                 }
@@ -143,7 +145,7 @@ public class CreateGroup extends AppCompatActivity {
         subject = "Invitación de Grupo";
         textMessage = "<p>Usa este enlace para unirte al grupo: <b>" + groupName.getText().toString().toUpperCase() + "</b> en DOIT! </p>" +
                 "<br>" +
-                "<a href=\"https://www.doit.com/" + keyGroup + "\">Únete aquí</a>";
+                "<a href=\"https://www.doit.com/"+ groupName.getText().toString().toUpperCase() +"/" + keyGroup + "\">Únete aquí</a>";
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -154,11 +156,11 @@ public class CreateGroup extends AppCompatActivity {
 
         session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("aqui va el corrreo", "aqui va la contraseña");
+                return new PasswordAuthentication(StaticData.EMAIL, StaticData.PASSWORD);
             }
         });
 
-        pdialog = ProgressDialog.show(context, "", "Enviando Invitaciones", true);
+       pdialog = ProgressDialog.show(context, "", "Enviando Invitaciones", true);
 
         pdialog.show();
 
@@ -167,8 +169,14 @@ public class CreateGroup extends AppCompatActivity {
             public void run() {
                 pdialog.dismiss();
             }
-        }, 3000); // 3000 milliseconds delay
-        Toast.makeText(CreateGroup.this, "!Grupo creado Exitosamente¡", Toast.LENGTH_LONG).show();
+        }, 5000);
+
+        RetreiveFeedTask task = new RetreiveFeedTask();
+        task.execute(receptor);
+
+        Toast.makeText(CreateGroup.this, "!Grupo creado Exitosamente¡", Toast.LENGTH_SHORT).show();
+
+    }
 
         class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 
@@ -194,5 +202,5 @@ public class CreateGroup extends AppCompatActivity {
 
 
     }
-}
+
 

@@ -46,6 +46,7 @@ public class JoinToAGroup extends AppCompatActivity {
     TextView groupPass;
     TextView textJoin;
     String idGroup = "";
+    String nameGroup = "-";
     Context context = this;
     Member objMember = new Member();
     GroupsController objGroupsController = new GroupsController();
@@ -62,11 +63,14 @@ public class JoinToAGroup extends AppCompatActivity {
         if(uri != null){
             List<String> params = uri.getPathSegments();
             idGroup = params.get(params.size()-1);
+            nameGroup = params.get(params.size()-2);
+
         }
 
         StaticData.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         btnJoin = findViewById(R.id.btnCreate);
         groupPass = findViewById(R.id.passGroup);
+        groupPass.setText(nameGroup);
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,10 +87,7 @@ public class JoinToAGroup extends AppCompatActivity {
                 /*
                 createNotification(new Random().nextInt(1000),
                         String.format("%s: %s se unió a tu grupo",StaticData.groupName.toUpperCase(),StaticData.currentUser.getDisplayName()),"");
-
-
                  */
-
                 }else{
                     Toast.makeText(JoinToAGroup.this,"Aun faltan obtener la llave del grupo", Toast.LENGTH_LONG).show();
                 }
