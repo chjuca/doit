@@ -154,7 +154,7 @@ public class CreateGroup extends AppCompatActivity {
 
         session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("junio55.jj@gmail.com", "gt7nvHmU");
+                return new PasswordAuthentication("aqui va el corrreo", "aqui va la contraseña");
             }
         });
 
