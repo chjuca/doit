@@ -114,8 +114,7 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CharSequence options[] = new CharSequence[]{
-                        "Imagenes",
-                        "Archivos PDF"
+                        "Imagenes"
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(chat.this);
                 builder.setTitle("Seleccione lo que desea enviar");
@@ -127,12 +126,6 @@ public class chat extends AppCompatActivity {
                             i.setType("image/*");
                             i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                             startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), PHOTO_SEND);
-                        }
-                        if (wich == 1) {
-                            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                            i.setType("application/pdf");
-                            i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                            startActivityForResult(Intent.createChooser(i, "Selecciona un archivo"), FILE_SEND);
                         }
                     }
                 });
@@ -216,7 +209,7 @@ public class chat extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == FILE_SEND && resultCode == RESULT_OK){
+        /*if(requestCode == FILE_SEND && resultCode == RESULT_OK){
             fileUri = data.getData();
 
             storageReference = storage.getReference("files_chat");//imagenes_chat
@@ -230,7 +223,7 @@ public class chat extends AppCompatActivity {
                 }
             });
 
-        }if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
+        }*/if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
             Uri u = data.getData();
 
             storageReference = storage.getReference("imagenes_chat");//imagenes_chat
